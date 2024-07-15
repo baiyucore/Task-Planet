@@ -1,0 +1,204 @@
+import { createRouter, createWebHashHistory } from "vue-router";
+import Login from "./pages/System/Login";
+import Register from "./pages/System/Register";
+import FirstFill from "./pages/System/FirstFill";
+
+//用户端
+import UserNavigate from "./pages/User/Navigate/UserNavigate.vue";
+
+import UserTask from "./pages/User/UserTask/usertask.vue";
+import UserAddtask from "./pages/User/UserTask/user-addtask.vue";
+import UserViewUnFinishTask from "./pages/User/UserTask/UserViewUnFinishTask.vue"
+import UserViewFinishTask from "./pages/User/UserTask/User-ViewFinishTask.vue";
+
+import UserShopping from "./pages/User/UserShopping/usershopping.vue";
+
+import UserComment from "./pages/User/UserComment/usercomment.vue";
+
+import UserClass from "./pages/User/UserClass/userclass.vue";
+import UserAddClass from "./pages/User/UserClass/UserAddClass.vue";
+import UserAboutClass from "./pages/User/UserClass/UserAboutClass.vue";
+
+import UserOneself from "./pages/User/UserOneself/useroneself.vue";
+import UserRevieOneself from "./pages/User/UserOneself/userRevieOneself.vue";
+
+
+//创建者
+import CreateNavigate from "./pages/Create/Navigate/create-Navigate.vue";
+
+import CreateTask from "./pages/Create/CreateTask/create-Task.vue";
+import CreateTaskPublic from "./pages/Create/CreateTask/create-TaskPublic.vue";
+import CreateTaskUnPublic from "./pages/Create/CreateTask/create-TaskUnpublic.vue";
+import CreateAddtask from "./pages/Create/CreateTask/create-AddTask.vue";
+import CreateModifytask from "./pages/Create/CreateTask/create-ModifyTask.vue";
+import CreatePublictask from "./pages/Create/CreateTask/create-PublicTask.vue";
+import CreatePublictaskOne from "./pages/Create/CreateTask/create-TaskPublicOne.vue";
+import CreateUnpublicViewTask from "./pages/Create/CreateTask/create-UnpublicViewTask.vue";
+
+import CreateShopping from "./pages/Create/CreateShopping/create-shopping.vue";
+import AddProduct from "./pages/Create/CreateShopping/addproduct.vue";
+import ModifyProduct from "./pages/Create/CreateShopping/modifyproduct.vue";
+
+import CreateComment from "./pages/Create/CreateComment/createcomment.vue";
+import CommentInfor from "./pages/Create/CreateComment/CommentInfor.vue";
+
+import CreateClass from "./pages/Create/CreateClass/create-class.vue";
+import AddClass from "./pages/Create/CreateClass/addclass.vue";
+import CreateCheckClass from "./pages/Create/CreateClass/create-checkclass.vue";
+import CreateCheckClassMember from "./pages/Create/CreateClass/create-checkclassmember.vue";
+import CreateRequestJoin from "./pages/Create/CreateClass/requestjoin.vue";
+import CreateCheckOneself from "./pages/Create/CreateClass/Create-CheckOneself.vue";
+
+import CreateOneself from "./pages/Create/CreateOneself/create-oneself.vue";
+import CreateRevise from "./pages/Create/CreateOneself/create-revise.vue";
+
+
+
+//管理者
+import ManageNavigate from "./pages/Manage/Navigate/Manage-Navigate.vue";
+
+//测试
+import test from "./pages/Test/test.vue";
+
+
+
+
+
+const routes = [
+  { path: "/", component: Login },
+  // {path:"/",component:test},
+  { path: "/login", component: Login },
+  { path: "/register", component: Register },
+  { path:"/firstfill",component: FirstFill},
+
+
+
+//用户端
+  { path:"/useraddtask", component: UserAddtask},
+  { path:"/userrevise", component : UserRevieOneself},
+  { path:"/useraddclass", component : UserAddClass},
+  { path:"/useraboutclass", component : UserAboutClass},
+  { path:"/userviewunfinishtask",component : UserViewUnFinishTask},
+  { path:"/userviewfinishtask",component : UserViewFinishTask},
+  { path: "/usernavigate", component: UserNavigate,
+    children:[
+      {
+        name:"user",
+        path:"/usertask",
+        component: UserTask,
+      },
+      {
+        path:"/usershopping",
+        component: UserShopping,
+     
+      },
+      {
+        path:"/usercomment",
+        component: UserComment,
+      },
+      {
+        path:"/userclass",
+        component: UserClass,
+      },
+      {
+        path:"/useroneself",
+        component: UserOneself,
+      }
+    
+    ],
+   },
+
+   //创建者
+   {path:"/addproduct",component: AddProduct },
+   { path:"/createaddtask",component: CreateAddtask},
+   { path:"/createrevise" , component: CreateRevise},
+   { path:"/addclass" , component: AddClass},
+   { path:"/createcheckclass" , component: CreateCheckClass},
+   { path:"/createcheckclassmember" , component: CreateCheckClassMember},
+   { path:"/createrequestjoin" , component: CreateRequestJoin},
+   { path:"/modifyproduct" , component: ModifyProduct},
+   { path:"/checkoneself" , component: CreateCheckOneself},
+   { path:"/createmodify", component: CreateModifytask},
+   { path:"/createpublictask" , component:CreatePublictask},
+   { path:"/createpublictaskone", component: CreatePublictaskOne},
+   { path:"/createunpublicviewtask",component:CreateUnpublicViewTask},
+   { path:"/commentinfor" , component:CommentInfor},
+   {   path: "/createnavigate", component: CreateNavigate,
+   children:[
+     {
+     
+       path:"/createtask",
+       component: CreateTask,
+       children:[
+         {
+           path:"/createtaskfinsh",
+           component: CreateTaskPublic,
+         
+         },
+         {
+           path:"/createtaskunfinshed",
+           component: CreateTaskUnPublic,
+         },
+       ]
+     },
+     {
+       path:"/createshopping",
+       component: CreateShopping,
+    
+     },
+     {
+       path:"/createcomment",
+       component: CreateComment,
+     },
+     {
+       path:"/createclass",
+       component: CreateClass,
+     },
+     {
+       path:"/createoneself",
+       component: CreateOneself,
+     }
+   
+   ],
+  },
+
+  //管理者
+  { path:"/managenavigate", component: ManageNavigate,
+    Children:[
+      
+      {
+        name:"user",
+        path:"/usertask",
+        component: UserTask,
+      },
+      {
+        path:"/usershopping",
+        component: UserShopping,
+     
+      },
+      {
+        path:"/usercomment",
+        component: UserComment,
+      },
+      {
+        path:"/userclass",
+        component: UserClass,
+      },
+      {
+        path:"/useroneself",
+        component: UserOneself,
+      }
+
+    ]
+  }
+
+  
+];
+
+const router = createRouter({
+  // 4. 内部提供了 history 模式的实现。为了简单起见，我们在这里使用 hash 模式。
+  history: createWebHashHistory(),
+  routes, // `routes: routes` 的缩写
+});
+
+export default router;
