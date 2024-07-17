@@ -55,7 +55,15 @@ import CreateRevise from "./pages/Create/CreateOneself/create-revise.vue";
 
 
 //管理者
-import ManageNavigate from "./pages/Manage/Navigate/Manage-Navigate.vue";
+import AuditorNavigate from "./pages/Auditor/Navigate/Auditor-Navigate.vue";
+
+import AuditorNotification from "./pages/Auditor/Auditor-Notification/auditor-Notification.vue";
+import AuditorPostNotice from "./pages/Auditor/Auditor-Notification/auditor-Postnotice.vue";
+import AuditorViewNotiveInfor from "./pages/Auditor/Auditor-Notification/auditor-ViewNoticeInfor.vue";
+
+
+import AuditorComment from  "./pages/Auditor/AuditorComment/AuditorComment.vue";
+
 
 //测试
 import test from "./pages/Test/test.vue";
@@ -163,34 +171,23 @@ const routes = [
   },
 
   //管理者
-  { path:"/managenavigate", component: ManageNavigate,
-    Children:[
+  { path:"/auditorviewnoticeinfor",component:AuditorViewNotiveInfor},
+  { path:"/auditorpostnotice",component: AuditorPostNotice},
+  { path:"/auditornavigate", component: AuditorNavigate,
+    children:[
       
       {
-        name:"user",
-        path:"/usertask",
-        component: UserTask,
+        path:"/auditorcomment",
+        component: AuditorComment,
       },
       {
-        path:"/usershopping",
-        component: UserShopping,
+        path:"/auditiornotification",
+        component: AuditorNotification,
+      },
      
-      },
-      {
-        path:"/usercomment",
-        component: UserComment,
-      },
-      {
-        path:"/userclass",
-        component: UserClass,
-      },
-      {
-        path:"/useroneself",
-        component: UserOneself,
-      }
 
     ]
-  }
+  },
 
   
 ];

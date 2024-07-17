@@ -13,7 +13,7 @@ const sex = ref("")
 const profile = ref("")
 
 let tranport= useRoute()
-const manageinvitecode=tranport.query.manage as string
+
 const userinvitecode=tranport.query.user as string
 const search_name=tranport.query.search_name as string
 
@@ -22,7 +22,6 @@ const search_name=tranport.query.search_name as string
 onMounted(()=>{
   isLoading.value= true
   const params : searchname ={
-    manageinvitecode:manageinvitecode,
     userinvitecode : userinvitecode,
     searchname: search_name,
   }
@@ -33,11 +32,6 @@ onMounted(()=>{
           name.value = res.searchresult.user_name
           sex.value = res.searchresult.user_sex
           profile.value = res.searchresult.user_profile
-          break;
-        case 'manage':
-         name.value = res.searchresult.manage_name
-          sex.value = res.searchresult.manage_sex
-          profile.value = res.searchresult.manage_profile
           break;
         case 'create':
           name.value = res.searchresult.create_name

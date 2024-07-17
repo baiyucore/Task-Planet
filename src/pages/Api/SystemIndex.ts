@@ -21,8 +21,8 @@ const systemapi = {
     const response = await axios.post(Systempath.firstfillUrl,{
       account_id : params.account_id,
       account_identites:params.account_identites,
-    account_name:params.account_name,
-    account_sex:params.account_sex,
+      account_name:params.account_name,
+      account_sex:params.account_sex,
     });
     return response.data;
   },

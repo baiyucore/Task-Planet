@@ -7,15 +7,11 @@ import { createapi } from '@/pages/Api/CreateIndex';
 import { CreateClassnameId } from '@/pages/Interface/CreateInterface';
 
 
-
-
-
 const router = useRouter();
 const isLoading = ref(false);
 const classname = ref("");
 const classbrief = ref("");
 const userinvitecode = ref("");
-const manageinvitecode = ref("");
 
 // 无法在laf中用_id查询就先暂时用manageinvitecode 作为查询条件
 let tranport= useRoute();
@@ -33,7 +29,6 @@ onMounted(()=>{
     classname.value = res.createcheck.classname;
     classbrief.value= res.createcheck.classbrief;
     userinvitecode.value = res.createcheck.userinvitecode;
-    manageinvitecode.value = res.createcheck.manageinvitecode;
     }else{
       toast.error(res.err_msg)
     }
@@ -46,8 +41,8 @@ onMounted(()=>{
 function onreturn(){
   router.back();
 }
-function oncheckclassmember( manage: string ,user:string,class_name :string){
-  router.push({path:'/createcheckclassmember', query:{ manage,user,class_name,identites:'CREATE'}});
+function oncheckclassmember( user:string,class_name :string){
+  router.push({path:'/createcheckclassmember', query:{ user,class_name,identites:'CREATE'}});
 }
 
 
@@ -73,13 +68,9 @@ function oncheckclassmember( manage: string ,user:string,class_name :string){
           <div>邀请码</div>
           <div>{{userinvitecode}}</div>
         </div>
-        <div class="grid grid-cols-4 gap-2 mt-2 ml-5">
-          <div>审核邀请码</div>
-          <div>{{manageinvitecode}}</div>
-        </div>
         <div class="grid grid-cols-4 gap-2 mt-2 ml-5 relative">
           <div>班级成员</div>
-          <ArrowRight class="absolute right-8" @click="oncheckclassmember(manageinvitecode,userinvitecode,classname)"/>
+          <ArrowRight class="absolute right-8" @click="oncheckclassmember(userinvitecode,classname)"/>
         </div>
      
     

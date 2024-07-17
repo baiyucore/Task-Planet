@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import axios from 'axios';
 import { ArrowLeft ,Check } from 'lucide-vue-next';
 import {ref} from 'vue'
-import {  useRouter,useRoute } from 'vue-router';
+import {  useRouter} from 'vue-router';
 import { toast } from 'vue-sonner';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";

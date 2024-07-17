@@ -1,31 +1,16 @@
 <script setup lang="ts" name="App">
 import { RouterLink,RouterView } from 'vue-router';
-import { ClipboardList , ShoppingCart , ClipboardPenLine , School , User} from 'lucide-vue-next';
+import { ClipboardPenLine , School ,Megaphone} from 'lucide-vue-next';
 
 </script>
 
 <template>  
 <div class=" ">
- <div class="navigate grid grid-cols-5 gap-x-0">
+ <div class="navigate  grid grid-cols-3 gap-x-20">
 
-        <div>
-          <RouterLink :to="{path:'/createtaskfinsh' }" active-class="active" class="static">
-          <ClipboardList class="  relative size-8 top-1 left-8 "/>
-          <div class="  text-center">任务  </div>
-         </RouterLink>
-
-        </div >
-        
-        <div>
-          <RouterLink :to="{path:'/createshopping'}" active-class="active" class="static">
-          <ShoppingCart class="relative size-8 top-1 left-8"/>
-          
-          <div class=" pl-1 text-center">商城</div>
-        </RouterLink>
-
-        </div>
-        <div>
-          <RouterLink :to="{path:'/createcomment'}" active-class="active" class="static">
+     
+        <div class="ml-2">
+          <RouterLink :to="{path:'/auditorcomment'}" active-class="active" class="static">
           <ClipboardPenLine  class=" relative size-8 top-1 left-8 " />
           
           <div class=" pl-1 text-center">评论</div>
@@ -33,15 +18,15 @@ import { ClipboardList , ShoppingCart , ClipboardPenLine , School , User} from '
         </div>
     
         <div>
-          <RouterLink :to="{path:'/createclass'}" active-class="active" class="static">
+          <RouterLink :to="{path:'/manageclass'}" active-class="active" class="static">
           <School class=" relative size-8 top-1 left-8"/>
           <div class="pl-1 text-center">班级</div>
           </RouterLink>
         </div>
         <div>
-          <RouterLink :to="{path:'/createoneself'}" active-class="active">
-          <User class="relative size-8 top-1 left-8"/>
-          <div class=" text-center">我的</div>
+          <RouterLink :to="{path:'/auditiornotification'}" active-class="active" class="static">
+          <Megaphone class="relative size-8 top-1 left-8"/>
+          <div class=" text-center">通知</div>
           </RouterLink>
         </div>
         

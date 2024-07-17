@@ -3,12 +3,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { ref } from 'vue';
 import { toast } from 'vue-sonner';
 import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+  Select,SelectContent,SelectGroup,SelectItem,SelectTrigger,SelectValue,
 } from '@/components/ui/select'
 
 import { Button } from '@/components/ui/button';
@@ -17,7 +12,7 @@ import { systemapi } from '@/pages/Api/SystemIndex';
 import { firstfill } from '@/pages/Interface/SystemInterfact';
 import { Createinfor } from '@/store/create';
 import { Userinfor } from '@/store/user';
-import { Manageinfor } from '@/store/manage';
+
 
 let tranport= useRoute()
 const account_id=tranport.query.account_id as string
@@ -43,11 +38,6 @@ async function onSubmit(event:Event) {
           const createinfor = Createinfor()
           createinfor.transmit(account_id)
           router.push({ path:"/createnavigate"  });
-        }
-        else if(account_identites.value === "MANAGE"){
-          const manageinfor = Manageinfor()
-          manageinfor.transmit(account_id)
-          router.push({ path:"/managenavigate"  });
         }
         else if(account_identites.value === "USER"){
           const userinfor = Userinfor()
@@ -107,9 +97,6 @@ async function onSubmit(event:Event) {
                 <SelectGroup>
                   <SelectItem value="CREATE">
                     创建者
-                  </SelectItem>
-                  <SelectItem value="MANAGE">
-                    管理者
                   </SelectItem>
                   <SelectItem value="USER">
                     普通用户

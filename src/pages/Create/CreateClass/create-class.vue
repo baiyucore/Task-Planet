@@ -74,7 +74,7 @@ function CheckClass(id : string){
  
       <div class="main-content">
         <CirclePlus class="absolute bottom-20 right-5 w-1/6 h-1/6 " @click="AddClass" color="#ff0000"/>
-        <h1 @click="CheckClass(classnameview.manageinvitecode)" v-for="classnameview in classname" :key="classnameview._id"  class="text-center select-none text-2xl mb-2">
+        <h1 @click="CheckClass(classnameview.userinvitecode)" v-for="classnameview in classname" :key="classnameview._id"  class="text-center select-none text-2xl mb-2">
           {{classnameview.classname }}
         </h1>
        

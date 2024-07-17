@@ -6,9 +6,9 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Createinfor } from '@/store/create';
 import { Userinfor } from '@/store/user';
-import { Manageinfor } from '@/store/manage';
 import { systemapi } from '@/pages/Api/SystemIndex';
 import { accountinfor } from '@/pages/Interface/SystemInterfact';
+import { Auditorinfor } from '@/store/auditor';
 
 const account_id = ref("")
 const account_password = ref("")
@@ -30,10 +30,10 @@ async function onSubmit(event: Event) {
           createinfor.transmit(account_id.value);
           router.push({ path:"/createtaskfinsh"  });
           break;
-        case "MANAGE":
-          const manageinfor = Manageinfor()
-          manageinfor.transmit(account_id.value)
-          router.push({ path:"/managenavigate" });
+        case "Auditor":
+          const auditorinfor = Auditorinfor()
+          auditorinfor.transmit(account_id.value)
+          router.push({ path:"/auditornavigate" });
           break;
         case "USER":
           const userinfor = Userinfor()

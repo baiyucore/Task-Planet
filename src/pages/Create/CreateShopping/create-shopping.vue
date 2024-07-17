@@ -6,10 +6,11 @@ import { createapi } from '@/pages/Api/CreateIndex';
 import { Gift } from 'lucide-vue-next';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { onMounted ,ref} from 'vue';
-import { CreateAddproduct, CreateRemove } from '@/pages/Interface/CreateInterface';
+import { CreateAddproduct, Createid, CreateRemove } from '@/pages/Interface/CreateInterface';
 import { toast } from 'vue-sonner';
 
 import { Createinfor } from '@/store/create';
+
 
 const createinfor = Createinfor()
 
@@ -19,8 +20,10 @@ const isLoading = ref(false)
 const shopping  = ref<CreateAddproduct[]>([])
 onMounted(()=>{
   isLoading.value = true
-
-  createapi.viewproduct().then((res)=>{
+  const params : Createid={
+    account_id: createinfor.createid
+  }
+  createapi.viewproduct(params).then((res)=>{
     isLoading.value = false
     if( res.err_code === 0 ){
       shopping.value = res.shopping

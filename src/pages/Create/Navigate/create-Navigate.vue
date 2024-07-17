@@ -1,5 +1,5 @@
 <script setup lang="ts" name="App">
-import { RouterLink,RouterView , useRoute} from 'vue-router';
+import { RouterLink,RouterView } from 'vue-router';
 import { ClipboardList , ShoppingCart , ClipboardPenLine , School , User} from 'lucide-vue-next';
 
 import { Createinfor } from '@/store/create';

@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button'
 import {  useRoute, useRouter} from 'vue-router';
 import { Search } from 'lucide-vue-next';
 import { createapi } from '@/pages/Api/CreateIndex';
-import { checkprerequisite,CheckClassManageMember, CheckClassUserMember } from '@/pages/Interface/CreateInterface';
+import { checkprerequisite,CheckClassCreateMember, CheckClassUserMember } from '@/pages/Interface/CreateInterface';
 import { userapi } from '@/pages/Api/UserIndex';
 
 
@@ -17,11 +17,10 @@ const isLoading = ref(false);
 
 const searchname= ref("") ;
 
-const classmanagemember = ref<CheckClassManageMember[]>([])
+const classcreatemember = ref<CheckClassCreateMember[]>([])
 const classusermember = ref<CheckClassUserMember[]>([])
 
 let tranport= useRoute();
-const manage= tranport.query.manage as string
 const user = tranport.query.user as string 
 const classname = tranport.query.class_name
 const identites = tranport.query.identites
@@ -34,27 +33,21 @@ onMounted(()=>{
         userapi.checkclassmember(user).then((res)=>{
           isLoading.value = false;
           if( res.err_code === 0 ){
-
-            classmanagemember.value = res.classmember
             classusermember.value = res.classmember
+            classcreatemember .value = res.classmember
           } else{
             toast.error( res.err_msg );
           }
         })
           break;
-        case 'MANAGE':
-   
-          break;
         case 'CREATE':
         const params : checkprerequisite = {
-          manage : manage,
           user : user,
         }
         createapi.checkclassmember(params).then((res)=>{
           isLoading.value = false;
           if( res.err_code === 0 ){
-
-            classmanagemember.value = res.classmember
+            classcreatemember .value = res.classmember
             classusermember.value = res.classmember
           } else{
             toast.error( res.err_msg );
@@ -72,14 +65,14 @@ onMounted(()=>{
 async function onSearch(event:Event) {
   event.preventDefault()
   const search_name = searchname.value as string;
-  setTimeout(()=> router.push({path:"/checkoneself" , query:{manage,user,search_name}}))
+ router.push({path:"/checkoneself" , query:{user,search_name}})
 
   
 
 }
 
 function oncheckmember_oneself(search_name : string){
-  router.push({path:"/checkoneself" , query:{manage,user,search_name}})
+  router.push({path:"/checkoneself" , query:{user,search_name}})
 }
 
 function onreturn(){
@@ -113,22 +106,12 @@ function onreturn(){
     </form>
     <h3 class="ml-2 mt-1 mb-1">创建者</h3>
       <div class="grid grid-cols-4 gap-2 mt-2 ml-5">
-          <div v-for="createview in classmanagemember" @click="oncheckmember_oneself(createview.create.create_name)">
+      
+          <div v-for="createview in classcreatemember" @click="oncheckmember_oneself(createview.create.create_name)">
               {{createview.create.create_name}}
           </div>
         
       </div>
-    <h3 class="ml-2 mt-1 mb-1">管理员</h3>
-      <div class="grid grid-cols-4 gap-2 mt-2 ml-5">
-         
-           <div v-for="manageview in classmanagemember" >
-             <div v-for="manage_view in manageview.manage" @click="oncheckmember_oneself(manage_view.manage_name)">
-                {{manage_view.manage_name}}
-             </div>
-            </div>
-          
-      </div>
-
 
     <h3 class="ml-2 mb-1 mt-1">成员</h3>
       <div class="grid grid-cols-4 gap-2 mt-2 ml-5">

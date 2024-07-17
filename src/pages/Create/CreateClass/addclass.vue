@@ -3,28 +3,18 @@ import { toast } from 'vue-sonner';
 import { ArrowLeft ,Check } from 'lucide-vue-next';
 import {  reactive, ref } from 'vue'
 import { Button } from '@/components/ui/button'
-import { useRoute, useRouter} from 'vue-router';
+import {  useRouter} from 'vue-router';
 import { nanoid } from 'nanoid'
 import { createapi } from '@/pages/Api/CreateIndex';
 import { createaddclass } from '@/pages/Interface/CreateInterface';
 import { Createinfor } from '@/store/create';
 
 const createinfor = Createinfor()
-
-
 const userinvitecode =nanoid(8)
-const manageinvitecode = nanoid(9)
-
-
-
 const router = useRouter();
 const isLoading = ref(false);
 const classname = ref("");
 const classbrief = ref("");
-
-
-
-
 
 async function onSubmit(event:Event) {
   event.preventDefault();
@@ -34,7 +24,7 @@ async function onSubmit(event:Event) {
     classname: classname.value,
     classbrief : classbrief.value,
     userinvitecode : userinvitecode,
-    manageinvitecode : manageinvitecode, })
+    })
 
   createapi.addclass(params).then((res)=>{
     isLoading.value = false;
@@ -49,15 +39,11 @@ async function onSubmit(event:Event) {
 
 }
 
-
-
 function onreturn(){
   router.back();
 }
 
  
-
-
 </script>
 
 

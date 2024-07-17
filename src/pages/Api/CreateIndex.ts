@@ -26,7 +26,6 @@ const createapi= {
       classname: params.classname,
       classbrief : params.classbrief,
       userinvitecode : params.userinvitecode,
-      manageinvitecode : params.manageinvitecode,
     });
     return response.data;
   },//添加产品
@@ -58,22 +57,22 @@ const createapi= {
   },//查找班级成员
   async checkclassmember(params : checkprerequisite ){
     const response = await axios.post(Createpath.createcheckclassmemberUrl,{
-      manage : params.manage,
       user : params.user,
     });
     return response.data;
   },//在寻找指定成员
   async searchname(params: searchname){
     const response = await axios.post(Createpath.createsearchnameUrl,{
-      manageinvitecode : params.manageinvitecode,
       userinvitecode : params.userinvitecode,
       searchname : params.searchname,
       
     })
     return response.data;
   },//显示商品
-  async viewproduct(){
-    const response = await axios.post(Createpath.createviewproductUrl,);
+  async viewproduct(params : Createid){
+    const response = await axios.post(Createpath.createviewproductUrl,{
+      createid : params.account_id
+    });
     return response.data;
   },//修改商品
   async modifyproduct(params :Createmodifyproduct ){

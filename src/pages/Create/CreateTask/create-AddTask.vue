@@ -83,7 +83,7 @@ function onreturn(){
 
 
 </script>
-<!-- 未完成  3.随机金币逻辑  -->
+
 <template>
   <div class="static mt-2">
     

@@ -6,14 +6,13 @@ import {  type DateValue} from '@internationalized/date'
   classname : string,
   classbrief : string,
   userinvitecode : string,
-  manageinvitecode: string,
 }
 
 export interface CreateClass{
   classname : string, 
   // 无法在laf中查询
   _id: string,
-  manageinvitecode: string,
+  userinvitecode: string,
 }
 
 export interface CreateClassnameId{
@@ -46,13 +45,6 @@ export interface CreateMember{
   account_id : string,
   create_name : string,
 }
-export  interface manageview{
-  manage: ManagaMeber
-}
-export interface ManagaMeber{
-  account_id: string,
-  manage_name : string,
-}
 export interface userview{
   user:UserMeber
 }
@@ -60,22 +52,19 @@ export interface UserMeber{
   account_id : string,
   user_name : string,
 }
-export interface  CheckClassManageMember{
+export interface  CheckClassCreateMember{
   create: CreateMember,
-  manage: manageview,
   classname : string,
 }
 export interface CheckClassUserMember{
   user : userview,
 }
 export interface checkprerequisite{
-  manage: string,
   user : string,
 }
 
 //搜索名字
 export interface searchname{
-  manageinvitecode : string,
   userinvitecode : string ,
   searchname : string,
 }

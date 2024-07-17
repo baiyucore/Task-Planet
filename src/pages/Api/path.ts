@@ -46,8 +46,10 @@ const Userpath={
   UserCoinChangeUrl:"https://irhidbbf7c.bja.sealos.run/User-CoinChange",
 }
 
-const Managepath={
-
+const Auditorpath={
+  AuditorPostNoticeUrl:"https://irhidbbf7c.bja.sealos.run/Auditor-PostNoice",
+  AuditorViewNoticeInforUrl : "https://irhidbbf7c.bja.sealos.run/Auditor-VPostNoice",
+  AuditorRemoveNoticeUrl:"https://irhidbbf7c.bja.sealos.run/Auditor-RemoveNotice",
 }
 
 const Systempath={
@@ -55,4 +57,4 @@ const Systempath={
   registerUrl :"https://irhidbbf7c.bja.sealos.run/register",
   firstfillUrl:"https://irhidbbf7c.bja.sealos.run/FirstFill",
 }
-export {Createpath,Userpath,Managepath,Systempath};
+export {Createpath,Userpath,Auditorpath,Systempath};
