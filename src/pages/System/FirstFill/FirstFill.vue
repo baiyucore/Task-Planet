@@ -36,11 +36,13 @@ async function onSubmit(event:Event) {
     if(res.err_code === 0 ){
         if(account_identites.value === "CREATE"){
           const createinfor = Createinfor()
+          createinfor.clear()
           createinfor.transmit(account_id)
           router.push({ path:"/createnavigate"  });
         }
         else if(account_identites.value === "USER"){
           const userinfor = Userinfor()
+          userinfor.clear()
           userinfor.transmit(account_id)
           userinfor.transmitname(account_name.value)
           router.push({ path:"/usernavigate" });

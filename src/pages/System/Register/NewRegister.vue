@@ -53,7 +53,7 @@ async function onSubmit(event:Event) {
           placeholder="密码 password"
           :disabled="isLoading"
           />
-          <!-- <button class="LoginSubmit" @click="" >登入</button> -->
+
           <Button :disabled="isLoading" class="w-full mt-3 bg-teal-500">
             登入
           </Button>

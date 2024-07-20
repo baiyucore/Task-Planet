@@ -27,6 +27,7 @@ async function onSubmit(event: Event) {
       switch (res.account_identites) {
         case "CREATE":
           const createinfor = Createinfor()
+          createinfor.clear()
           createinfor.transmit(account_id.value);
           router.push({ path:"/createtaskfinsh"  });
           break;
@@ -37,6 +38,7 @@ async function onSubmit(event: Event) {
           break;
         case "USER":
           const userinfor = Userinfor()
+          userinfor.clear()
           userinfor.transmit(account_id.value)
           userinfor.transmitname(res.name)
           router.push({ path:"/usertask" });

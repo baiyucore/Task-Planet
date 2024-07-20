@@ -61,7 +61,7 @@ onMounted(()=>{
 
   
 })
-//搜索
+
 async function onSearch(event:Event) {
   event.preventDefault()
   const search_name = searchname.value as string;

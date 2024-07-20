@@ -45,7 +45,7 @@ async function onSubmit(event:Event) {
     account_id: createinfor.createid,
     taskname : taskname.value,
     taskcompletion : taskcompletion.value,
-    //有问题！！这个类型规范有点问题
+ 
     taskovertime : overvalue.value,
     taskstarttime: startvalue.value,
 

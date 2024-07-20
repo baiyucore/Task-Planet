@@ -6,6 +6,14 @@ export const Userinfor = defineStore('userid',()=>{
   const useraddclass = ref("")
   const coin = ref(-99999999)
   const classcreate = ref("")
+
+  function clear(){
+     coin.value = -99999999, 
+     classcreate.value="",
+     userid.value="",
+     useraddclass.value = "" ,
+     username.value = ""
+    };
   function transmit(user_id : string){
     userid.value =user_id
   };
@@ -21,5 +29,5 @@ export const Userinfor = defineStore('userid',()=>{
   function transmitclasscreate(class_create: string){
     classcreate.value = class_create
   }
-  return {userid , transmit, transmitname, username,useraddclass , transmitclassname,coin,coinchange,classcreate,transmitclasscreate}
+  return {userid , clear,transmit, transmitname, username,useraddclass , transmitclassname,coin,coinchange,classcreate,transmitclasscreate}
 },  { persist: true   })

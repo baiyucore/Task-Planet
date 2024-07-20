@@ -34,7 +34,7 @@ onMounted(()=>{
 })
 const coin = Userinfor().coin
 
-//修改
+
 function revise(){
   router.push({ path:'/userrevise'})
 }

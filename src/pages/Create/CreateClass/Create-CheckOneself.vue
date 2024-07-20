@@ -18,7 +18,7 @@ const userinvitecode=tranport.query.user as string
 const search_name=tranport.query.search_name as string
 
 
-//问题
+
 onMounted(()=>{
   isLoading.value= true
   const params : searchname ={

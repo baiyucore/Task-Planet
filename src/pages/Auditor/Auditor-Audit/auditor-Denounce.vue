@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref , watch} from 'vue';
+import { onMounted, ref , watch} from 'vue';
 import { Select, SelectContent,SelectItem,SelectTrigger,SelectValue,
 } from '@/components/ui/select'
 import { useRouter} from 'vue-router';
@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { cn } from '@/lib/utils'
 import { toast } from 'vue-sonner';
-import { Comment, viewcomment_task,  } from '@/pages/Interface/UserInterface';
+import { UserLoadTask, UserViewAllTask, UserViewTask, UserViewUnfinishTask, viewTask, viewUnFinishTask } from '@/pages/Interface/UserInterface';
 import { Userinfor } from '@/store/user';
 import { userapi } from '@/pages/Api/UserIndex';
 
@@ -24,36 +24,39 @@ const items = [
   { value: -1, label: '昨天' },
   { value: -2, label: '前天' },
 ]
-const value = ref<DateValue>(  )
-const viewcommenttask =ref<viewcomment_task[]>([])
+const value = ref<DateValue>()
+const viewunfinishtask =ref<UserViewUnfinishTask[]>([])
+const viewfinishtask = ref<UserViewTask[]>([])
 
-value.value =today(getLocalTimeZone()).add({ days: Number(0) })
-const params : Comment={
-      classname : Userinfor().useraddclass,
-      time : today(getLocalTimeZone()).add({ days: Number(0) })
+onMounted(()=>{
+  const params:UserLoadTask= {
+    userid : Userinfor().userid,
+    classname : Userinfor().useraddclass,
+  }
+  userapi.LoadTask(params).then((res)=>{
+    if( res.err_code === 0 ){
+      
+    }else{
+      toast.error(res.err_msg)
     }
-    userapi.Comment(params).then((res)=>{
-      if(res.err_code === 0){
-        viewcommenttask.value=  res.taskinfor
-      }
-      else{
-        toast.error(res.err_msg)
-      }
-    })
+  })
+})
+
 
 const isLoading= ref(false);
 watch(value,(newValue,oldValue)=>{
   if(newValue !== oldValue){
     isLoading.value=true;
-    const params : Comment={
-      classname : Userinfor().useraddclass,
-      time : newValue
+    const parmas : UserViewAllTask= {
+      time:newValue,
+      userid: Userinfor().userid,
+      classname: Userinfor().useraddclass,
     }
-    userapi.Comment(params).then((res)=>{
+    userapi.ViewAllTask(parmas).then((res)=>{
       if(res.err_code === 0){
-        viewcommenttask.value=  res.taskinfor
-      }
-      else{
+        viewunfinishtask.value = res.unfinishtask,
+        viewfinishtask.value =res.finishtask
+      }else{
         toast.error(res.err_msg)
       }
     })
@@ -61,17 +64,13 @@ watch(value,(newValue,oldValue)=>{
 
 })
 
-function viewcomment(taskid : string,taskname:string){
-  router.push({path:'/userviewcomment',query:{taskid,taskname}});
-}
-
 
 
 </script>
 
 <template>
   <div class="static mt-2">
-    <span  class=" ml-10  text-2xl  font-bold">评论</span> 
+    <span  class=" ml-10  text-2xl  font-bold">举报信息</span> 
     <Popover>
     <PopoverTrigger as-child>
       <Button
@@ -106,17 +105,7 @@ function viewcomment(taskid : string,taskname:string){
   </Popover>
 
       <div class="main-content">
-
-        <div v-for="item in viewcommenttask" class="mb-3">
-         <div @click="viewcomment(item.task.taskid,item.task.taskname)">
-          <div class="text-xl">
-            {{ item.task.taskname }}
-          </div>
-          {{ item.classname }}
-        </div>
-         </div>
-      
-        
+     
       </div>
   </div>
 

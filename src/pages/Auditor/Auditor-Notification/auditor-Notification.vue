@@ -72,7 +72,7 @@ function removenotice(noticeid : string){
 
 
 
-      <!-- 显示 -->
+
       <div class="main-content">
       
         <Accordion type="single" class="w-full " collapsible >

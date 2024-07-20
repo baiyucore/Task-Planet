@@ -1,4 +1,5 @@
 import {  type DateValue} from '@internationalized/date'
+import { StringMappingType } from 'typescript';
 //用户id
 export interface Userid{
   userid: string;
@@ -35,6 +36,7 @@ export interface UserSumitTask{
   summarize : string,
   rewardselect:string,
   userid : string,
+  username : string,
 }
 //显示任务
 export interface UserViewAllTask{
@@ -50,7 +52,9 @@ export interface UserViewTask{
   rewardselect:string,
 }
 export interface ViewTask{
-task:viewTask
+  task:viewTask,
+  taskcondition:string,
+
 }
 export interface viewTask{
   condition : string,
@@ -72,6 +76,7 @@ export interface Time{
 
 export interface UserViewUnfinishTask{
   unfinishtask : ViewUnFinishTask,
+  taskcondition: string,
 }
 export interface ViewUnFinishTask{
   task:viewUnFinishTask
@@ -102,4 +107,82 @@ export interface UserLoadTask{
 export interface UserBuyShopping{
   totalnumber: number,
   createid :string,
+}
+
+export interface Comment{
+  classname : string,
+  time: DateValue | undefined,
+}
+
+export interface viewcomment_task{
+  classname : string,
+  task:Task
+}
+export interface Task{
+  taskid : string,
+  taskname :string,
+  taskCompletionConditions : string,
+  taskovertime: Time,
+  taskstarttime:Time,
+  successrewardone: number,
+  successrewardtwo_one : number,
+  successrewardtwo_two : number,
+  failed : number,
+}
+
+
+//显示任务
+export interface ViewCommenttask{
+  taskid:string,
+  username : string,
+  userid: string,
+  summarize:string,
+}
+export interface test{
+
+}
+export interface othercomment{
+  commentid:string,
+  comment:string,
+
+}
+
+
+//用户提交评论
+export interface UsersumitComment{
+  commentid : string,
+  comment : string,
+  taskid: string,
+  userid :string,
+  name : string,
+}
+export interface UsersubmitInnterComment{
+  taskid:string,
+  name : string,
+  commentid:string,
+  comment:string,
+
+  other_commentid:string,
+  other_comment:string,
+  other_commentname : string,
+}
+
+//显示外部评论
+export interface ViewOuterComment{
+  taskid:string,
+  userid: string,
+}
+export interface ViewOutercomment{
+  name : string,
+  comment: string,
+  othercomment:OtherComment,
+  taskid:string,
+  commentid:string,
+}
+export interface OtherComment{
+  othercomment:othercomment,
+}
+export interface othercomment{
+  other_comment:string,
+  other_commentname: string,
 }

@@ -28,22 +28,6 @@ const value = ref<DateValue>()
 const viewunfinishtask =ref<UserViewUnfinishTask[]>([])
 const viewfinishtask = ref<UserViewTask[]>([])
 
-  value.value =today(getLocalTimeZone()).add({ days: Number(0) })
-const parmas : UserViewAllTask= {
-      time:today(getLocalTimeZone()).add({ days: Number(0) }),
-      userid: Userinfor().userid,
-      classname: Userinfor().useraddclass,
-    }
-    userapi.ViewAllTask(parmas).then((res)=>{
-      if(res.err_code === 0){
-        viewunfinishtask.value = res.unfinishtask,
-        viewfinishtask.value =res.finishtask
-      }else{
-        toast.error(res.err_msg)
-      }
-    })
-
-
 onMounted(()=>{
   const params:UserLoadTask= {
     userid : Userinfor().userid,
@@ -59,10 +43,10 @@ onMounted(()=>{
 })
 
 
-
+const isLoading= ref(false);
 watch(value,(newValue,oldValue)=>{
   if(newValue !== oldValue){
-
+    isLoading.value=true;
     const parmas : UserViewAllTask= {
       time:newValue,
       userid: Userinfor().userid,

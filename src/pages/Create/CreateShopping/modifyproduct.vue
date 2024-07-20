@@ -15,7 +15,7 @@ const productprice = ref(0);
 const totalnumber = ref(0);
 const product_name = tranport.query.productname as string 
 
-// 需要接受传入的id值
+
 async function onSubmit(event:Event) {
   event.preventDefault();
   isLoading.value= true;

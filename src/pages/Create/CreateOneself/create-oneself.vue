@@ -19,8 +19,6 @@ const create_profile = ref("")
 
 
 
-
-//问题
 onMounted(()=>{
   isLoading.value= true
   const params : Createid= {account_id: createinfor.createid}

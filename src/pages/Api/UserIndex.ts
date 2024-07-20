@@ -1,6 +1,6 @@
 import axios from "axios";
 import {Userpath} from "./path";
-import { UserApplyformember, UserBuyShopping, UserCoinChange, UserLoadTask, UserReviseOneself, UserSumitTask, UserViewAllTask, Userid } from "../Interface/UserInterface";
+import { UserApplyformember, UserBuyShopping, Comment,UserCoinChange, UserLoadTask, UserReviseOneself, UserSumitTask, UserViewAllTask, Userid, UsersumitComment, ViewOuterComment, UsersubmitInnterComment } from "../Interface/UserInterface";
 
 
 
@@ -63,6 +63,7 @@ const userapi = {
       summarize : params.summarize,
       rewardselect:params.rewardselect,
       userid : params.userid,
+      username : params.username,
     });
     return response.data;
   },//显示所有任务
@@ -96,6 +97,56 @@ const userapi = {
 
     });
     return response.data;
-  },
+  },//显示当天的班级总结
+  async Comment(params: Comment){
+    const response = await axios.post(Userpath.UserViewCommentUrl,{
+      classname : params.classname,
+      time : params.time
+    });
+    return response.data;
+  },//显示所有个人总结
+  async ViewComment_task(taskid : string){
+    const response = await axios.post(Userpath.UserViewComment_taskUrl,{
+      taskid : taskid,
+    });
+    return response.data;
+  },//显示个人总结的评论
+  async ViewOtherComment(taskid : string,userid:string,){
+    const response = await axios.post(Userpath.UserViewOtherCommentUrl,{
+      taskid:taskid,
+      userid: userid,
+    });
+    return response.data;
+  },//提交外部的评论
+  async SubmitComment(params:UsersumitComment){
+    const response = await axios.post(Userpath.UserSubmitOuterCommentUrl,{
+      taskid: params.taskid,
+      comment:params.comment,
+      commentid : params.commentid,
+      userid:params.userid,
+      name :params.name
+    });
+    return response.data;
+  },//显示提交外部的评论
+  async ViewOuterComment(params:ViewOuterComment){
+    const response = await axios.post(Userpath.UserViewOuterCommentUrl,{
+      taskid:params.taskid,
+      userid : params.userid,
+    });
+    return response.data;
+  },//提交内部评论
+  async SubmitInnerComment(params:UsersubmitInnterComment){
+    const response = await axios.post(Userpath.UserSubmitInnterCommentUrl,{
+      taskid: params.taskid,
+      name : params.name,
+      other_comment:params.other_comment,
+      other_commentid : params.other_commentid,
+      comment:params.comment,
+      commentid:params.commentid,
+      other_commentname : params.other_commentname,
+    });
+    return response.data;
+  }
+
 }
 export {userapi}

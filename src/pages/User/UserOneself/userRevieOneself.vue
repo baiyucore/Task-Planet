@@ -59,7 +59,7 @@ function onreturn(){
   <div class="static mt-2">
     <ArrowLeft class="float-left ml-2 mt-1" @click="onreturn" />
    
-   <!-- 等待优化 -->
+
     <form @submit="onSubmit">
       
       <Button variant="outline" :disabled="isLoading"  class="float-right mr-5 mb-2  border-transparent">

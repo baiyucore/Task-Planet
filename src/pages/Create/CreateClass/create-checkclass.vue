@@ -13,7 +13,7 @@ const classname = ref("");
 const classbrief = ref("");
 const userinvitecode = ref("");
 
-// 无法在laf中用_id查询就先暂时用manageinvitecode 作为查询条件
+
 let tranport= useRoute();
 const id = tranport.query.id as string;
 

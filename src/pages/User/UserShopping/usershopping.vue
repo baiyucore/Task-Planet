@@ -48,7 +48,7 @@ onMounted(()=>{
 
  
 })
-//没做完  ，当总数为0是无法购买
+
 function BuyShopping(shoppingvalue : number,totalnumber : number){
   if(totalnumber==0 || totalnumber<0){
     toast.error("总兑换次数不足，无法购买。")

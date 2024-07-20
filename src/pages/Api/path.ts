@@ -43,6 +43,13 @@ const Userpath={
   UserViewAllTaskUrl: "https://irhidbbf7c.bja.sealos.run/User-ViewAllTask ",
   UserLoadTaskUrl:"https://irhidbbf7c.bja.sealos.run/User-GetClassTask",
 
+  UserViewCommentUrl:"https://irhidbbf7c.bja.sealos.run/User-Comment",
+  UserViewComment_taskUrl:"https://irhidbbf7c.bja.sealos.run/User-viewComment",
+  UserViewOtherCommentUrl:"https://irhidbbf7c.bja.sealos.run/User-ViewOtherComment",
+  UserSubmitOuterCommentUrl:"https://irhidbbf7c.bja.sealos.run/User-SubmitOuterComment",
+  UserViewOuterCommentUrl:"https://irhidbbf7c.bja.sealos.run/User-ViewOuterComment",
+  UserSubmitInnterCommentUrl:"https://irhidbbf7c.bja.sealos.run/User-SubmitInnerComment",
+
   UserCoinChangeUrl:"https://irhidbbf7c.bja.sealos.run/User-CoinChange",
 }
 

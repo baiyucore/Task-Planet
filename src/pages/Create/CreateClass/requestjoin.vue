@@ -64,12 +64,7 @@ function aboutapplication(userid : string,userinvitecode:string,classname : stri
   <div class="static mt-2">
     <ArrowLeft class="float-left ml-2 mt-1" @click="onreturn" />
    
-   
-
       <h2  class=" text-center  text-2xl  font-bold">申请列表</h2> 
-      
-      <!-- 需要完成 1 同意或者拒绝按钮的设置  2 按下按钮之后就无法在对此进行操作 3 对数据库的操作-->
-    
     
     <Accordion type="single" class="w-full" collapsible >
     <AccordionItem v-for="item in applyinfor" :value="item.userid">

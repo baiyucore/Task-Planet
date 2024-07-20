@@ -16,7 +16,7 @@ const isLoading = ref(false)
 
 const classname = ref<CreateClass[]>([])
 
-//测试
+
 const params: Createid= {account_id: createinfor.createid}
 onMounted(()=>{
   isLoading.value=true

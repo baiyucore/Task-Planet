@@ -40,7 +40,7 @@ function AddProduct(){
 function ModifyProduct(productname: string){
   router.push({ path:'/modifyproduct',query:{productname} });
 }
-//不用跳转，跳出新弹窗确认是否删除,之后刷新页面
+
 function Remove(productname : string){
 
   isLoading.value= true
@@ -73,9 +73,8 @@ function Remove(productname : string){
                价格:{{ item.productprice }} 总兑换次数:{{item.totalnumber}}
             </AccordionTrigger>
             <AccordionContent>
-              <!-- 需要传入对应的id -->
+    
               <Button class="bg-sky-400 hover:bg-cyan-600" @click="ModifyProduct(item.productname)">修改</Button>
-              <!-- 需要加入组件 -->
               <Button class="bg-rose-700 hover:bg-rose-800" @click="Remove(item.productname) ">下架</Button>
               
             </AccordionContent>

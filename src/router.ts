@@ -14,6 +14,8 @@ import UserViewFinishTask from "./pages/User/UserTask/User-ViewFinishTask.vue";
 import UserShopping from "./pages/User/UserShopping/usershopping.vue";
 
 import UserComment from "./pages/User/UserComment/usercomment.vue";
+import UserViewComment from "./pages/User/UserComment/user-ViewComment.vue";
+import UserViewOtherComment from "./pages/User/UserComment/user-ViewOtherComment.vue";
 
 import UserClass from "./pages/User/UserClass/userclass.vue";
 import UserAddClass from "./pages/User/UserClass/UserAddClass.vue";
@@ -64,6 +66,9 @@ import AuditorViewNotiveInfor from "./pages/Auditor/Auditor-Notification/auditor
 
 import AuditorComment from  "./pages/Auditor/AuditorComment/AuditorComment.vue";
 
+import AuditorAudit from "./pages/Auditor/Auditor-Audit/auditor-Audit.vue";
+import AuditorAuditRecoreds from "./pages/Auditor/Auditor-Audit/auditor-AuditRecords.vue";
+import AuditorDenounce from "./pages/Auditor/Auditor-Audit/auditor-Denounce.vue";
 
 //测试
 import test from "./pages/Test/test.vue";
@@ -88,6 +93,9 @@ const routes = [
   { path:"/useraboutclass", component : UserAboutClass},
   { path:"/userviewunfinishtask",component : UserViewUnFinishTask},
   { path:"/userviewfinishtask",component : UserViewFinishTask},
+  { path:"/userviewcomment",component : UserViewComment},
+  { path:"/userviewothercomment",component:UserViewOtherComment},
+
   { path: "/usernavigate", component: UserNavigate,
     children:[
       {
@@ -185,7 +193,21 @@ const routes = [
         component: AuditorNotification,
       },
      
-
+      {
+        path:"/audit",
+        component: AuditorAudit,
+        children:[
+          {
+            path:"/auditrecords",
+            component: AuditorAuditRecoreds,
+          
+          },
+          {
+            path:"/denounce",
+            component: AuditorDenounce,
+          },
+        ]
+      },
     ]
   },
 

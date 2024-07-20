@@ -1,6 +1,6 @@
 <script setup lang="ts" name="App">
 import { RouterLink,RouterView } from 'vue-router';
-import { ClipboardPenLine , School ,Megaphone} from 'lucide-vue-next';
+import { ClipboardPenLine ,  Glasses ,Megaphone} from 'lucide-vue-next';
 
 </script>
 
@@ -18,9 +18,9 @@ import { ClipboardPenLine , School ,Megaphone} from 'lucide-vue-next';
         </div>
     
         <div>
-          <RouterLink :to="{path:'/manageclass'}" active-class="active" class="static">
-          <School class=" relative size-8 top-1 left-8"/>
-          <div class="pl-1 text-center">班级</div>
+          <RouterLink :to="{path:'/audit'}" active-class="active" class="static">
+          <Glasses class=" relative size-8 top-1 left-8"/>
+          <div class="pl-1 text-center">审核</div>
           </RouterLink>
         </div>
         <div>

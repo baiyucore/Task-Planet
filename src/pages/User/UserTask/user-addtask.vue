@@ -70,7 +70,7 @@ function onreturn(){
 
 
 </script>
-<!-- 未完成 1.班级添加 2.数据库的填写 3.随机金币逻辑 4.点击打勾提交  -->
+
 <template>
   <div class="static mt-2">
     

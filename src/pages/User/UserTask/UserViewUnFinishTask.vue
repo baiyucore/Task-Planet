@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { Input } from '@/components/ui/input';
 import { useRoute, useRouter } from 'vue-router';
-import { ArrowLeft ,Check } from 'lucide-vue-next';
+import { ArrowLeft } from 'lucide-vue-next';
 import {  ref } from 'vue'
 import { Button } from '@/components/ui/button'
-import { Checkbox } from '@/components/ui/checkbox'
 import { UserCoinChange, UserSumitTask } from '@/pages/Interface/UserInterface';
 import { userapi } from '@/pages/Api/UserIndex';
 import { toast } from 'vue-sonner';
@@ -69,6 +68,7 @@ async function onSubmit(event :Event) {
       summarize : summarize.value,
       rewardselect:selectedOption.value,
       userid : Userinfor().userid,
+      username : Userinfor().username,
     }
     const coinchange = Userinfor().coin + coin.value
     Userinfor().coinchange(coinchange)

@@ -69,24 +69,6 @@ function viewtask(classname : string,taskid:string){
     <span  class=" ml-10  text-2xl  font-bold">评论</span> 
     <div class="float-right mr-7">
       
-      <!-- <Popover class="absolute right" >
-      <PopoverTrigger as-child>
-        <Button
-          variant="outline"
-          :class="cn(
-            'w-[200px] justify-start text-left font-normal',
-            !timevalue && 'text-muted-foreground',
-          )"
-        >
-          <CalendarIcon class="mr-2 h-4 w-4" />
-          {{ timevalue ? df.format(timevalue.toDate(getLocalTimeZone())) : "选择查看时间" }}
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent class="w-auto p-0">
-        <Calendar v-model="timevalue" initial-focus />
-      </PopoverContent>
-    </Popover> -->
-
     <Popover>
     <PopoverTrigger as-child>
       <Button
