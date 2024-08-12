@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from "@/components/ui/input";
 import { systemapi } from '@/pages/Api/SystemIndex';
 import { firstfill } from '@/pages/Interface/SystemInterfact';
-import { Createinfor } from '@/store/create';
+import { UseCreateStore } from '@/store/create';
 import { Userinfor } from '@/store/user';
 import { useMutation } from '@tanstack/vue-query'
 
@@ -35,17 +35,17 @@ const mutation = useMutation({
     isLoading.value=false
     if(res.err_code === 0 ){
         if(account_identites.value === "CREATE"){
-          const createinfor = Createinfor()
-          createinfor.clear()
+          const createinfor = UseCreateStore()
+          createinfor.$clear()
           createinfor.transmit(account_id)
-          router.push({ path:"/createnavigate"  });
+          router.push({ path:"/createtaskfinsh" });
         }
         else if(account_identites.value === "USER"){
           const userinfor = Userinfor()
           userinfor.clear()
           userinfor.transmit(account_id)
           userinfor.transmitname(account_name.value)
-          router.push({ path:"/usernavigate" });
+          router.push({ path:'/usertask' });
         } 
         else {
           toast.error("身份出现问题");

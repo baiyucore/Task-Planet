@@ -29,8 +29,6 @@ const viewunfinishtask =ref<UserViewUnfinishTask[]>([])
 const viewfinishtask = ref<UserViewTask[]>([])
 value.value =today(getLocalTimeZone()).add({ days: Number(0) })
 
-
-
   const parmas : UserViewAllTask= {
     time:value.value,
       userid: Userinfor().userid,
@@ -56,9 +54,6 @@ value.value =today(getLocalTimeZone()).add({ days: Number(0) })
   queryFn: () => userapi.LoadTask(param)
  
 });
-
-
-
 
 
 
@@ -96,31 +91,28 @@ function unfinishtaskview(task :viewUnFinishTask  ){
   const failed = task.failed
 
   router.push({path:'/userviewunfinishtask',query:{ 
-    taskid,taskname, taskCompletionConditions,taskstarttime,taskovertime, successrewardone,successrewardtwo_one,successrewardtwo_two,failed
+    taskid,taskname, taskCompletionConditions,taskstarttime,taskovertime, 
+    successrewardone,successrewardtwo_one,successrewardtwo_two,failed
   }});
 }
-
-
 
 
 function finishtaskview(task :viewTask,summarize: string ,rewardselect:string){
   const taskid = task.taskid
   const taskname = task.taskname
   const taskCompletionConditions = task.taskCompletionConditions
-
   const startdate = new Date(task.taskstarttime);
   const taskstarttime = format(startdate, 'yyyy-MM-dd HH:mm:ss');
   const overdate = new Date(task.taskovertime);
   const taskovertime = format(overdate, 'yyyy-MM-dd HH:mm:ss');
-
-  
   const successrewardone =task.successrewardone
   const successrewardtwo_one = task.successrewardtwo_one
   const successrewardtwo_two = task.successrewardtwo_two
   const failed = task.failed
   
   router.push({path:'/userviewfinishtask',query:{ 
-    taskid,taskname, taskCompletionConditions,taskstarttime,taskovertime, successrewardone,successrewardtwo_one,successrewardtwo_two,failed,summarize,rewardselect,
+    taskid,taskname, taskCompletionConditions,taskstarttime,taskovertime, 
+    successrewardone,successrewardtwo_one,successrewardtwo_two,failed,summarize,rewardselect,
   }});
 }
 

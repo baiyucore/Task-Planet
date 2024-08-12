@@ -6,7 +6,7 @@ import {  ref } from 'vue'
 import { Button } from '@/components/ui/button'
 import { createapi } from '@/pages/Api/CreateIndex';
 import { CreateAddproduct } from '@/pages/Interface/CreateInterface';
-import { Createinfor } from '@/store/create';
+import { UseCreateStore } from '@/store/create';
 import {useMutation} from '@tanstack/vue-query'
 
 const router = useRouter();
@@ -14,7 +14,7 @@ const isLoading = ref(false);
 const productname = ref("");
 const productprice = ref(0);
 const totalnumber = ref(0);
-const createinfor = Createinfor()
+const createinfor = UseCreateStore()
 
 const mutation= useMutation({
   mutationFn: async (params:  CreateAddproduct) => {

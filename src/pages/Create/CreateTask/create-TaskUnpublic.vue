@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/alert-dialog'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { createapi } from '@/pages/Api/CreateIndex';
-import { Createinfor } from '@/store/create';
+import { UseCreateStore} from '@/store/create';
 
 import { CreateViewtask, Createremovetask, viewTask } from '@/pages/Interface/CreateInterface';
 import { toast } from 'vue-sonner';
@@ -24,7 +24,7 @@ import { format } from 'date-fns';
 //不知道还有没有用
 
 const router= useRouter();
-const createinfor = Createinfor()
+const createinfor = UseCreateStore()
 
 const params : CreateViewtask= {
     account_id:createinfor.createid,

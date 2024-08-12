@@ -1,6 +1,26 @@
 import axios from "axios";
 import {Createpath} from "./path";
-import { CreateAddproduct, Createid,Createreviseoneself, createaddclass ,CreateClassnameId,  checkprerequisite, searchname,Createmodifyproduct, CreateRemove, CreateAddTask, Createremovetask, Createpublictask,CreateViewtask,CreateComment, applycondition, deletecomment, deletesummarize, Searchname } from "../Interface/CreateInterface";
+import { 
+  CreateAddproduct, 
+  Createid,
+  Createreviseoneself, 
+  createaddclass ,
+  CreateClassnameId,  
+  checkprerequisite, 
+  searchname,
+  Createmodifyproduct, 
+  CreateRemove, 
+  CreateAddTask, 
+  Createremovetask, 
+  Createpublictask,
+  CreateViewtask,
+  CreateComment, 
+  applycondition, 
+  deletecomment, 
+  deletesummarize, 
+  Searchname ,
+  ViewOuterComment,
+} from "../Interface/CreateInterface";
 
 
 
@@ -181,7 +201,14 @@ const createapi= {
       summarize : params.summarize,
     });
     return response.data;
-  }
+  },//显示提交外部的评论 
+  async ViewOuterComment(params:ViewOuterComment){
+    const response = await axios.post(Createpath.CreateViewOuterCommentUrl,{
+      taskid:params.taskid,
+      userid : params.userid,
+    });
+    return response.data;
+  },
 
 }
 

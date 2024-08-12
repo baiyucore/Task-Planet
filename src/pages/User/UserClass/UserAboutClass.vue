@@ -45,13 +45,18 @@ const mutation= useMutation({
 
 async function applyformember(event:Event){
   event.preventDefault();
-  mutation.mutate({
+  if(Userinfor().useraddclass === ""){
+    mutation.mutate({
     userid : Userinfor().userid,
     createid : createid,
     userinvitecode : userinvitecode,
     classname : classname,
     username :  Userinfor().username,
     })
+  }else{
+    toast.error("您已经加入一个班级，等待完成该班级的课程时长之后再申请加入别的班级")
+  }
+  
 }
 function onreturn(){
   router.back();

@@ -7,10 +7,10 @@ import {  useRouter} from 'vue-router';
 import { nanoid } from 'nanoid'
 import { createapi } from '@/pages/Api/CreateIndex';
 import { createaddclass } from '@/pages/Interface/CreateInterface';
-import { Createinfor } from '@/store/create';
+import { UseCreateStore } from '@/store/create';
 import {useMutation} from '@tanstack/vue-query'
 
-const createinfor = Createinfor()
+const createinfor = UseCreateStore()
 const userinvitecode =nanoid(8)
 const router = useRouter();
 const isLoading = ref(false);

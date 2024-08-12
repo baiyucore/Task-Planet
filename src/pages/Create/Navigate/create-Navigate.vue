@@ -2,13 +2,6 @@
 import { RouterLink,RouterView } from 'vue-router';
 import { ClipboardList , ShoppingCart , ClipboardPenLine , School , User} from 'lucide-vue-next';
 
-import { Createinfor } from '@/store/create';
-
-const createinfor= Createinfor()
-
-
-
-
 </script>
 
 <template>  

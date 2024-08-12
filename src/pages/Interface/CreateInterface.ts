@@ -149,9 +149,10 @@ export interface CreateComment{
 }
 //评论信息接收
 export interface CreateViewComment{
+  _id:string,
   classname: string,
-  taskstarttime : Time,
-  taskovertime: Time,
+  taskstarttime : number,
+  taskovertime: number,
   taskid: string,
   taskname : string,
 }
@@ -185,4 +186,9 @@ export interface deletesummarize{
   taskid:string,
   userid: string,
   summarize: string,
+}
+//显示外部评论
+export interface ViewOuterComment{
+  taskid:string,
+  userid: string,
 }

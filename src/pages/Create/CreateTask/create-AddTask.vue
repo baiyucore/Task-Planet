@@ -15,11 +15,11 @@ import { cn } from '@/lib/utils'
 import { createapi } from '@/pages/Api/CreateIndex';
 import { CreateAddTask } from '@/pages/Interface/CreateInterface';
 import { useMutation } from '@tanstack/vue-query'
-import { Createinfor } from '@/store/create';
+import { UseCreateStore } from '@/store/create';
 import { nanoid } from 'nanoid'
 
 const taskid = nanoid(9)
-const createinfor = Createinfor()
+const createinfor = UseCreateStore()
 const router = useRouter();
 const isLoading = ref(false);
 

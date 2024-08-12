@@ -1,39 +1,18 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
 import { Wrench } from 'lucide-vue-next';
 import { toast } from 'vue-sonner';
 import { useRouter} from 'vue-router';
-
 import { Userinfor } from '@/store/user';
 import { Userid } from '@/pages/Interface/UserInterface';
 import { userapi } from '@/pages/Api/UserIndex';
-
+import { useQuery } from '@tanstack/vue-query'
 const router= useRouter();
-const isLoading = ref(false);
 const userinfor = Userinfor()
-const username=ref("")
-const usersex = ref("")
-const userprofile=ref("")
-
-
-onMounted(()=>{
-  isLoading.value = true
-  const params : Userid={ userid :userinfor.userid }
-  userapi.viewoneself(params).then((res)=>{
-    isLoading.value = false
-    if(res.err_code === 0){
-      username.value=res.useroneself.user_name;
-      usersex.value= res.useroneself.user_sex;
-      userprofile.value=res.useroneself.user_profile;
-    
-      Userinfor().coinchange(res.useroneself.coin)
-    }else{
-      toast.error(res.err_msg)
-    }
+const params : Userid={ userid :userinfor.userid }
+const { isError, data, error,} =useQuery({
+    queryKey: ['craetepublictask', params],
+    queryFn : () => userapi.viewoneself(params)
   })
-})
-const coin = Userinfor().coin
-
 
 function revise(){
   router.push({ path:'/userrevise'})
@@ -50,22 +29,27 @@ function revise(){
   </div>
  
       <div class="main-content">
-        <h1 class="text-center text-2xl">{{username}}</h1>
+        
+        <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
+        <span v-else-if="data">
+        <h1 class="text-center text-2xl">{{ data.username}}</h1>
 
         <div class="grid grid-cols-4 gap-2 mt-2">
           <div>性别 </div>
           <div>
-            {{usersex}}</div>
+            {{data.usersex}}</div>
         </div>
 
         <div class="grid grid-cols-4 gap-2 mt-2">
           <div>个人评语</div>
-          <div>{{userprofile}}</div>
+          <div>{{data.userprofile}}</div>
         </div>
         <div class="grid grid-cols-4 gap-2 mt-2">
           <div>所获得的金币</div>
-          <div>{{coin}}</div>
+          <div>{{data.coin}}</div>
         </div>
+
+        </span>
       </div>
   </div>
 

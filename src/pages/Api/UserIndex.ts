@@ -1,6 +1,12 @@
 import axios from "axios";
 import {Userpath} from "./path";
-import { UserApplyformember, UserBuyShopping, Comment,UserCoinChange, UserLoadTask, UserReviseOneself, UserSumitTask, UserViewAllTask, Userid, UsersumitComment, ViewOuterComment, UsersubmitInnterComment, searchinnerComment, searchname, Searchname, classinvitecode } from "../Interface/UserInterface";
+import { UserApplyformember, UserBuyShopping, 
+  Comment,UserCoinChange, UserLoadTask, UserReviseOneself,
+   UserSumitTask, UserViewAllTask, Userid, UsersumitComment, 
+   ViewOuterComment, UsersubmitInnterComment, searchinnerComment, 
+   searchname, Searchname, classinvitecode, 
+   warnsummarize
+  } from "../Interface/UserInterface";
 
 
 
@@ -160,6 +166,7 @@ const userapi = {
       comment:params.comment,
       commentid:params.commentid,
       other_commentname : params.other_commentname,
+      authorid : params.authorid,
     });
     return response.data;
   },//显示内部评论
@@ -168,6 +175,7 @@ const userapi = {
       taskid:params.taskid,
       commentid:params.commentid,
       comment : params.comment,
+      userid : params.userid,
     });
     return response.data;
   },//举报总结评论
@@ -176,13 +184,18 @@ const userapi = {
       taskid:params.taskid,
       commentid:params.commentid,
       comment : params.comment,
+      userid : params.userid,
     });
     return response.data;
   },//举报总结
-  async WarnSummarize(){
+  async WarnSummarize(params: warnsummarize){
     const response = await axios.post(Userpath.UserWarnSummarizeUrl,{
-      
-    })
+      taskid : params.taskid,
+      summarize : params.summarize,
+      authorid : params.authorid,
+      userid : params.userid,
+    });
+    return response.data;
   }
 
 }

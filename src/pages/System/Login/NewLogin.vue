@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router'
 import { toast } from 'vue-sonner'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { Createinfor } from '@/store/create'
+import { UseCreateStore } from '@/store/create'
 import { Userinfor } from '@/store/user'
 import { systemapi } from '@/pages/Api/SystemIndex'
 import { accountinfor } from '@/pages/Interface/SystemInterfact'
@@ -13,13 +13,13 @@ import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { useMutation } from '@tanstack/vue-query'
 
-// Define refs for form inputs
+
 const account_id = ref('')
 const account_password = ref('')
 const router = useRouter()
 const isLoading = ref(false)
 
-// Define mutation function using useMutation
+
 const mutation = useMutation({
   mutationFn: async (params: accountinfor) => {
     const response = await systemapi.login(params)
@@ -33,18 +33,21 @@ const mutation = useMutation({
     if (res.err_code === 0) {
       switch (res.account_identites) {
         case 'CREATE':
-          const createinfor = Createinfor()
+          // eslint-disable-next-line no-case-declarations
+          const createinfor = UseCreateStore()
           createinfor.$clear()
           createinfor.transmit(account_id.value)
           createinfor.transmitname(res.name)
           router.push({ path:"/createtaskfinsh"  })
           break
         case 'Auditor':
+          // eslint-disable-next-line no-case-declarations
           const auditorinfor = Auditorinfor()
           auditorinfor.transmit(account_id.value)
           router.push({ path: '/auditornavigate' })
           break
         case 'USER':
+          // eslint-disable-next-line no-case-declarations
           const userinfor = Userinfor()
           userinfor.clear()
           userinfor.transmit(account_id.value)
@@ -67,7 +70,7 @@ const mutation = useMutation({
   },
 })
 
-// Form submission handler
+
 async function onSubmit(event: Event) {
   event.preventDefault()
   mutation.mutate({

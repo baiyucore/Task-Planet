@@ -3,13 +3,13 @@ import { Plus} from 'lucide-vue-next';
 import { useRouter } from 'vue-router';
 
 import { createapi } from '@/pages/Api/CreateIndex';
-import { Createinfor } from '@/store/create';
+import { UseCreateStore } from '@/store/create';
 import {  Createid } from '@/pages/Interface/CreateInterface';
 import { toast } from 'vue-sonner';
 import { useQuery } from '@tanstack/vue-query'
 
 const router= useRouter();
-const createinfor = Createinfor()
+const createinfor = UseCreateStore()
 
 
 

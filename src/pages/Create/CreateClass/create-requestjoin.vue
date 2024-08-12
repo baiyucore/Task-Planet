@@ -3,14 +3,14 @@ import { toast } from 'vue-sonner';
 import { ArrowLeft } from 'lucide-vue-next';
 import { Button } from '@/components/ui/button'
 import { createapi } from '@/pages/Api/CreateIndex';
-import { Createinfor } from '@/store/create';
+import { UseCreateStore } from '@/store/create';
 import { applycondition, } from '@/pages/Interface/CreateInterface';
 import { useRouter} from 'vue-router';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Userinfor } from '@/store/user';
 import { useQuery,useMutation } from '@tanstack/vue-query'
 
-  const createid = Createinfor().createid
+  const createid = UseCreateStore().createid
   const router = useRouter();
   const { isError, data, error,} =useQuery({
     queryKey: ['craeteviewoneself', createid],

@@ -6,7 +6,6 @@ import {   ref } from 'vue'
 import { Button } from '@/components/ui/button'
 import {  useRoute, useRouter} from 'vue-router';
 import { Search } from 'lucide-vue-next';
-
 import { userapi } from '@/pages/Api/UserIndex';
 import { useQuery,useMutation } from '@tanstack/vue-query'
 import { Searchname } from '@/pages/Interface/UserInterface';
@@ -14,7 +13,6 @@ import { Searchname } from '@/pages/Interface/UserInterface';
 
 const router = useRouter();
 const isLoading = ref(false);
-
 const searchname= ref("") ;
 
 

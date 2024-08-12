@@ -10,9 +10,9 @@ import UserTask from "./pages/User/UserTask/user-task.vue";
 import UserViewUnFinishTask from "./pages/User/UserTask/UserViewUnFinishTask.vue"
 import UserViewFinishTask from "./pages/User/UserTask/User-ViewFinishTask.vue";
 
-import UserShopping from "./pages/User/UserShopping/usershopping.vue";
+import UserShopping from "./pages/User/UserShopping/user-shopping.vue";
 
-import UserComment from "./pages/User/UserComment/usercomment.vue";
+import UserComment from "./pages/User/UserComment/user-comment.vue";
 import UserViewComment from "./pages/User/UserComment/user-ViewComment.vue";
 import UserViewOtherComment from "./pages/User/UserComment/user-ViewOtherComment.vue";
 
@@ -23,7 +23,7 @@ import UserCheckClassMember from "./pages/User/UserClass/user-CheckClassMember.v
 import UserCheckOneSelf from "./pages/User/UserClass/user-CheckOneSelf.vue";
 import UserSearchname from "./pages/User/UserClass/user-searchname.vue";
 
-import UserOneself from "./pages/User/UserOneself/useroneself.vue";
+import UserOneself from "./pages/User/UserOneself/user-oneself.vue";
 import UserRevieOneself from "./pages/User/UserOneself/userRevieOneself.vue";
 
 
@@ -43,7 +43,7 @@ import CreateShopping from "./pages/Create/CreateShopping/create-shopping.vue";
 import AddProduct from "./pages/Create/CreateShopping/create-addproduct.vue";
 import ModifyProduct from "./pages/Create/CreateShopping/create-modifyproduct.vue";
 
-import CreateComment from "./pages/Create/CreateComment/createcomment.vue";
+import CreateComment from "./pages/Create/CreateComment/create-comment.vue";
 import CommentInfor from "./pages/Create/CreateComment/CommentInfor.vue";
 import createViewComment from "./pages/Create/CreateComment/create-ViewComment.vue";
 

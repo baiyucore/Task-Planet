@@ -20,6 +20,7 @@ const Createpath = {
   createViewComment_taskUrl:"https://irhidbbf7c.bja.sealos.run/User-viewComment",
   createDeleteCommentUrl:"https://irhidbbf7c.bja.sealos.run/Create-DeleteComment",
   createDeleteSummarizeUrl:"https://irhidbbf7c.bja.sealos.run/Create-DeleteSummarize",
+  CreateViewOuterCommentUrl:"https://irhidbbf7c.bja.sealos.run/User-ViewOuterComment",
 
   createviewoneselfUrl:    "https://irhidbbf7c.bja.sealos.run/Create-ViewOneself",
   createreviseoneselfUrl : "https://irhidbbf7c.bja.sealos.run/Create-ReviseOneself",
@@ -58,7 +59,7 @@ const Userpath={
   UserSubmitInnterCommentUrl:"https://irhidbbf7c.bja.sealos.run/User-SubmitInnerComment",
   UserViewInnerCommentUrl:"https://irhidbbf7c.bja.sealos.run/User-ViewInnerComment",
   UserWarnCommentUrl:"https://irhidbbf7c.bja.sealos.run/User-WarnComment",
-  UserWarnSummarizeUrl:"https://irhidbbf7c.bja.sealos.run/Create-DeleteSummarize",
+  UserWarnSummarizeUrl:"https://irhidbbf7c.bja.sealos.run/User-WarnSummarize",
 
   UserCoinChangeUrl:"https://irhidbbf7c.bja.sealos.run/User-CoinChange",
 }

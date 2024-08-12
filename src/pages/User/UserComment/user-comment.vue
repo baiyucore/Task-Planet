@@ -10,10 +10,10 @@ import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { cn } from '@/lib/utils'
 import { toast } from 'vue-sonner';
-import { Comment, viewcomment_task,  } from '@/pages/Interface/UserInterface';
+import {  UserLoadTask, UserViewAllTask, UserViewTask, UserViewUnfinishTask,  } from '@/pages/Interface/UserInterface';
 import { Userinfor } from '@/store/user';
 import { userapi } from '@/pages/Api/UserIndex';
-
+import { useQuery, } from '@tanstack/vue-query'
 
 const router= useRouter();
 const df = new DateFormatter('zh-CN', {
@@ -25,46 +25,65 @@ const items = [
   { value: -2, label: '前天' },
 ]
 const value = ref<DateValue>(  )
-const viewcommenttask =ref<viewcomment_task[]>([])
 
+  const viewunfinishtask =ref<UserViewUnfinishTask[]>([])
+    const viewfinishtask = ref<UserViewTask[]>([])
+    
 value.value =today(getLocalTimeZone()).add({ days: Number(0) })
-const params : Comment={
-      classname : Userinfor().useraddclass,
-      time : today(getLocalTimeZone()).add({ days: Number(0) })
+
+const parmas : UserViewAllTask= {
+    time:value.value,
+      userid: Userinfor().userid,
+      classname: Userinfor().useraddclass,
     }
-    userapi.Comment(params).then((res)=>{
+    userapi.ViewAllTask(parmas).then((res)=>{
       if(res.err_code === 0){
-        viewcommenttask.value=  res.taskinfor
-      }
-      else{
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+        viewunfinishtask.value = res.unfinishtask,
+        viewfinishtask.value =res.finishtask
+      }else{
         toast.error(res.err_msg)
       }
     })
 
-const isLoading= ref(false);
+  const param:UserLoadTask= {
+    userid : Userinfor().userid,
+    classname : Userinfor().useraddclass,
+  }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { isSuccess  } = useQuery({
+  queryKey: ['loadTasks'],
+  queryFn: () => userapi.LoadTask(param)
+ 
+});
+
+
+
+
+
+
 watch(value,(newValue,oldValue)=>{
   if(newValue !== oldValue){
-    isLoading.value=true;
-    const params : Comment={
-      classname : Userinfor().useraddclass,
-      time : newValue
+    const parmas : UserViewAllTask= {
+      time:newValue,
+      userid: Userinfor().userid,
+      classname: Userinfor().useraddclass,
     }
-    userapi.Comment(params).then((res)=>{
+    userapi.ViewAllTask(parmas).then((res)=>{
       if(res.err_code === 0){
-        viewcommenttask.value=  res.taskinfor
-      }
-      else{
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+        viewunfinishtask.value = res.unfinishtask,
+        viewfinishtask.value =res.finishtask
+      }else{
         toast.error(res.err_msg)
       }
     })
   }
-
 })
 
 function viewcomment(taskid : string,taskname:string){
   router.push({path:'/userviewcomment',query:{taskid,taskname}});
 }
-
 
 
 </script>
@@ -106,16 +125,24 @@ function viewcomment(taskid : string,taskname:string){
   </Popover>
 
       <div class="main-content">
-
-        <div v-for="item in viewcommenttask" class="mb-3">
-         <div @click="viewcomment(item.task.taskid,item.task.taskname)">
-          <div class="text-xl">
-            {{ item.task.taskname }}
+        <h1  v-for="items in viewunfinishtask " :key="items._id"  class=" relative" >
+          <div v-for="item in items.unfinishtask" :key="item._id" class="left-0 select-none text-2xl  mb-2" >       
+            <div  @click="viewcomment(item.taskid,item.taskname)">
+            {{ item.taskname }}   
           </div>
-          {{ item.classname }}
-        </div>
-         </div>
-      
+          </div>
+        </h1>
+        <h1  v-for="items in viewfinishtask" :key="items._id"  class="relative" >
+          <div  class=" left-0 select-none text-2xl  mb-2">
+            <div @click="viewcomment(items.taskinfor.task.taskid,items.taskinfor.task.taskname)" >
+              {{ items.taskinfor.task.taskname }}  
+            </div>        
+          </div>
+        </h1>
+
+
+
+  
         
       </div>
   </div>

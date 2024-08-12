@@ -3,7 +3,7 @@ import { defineStore } from "pinia"
 
 
 //命名问题 应该以use开头 Store结尾 ，实在不行的话应该以use开头
-export const Createinfor = defineStore('createid',()=>{
+export const UseCreateStore = defineStore('createstore',()=>{
   const createid = ref("")
   const createname = ref("")
   function transmit(create_id : string){

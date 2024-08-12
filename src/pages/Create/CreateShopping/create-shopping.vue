@@ -7,11 +7,11 @@ import { Gift } from 'lucide-vue-next';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Createid, CreateRemove } from '@/pages/Interface/CreateInterface';
 import { toast } from 'vue-sonner';
-import { Createinfor } from '@/store/create';
+import { UseCreateStore } from '@/store/create';
 import { useQuery,useMutation } from '@tanstack/vue-query'
 
 
-const createinfor = Createinfor()
+const createinfor = UseCreateStore()
 const router= useRouter();
   const params : Createid={
     account_id: createinfor.createid

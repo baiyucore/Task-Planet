@@ -7,10 +7,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { createapi } from '@/pages/Api/CreateIndex';
 import { Createreviseoneself } from '@/pages/Interface/CreateInterface';
-import { Createinfor } from '@/store/create';
+import { UseCreateStore} from '@/store/create';
 import { Userinfor } from '@/store/user';
 import {useMutation} from '@tanstack/vue-query'
-const createinfor = Createinfor()
+const createinfor = UseCreateStore()
 const router = useRouter();
 const create_name=ref("");
 const create_sex = ref("");

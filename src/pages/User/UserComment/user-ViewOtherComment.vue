@@ -2,14 +2,19 @@
 import { toast } from 'vue-sonner';
 import { useRouter,useRoute } from 'vue-router';
 import { ArrowLeft , Info, MessageCircle  } from 'lucide-vue-next';
-import {  onMounted, ref } from 'vue'
+import {  ref } from 'vue'
 import { userapi } from '@/pages/Api/UserIndex';
-import { searchinnerComment, UsersubmitInnterComment, UsersumitComment, ViewInnerComment, ViewOutercomment, ViewOuterComment} from '@/pages/Interface/UserInterface';
+import { 
+  searchinnerComment, UsersubmitInnterComment,
+   UsersumitComment, ViewInnerComment, 
+    ViewOuterComment,
+    warnsummarize
+  } from '@/pages/Interface/UserInterface';
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
+
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -18,66 +23,85 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Userinfor } from '@/store/user';
+import { useMutation,useQuery } from '@tanstack/vue-query'
 
 const router = useRouter();
 const route = useRoute()
 const taskid  = route.query.taskid as string
 const authorid  = route.query.userid as string
 const username = route.query.username as string
-const summarize = route.query.summarize
-const outercomment  = ref<ViewOutercomment[]>([])
+const summarize = route.query.summarize as string
 const innercomment = ref<ViewInnerComment[]>([])
 
 const comment = ref("")
 const isLoading = ref(false)
 
-
-onMounted(()=>{
-  const params : ViewOuterComment = {
+const params : ViewOuterComment = {
     taskid:taskid,
     userid: authorid,
   }
-  userapi.ViewOuterComment(params).then((res)=>{
-    if(res.err_code === 0){
-      outercomment.value = res.outercomment
-    }else{
-      toast.error(res.err_msg)
-    }
+const { isError, data, error,} =useQuery({
+    queryKey: ['userviewcomment', params],
+    queryFn : () => userapi.ViewOuterComment(params)
   })
-
-
-})
 
 
 function onreturn(){
   router.back();
 }
-
+//提交外部评论
+const outersumitmutation = useMutation({
+  mutationFn: async (params:  UsersumitComment) => {
+    const response = await userapi.SubmitComment(params)
+    return response
+  },
+  onSuccess:(res)=>{
+    if( res.err_code === 0 ){
+      toast.success("评论成功")
+      window.location.reload()
+    } else{
+      toast.error( res.err_msg );
+    }
+  },  
+  onError: (error) => {
+    toast.error(error.message)
+  },
+})
 async function onoutersubmit(event:Event) {
   event.preventDefault();
-  isLoading.value =true
-  const params : UsersumitComment={
+  outersumitmutation.mutate({
     comment:comment.value,
     commentid:Userinfor().userid,
     name:Userinfor().username,
     taskid:taskid,
     userid : authorid,
-  }
-  userapi.SubmitComment(params).then((res)=>{
-    if(res.err_code === 0){
-      toast.success("评论成功")
-      window.location.reload()
-    }else{
-      toast.error(res.err_msg)
-    }
   })
-
 }
 
+//提交内部评论
+const inntersubmitmutation = useMutation({
+  mutationFn: async (params: UsersubmitInnterComment) => {
+    const response = await userapi.SubmitInnerComment(params)
+    return response
+  },
+  onSuccess:(res)=>{
+    isLoading.value = false;
+    if( res.err_code === 0 ){
+      toast.success("评论成功")
+      setTimeout(() => {
+        window.location.reload()
+      }, 1000);
+    } else{
+      toast.error( res.err_msg );
+    }
+  },  
+  onError: (error) => {
+    toast.error(error.message)
+  },
+})
 async function oninntersubmit(name : string,commentid:string,comments:string) {
-
   isLoading.value =true
-  const params : UsersubmitInnterComment={
+  inntersubmitmutation.mutate({
     taskid : taskid,
     other_comment : comment.value,
     other_commentid:Userinfor().userid,
@@ -85,46 +109,85 @@ async function oninntersubmit(name : string,commentid:string,comments:string) {
     name: name,
     comment:comments,
     commentid:commentid,
-  }
-  userapi.SubmitInnerComment(params).then((res)=>{
-    if(res.err_code === 0){
-      toast.success("评论成功")
-      setTimeout(() => {
-        window.location.reload()
-      }, 1000);
-  
-    }else{
-      toast.error(res.err_msg)
-    }
-  })
-}
-async function viewinnerComment(commentid:string,comment: string) {
-  const params:searchinnerComment={
-    taskid:taskid,
-    comment:comment,
-    commentid:commentid,
-  }
-  userapi.ViewInnerCommer(params).then((res)=>{
-    if(res.err_code === 0){
-      innercomment.value = res.innerComment
-    }else{
-      toast.error(res.err_msg)
-    }
+    authorid :authorid,
   })
 }
 
-async function warns(commentid:string,comment: string) {
-  const params:searchinnerComment={
+
+//显示你内部评论
+const viewinnercommentmutation = useMutation({
+  mutationFn: async (params:  searchinnerComment) => {
+    const response = await  userapi.ViewInnerCommer(params)
+    return response
+  }, 
+  onSuccess:(res)=>{
+    if( res.err_code === 0 ){
+      innercomment.value = res.innerComment
+    } else{
+      toast.error( res.err_msg );
+    }
+  },  
+  onError: (error) => { 
+    toast.error(error.message)
+  },
+})
+async function viewinnerComment(commentid:string,comment: string) {
+  viewinnercommentmutation.mutate({
     taskid:taskid,
     comment:comment,
     commentid:commentid,
-  }
-  userapi.WarnComment(params).then((res)=>{
+  })
+}
+
+//举报内部评论
+const warnsinnermutation = useMutation({
+  mutationFn: async (params: searchinnerComment) => {
+    const response = await  userapi.WarnComment(params)
+    return response
+  },
+  onSuccess:(res)=>{
     if(res.err_code === 0){
       toast.success("举报成功")
     }else{
       toast.error(res.err_msg)
     }
+  },  
+  onError: (error) => {
+    toast.error(error.message)
+  },
+})
+async function warns(commentid:string,comment: string) {
+  warnsinnermutation.mutate({
+    taskid:taskid,
+    comment:comment,
+    commentid:commentid,
+    userid :Userinfor().userid
+  })
+}
+
+//举报总结
+const warnsmutation = useMutation({
+  mutationFn: async (params: warnsummarize) => {
+    const response = await  userapi.WarnSummarize(params)
+    return response
+  },
+  onSuccess:(res)=>{
+    if(res.err_code === 0){
+      toast.success("举报成功")
+    }else{
+      toast.error(res.err_msg)
+    }
+  },  
+  onError: (error) => {
+    toast.error(error.message)
+  },
+})
+async function warnssummarize() {
+  warnsmutation.mutate({
+    taskid:taskid,
+    summarize:summarize,
+    authorid : authorid,
+    userid  : Userinfor().userid,
   })
 }
 
@@ -146,37 +209,39 @@ async function warns(commentid:string,comment: string) {
           <div  class="grid grid-cols-subgrid  col-span-6">
             <div class="col-start-5" > 
               
-              <Dialog>
-    <DialogTrigger as-child>
-      <Button variant="outline">
-      <MessageCircle class="size-6"/> 
-       评论
-      </Button>
-    </DialogTrigger>
-    <DialogContent class="sm:max-w-[425px]">
-      <DialogHeader>
-        <DialogTitle>评论</DialogTitle>
-      </DialogHeader>
-      <form @submit="onoutersubmit">
-        <div class="grid gap-4 py-4">
-            <div class="grid grid-cols-4 items-center gap-4">
-              <Label  class="text-right">
-                写下你的评论
-              </Label>
-              <Input  v-model:model-value="comment"  type="text"  :disabled="isLoading" class="col-span-3" />
-            </div>
-          </div>
-          <DialogFooter>
-            <Button :disabled="isLoading">
-              发布
-            </Button>
-          </DialogFooter>
-      </form>
-    </DialogContent>
-  </Dialog>
+          <Dialog>
+            <DialogTrigger as-child>
+              <Button variant="outline">
+              <MessageCircle class="size-6"/> 
+              评论
+              </Button>
+            </DialogTrigger>
+            <DialogContent class="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>评论</DialogTitle>
+              </DialogHeader>
+              <form @submit="onoutersubmit">
+                <div class="grid gap-4 py-4">
+                    <div class="grid grid-cols-4 items-center gap-4">
+                      <Label  class="text-right">
+                        写下你的评论
+                      </Label>
+                      <Input  v-model:model-value="comment"  type="text"  :disabled="isLoading" class="col-span-3" />
+                    </div>
+                  </div>
+                  <DialogFooter>
+                    <Button :disabled="isLoading">
+                      发布
+                    </Button>
+                  </DialogFooter>
+              </form>
+            </DialogContent>
+          </Dialog>
          </div>
          <div class="col-start-6"> 
+        <Button @click="warnssummarize"> 
           <Info class="size-6"/>  举报
+        </Button>  
          </div>
         </div> 
       </div>
@@ -187,7 +252,9 @@ async function warns(commentid:string,comment: string) {
     <div class="text-xl ml-5"> 评论</div>
 
     <div class="comment-content">
-      <div v-for="items in outercomment" class="mt-5">
+      <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
+      <span v-else-if="data">
+      <div v-for="items in data.outercomment" class="mt-5" :key="items._id">
         
           {{ items.name}}的评论： {{ items.comment }}
         <div class="grid grid-cols-6 ">
@@ -205,7 +272,7 @@ async function warns(commentid:string,comment: string) {
               <DialogHeader>
                 <DialogTitle>评论</DialogTitle>
               </DialogHeader>
-              <div v-for="items in innercomment">
+              <div v-for="items in innercomment" :key="items._id">
                 {{ items.other_commentname }} 的评论 {{ items.other_comment }}
               </div>
                 
@@ -246,15 +313,15 @@ async function warns(commentid:string,comment: string) {
           </Dialog>
               </div>
               <div class="col-start-6"> 
-              
-                  <Info @click="warns(items.commentid,items.comment)" class="size-6"/>  举报
-           
+                <Button @click="warns(items.commentid,items.comment)">
+                  <Info  class="size-6"/> 
+                </Button>
            
               </div>
               </div> 
             </div>
         </div>
-    
+        </span>
     </div>
 
 

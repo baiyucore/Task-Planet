@@ -1,10 +1,6 @@
 <script setup lang="ts">
-import {  useRouter} from 'vue-router';
-import { createapi } from '@/pages/Api/CreateIndex';
 import { Gift } from 'lucide-vue-next';
 import { Accordion, AccordionItem} from '@/components/ui/accordion'
-import { onMounted ,ref} from 'vue';
-import { CreateAddproduct, CreateRemove } from '@/pages/Interface/CreateInterface';
 import { toast } from 'vue-sonner';
 import {
   AlertDialog,
@@ -17,37 +13,57 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
-import { Createinfor } from '@/store/create';
 import { ShoppingBag } from 'lucide-vue-next';
 import { DollarSign } from 'lucide-vue-next';
 import { userapi } from '@/pages/Api/UserIndex';
 import { Userinfor } from '@/store/user';
-import { UserBuyShopping, UserCoinChange, Userid } from '@/pages/Interface/UserInterface';
+import { UserBuyShopping, UserCoinChange  } from '@/pages/Interface/UserInterface';
+import { useMutation,useQuery } from '@tanstack/vue-query'
 
-const createinfor = Createinfor()
 
-
-const router= useRouter();
-const isLoading = ref(false)
-const shopping  = ref<CreateAddproduct[]>([])
 const userinfor = Userinfor()
 const coin = userinfor.coin
 const createid = userinfor.classcreate
-onMounted(()=>{
-  isLoading.value = true
 
- 
-  userapi.viewshopping(createid).then((res)=>{
-    isLoading.value = false
-    if( res.err_code === 0 ){
-      shopping.value = res.shopping
-    }else{
-      toast.error(res.err_msg)
-    }
+const { isError, data, error,} =useQuery({
+    queryKey: ['usershopping', createid],
+    queryFn : () => userapi.viewshopping(createid)
   })
 
- 
+  //改变数据库中用户的金币
+  const usercoinmutation = useMutation({
+  mutationFn: async (params:  UserCoinChange) => {
+    const response = await userapi.CoinChange(params)
+    return response
+  },
+  onSuccess:(res)=>{
+    if( res.err_code !== 0 ){
+      toast.error( res.err_msg )
+    } 
+  },  
+  onError: (error) => {
+    toast.error(error.message)
+  },
 })
+//改变商品库存
+const shoppingstoremutation = useMutation({
+  mutationFn: async (params:  UserBuyShopping) => {
+    const response = await userapi.BuyShopping(params)
+    return response
+  },
+  onSuccess:(res)=>{
+    if( res.err_code === 0 ){
+      toast.success("购买成功")
+      window.location.reload();
+    } else{
+        toast.error(res.err_msg)
+      }
+  },  
+  onError: (error) => {
+    toast.error(error.message)
+  },
+})
+
 
 function BuyShopping(shoppingvalue : number,totalnumber : number){
   if(totalnumber==0 || totalnumber<0){
@@ -56,33 +72,37 @@ function BuyShopping(shoppingvalue : number,totalnumber : number){
   }
   if(coin<0){
     toast.error("金币为负数无法购买")
+    return ;
   }else if(shoppingvalue>coin){
     toast.error("金币不足无法购买")
+    return ;
   }else if(coin>= shoppingvalue){
-    isLoading.value = true
-    const params : UserCoinChange={
+    usercoinmutation.mutate({
       coin :coin-shoppingvalue,
       userid: userinfor.userid,
-    }
-    userapi.CoinChange(params)
+    })
     userinfor.coinchange(coin-shoppingvalue)
-    const param : UserBuyShopping={
+
+    shoppingstoremutation.mutate({
       createid : userinfor.classcreate,
       totalnumber : totalnumber-1,
-    }
-    userapi.BuyShopping(param).then((res)=>{
-      if(res.err_code === 0 ){
-        toast.success("购买成功")
-        isLoading.value = false
-        window.location.reload();
-      }else{
-        toast.error(res.err_msg)
-      }
     })
 
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type, @typescript-eslint/no-explicit-any
+function debounce<T extends (...args: any[]) => void>(func: T, delay: number): (...args: Parameters<T>) => void {
+  // eslint-disable-next-line no-undef
+  let timer: NodeJS.Timeout;
+  return function(this: unknown, ...args: Parameters<T>) {
+    clearTimeout(timer);
+    timer = setTimeout(() =>{
+       func.apply(this, args);
+      }, delay);
+  };
+}
+const debouncebuyshopping = debounce(BuyShopping,1000);
 </script>
 
 <template>
@@ -99,8 +119,13 @@ function BuyShopping(shoppingvalue : number,totalnumber : number){
 
 
       <div class="main-content">
+
+        <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
+      <span v-else-if="data">
+
+      
         <Accordion type="single" class="w-full " collapsible >
-          <AccordionItem v-for="item in shopping"  :value="item.productname">
+          <AccordionItem v-for="item in data.shopping"  :value="item.productname" :key="item._id">
 
             <div class="text-xl flex" >
               <div class="flex-none w-14 text-[#FF7710] text-center  ">
@@ -126,7 +151,7 @@ function BuyShopping(shoppingvalue : number,totalnumber : number){
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                       <AlertDialogCancel>取消</AlertDialogCancel>
-                      <AlertDialogAction @click="BuyShopping(item.productprice,item.totalnumber)">确定</AlertDialogAction>
+                      <AlertDialogAction @click="debouncebuyshopping(item.productprice,item.totalnumber)">确定</AlertDialogAction>
                     </AlertDialogFooter>
                   </AlertDialogContent>
               </AlertDialog>
@@ -135,7 +160,7 @@ function BuyShopping(shoppingvalue : number,totalnumber : number){
             </div>                  
           </AccordionItem>
         </Accordion>
-
+      </span>
         
     </div>
 

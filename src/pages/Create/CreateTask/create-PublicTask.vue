@@ -5,12 +5,11 @@ import { ArrowLeft  } from 'lucide-vue-next';
 import { ref } from 'vue'
 import { Button } from '@/components/ui/button'
 import { createapi } from '@/pages/Api/CreateIndex';
-import { Createinfor } from '@/store/create';
+import { UseCreateStore } from '@/store/create';
 import { Createid ,Createpublictask} from '@/pages/Interface/CreateInterface';
-import { useMutation } from '@tanstack/vue-query'
-import { useQuery } from '@tanstack/vue-query'
+import { useMutation,useQuery } from '@tanstack/vue-query'
 
-const createinfor = Createinfor()
+const createinfor = UseCreateStore()
 const router = useRouter();
 const isLoading = ref(false);
 
@@ -63,6 +62,7 @@ const { isError, data, error,} =useQuery({
     queryKey: ['craetepublictask', params],
     queryFn : () =>   createapi.viewoverclass(params)
   })
+
   function onreturn(){
   router.back();
 }

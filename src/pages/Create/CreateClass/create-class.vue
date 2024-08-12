@@ -4,10 +4,10 @@ import { toast } from 'vue-sonner';
 import { CirclePlus } from 'lucide-vue-next';
 import { createapi } from '@/pages/Api/CreateIndex';
 import { Createid  } from'@/pages/Interface/CreateInterface';
-import { Createinfor } from '@/store/create';
+import { UseCreateStore } from '@/store/create';
 import { useQuery } from '@tanstack/vue-query'
 
-const createinfor = Createinfor()
+const createinfor = UseCreateStore()
 const router = useRouter();
 const params: Createid= {account_id: createinfor.createid}
 

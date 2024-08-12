@@ -62,13 +62,6 @@ const { mutate: submitTask} = useMutation({
     await userapi.CoinChange(coinChangeParams);
 
     const response = await userapi.SubmitTask(params);
-
-    if (response.err_code === 0) {
-      toast.success(`提交成功, 获得 ${params.coin} 金币`);
-      setTimeout(() => router.back(), 2000);
-    } else {
-      toast.error(response.err_msg);
-    }
     return response
   },
   onMutate:()=>{
@@ -77,7 +70,7 @@ const { mutate: submitTask} = useMutation({
   onSuccess:(res)=>{
     if( res.err_code === 0 ){
       toast.success(`提交成功, 获得 ${res.getcoin} 金币`);
-      setTimeout(() => router.back(), 2000);
+     router.push('/usertask')
 
     } else{
       toast.error( res.err_msg );
@@ -92,10 +85,22 @@ const { mutate: submitTask} = useMutation({
   },
 
 });
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function debounce<T extends (...args: any[]) => void>(func: T, delay: number): (...args: Parameters<T>) => void {
+  let timer: ReturnType<typeof setTimeout>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return function(this: any, ...args: Parameters<T>) {
+    clearTimeout(timer);
+    timer = setTimeout(() => func.apply(this, args), delay);
+  };
+}
+
 
 // 提交表单
-function onSubmit(event: Event) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const debouncedOnSubmit = debounce(function(this: any, event: Event) {
   event.preventDefault();
+  
   if (selectedOption.value === "null") {
     toast.error("必须选择奖励才能提交");
     return;
@@ -111,7 +116,7 @@ function onSubmit(event: Event) {
   };
 
   submitTask(params);
-}
+}, 1000); 
 function onreturn(){
   router.back();
 }
@@ -179,7 +184,7 @@ function onreturn(){
           :disable="isLoading"
         />
       </div>
-      <form @submit="onSubmit">
+      <form @submit="debouncedOnSubmit">
         <h1 class="mt-2 ml-2 text-center">总结</h1>
           <Input  
             class="mt-2 h-[100px] bg-[#CBD5E1] "

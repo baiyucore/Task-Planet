@@ -13,14 +13,14 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { cn } from '@/lib/utils'
 import { toast } from 'vue-sonner';
 import { createapi } from '@/pages/Api/CreateIndex';
-import { Createinfor } from '@/store/create';
+import { UseCreateStore } from '@/store/create';
 import { CreateComment, CreateViewComment } from '@/pages/Interface/CreateInterface';
 import { useRouter } from 'vue-router';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 
 
 const router = useRouter()
-const createinfor  = Createinfor()
+const createinfor  = UseCreateStore()
 
 const df = new DateFormatter('zh-CN', {
   dateStyle: 'long',
@@ -109,7 +109,7 @@ function viewtask(taskname : string,taskid:string){
 
 
       <div class="main-content">
-        <h1 v-for="items in commenallinfor" @click="viewtask(items.taskname,items.taskid)" class="text-center select-none text-2xl mb-2">
+        <h1 v-for="items in commenallinfor" @click="viewtask(items.taskname,items.taskid)" :key="items._id" class="text-center select-none text-2xl mb-2">
          {{items.classname}}--{{items.taskname}}
         </h1>
 

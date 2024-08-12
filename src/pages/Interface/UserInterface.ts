@@ -116,10 +116,6 @@ export interface Comment{
   time: DateValue | undefined,
 }
 
-export interface viewcomment_task{
-  classname : string,
-  task:Task
-}
 export interface Task{
   taskid : string,
   taskname :string,
@@ -140,9 +136,7 @@ export interface ViewCommenttask{
   userid: string,
   summarize:string,
 }
-export interface test{
 
-}
 export interface othercomment{
   commentid:string,
   comment:string,
@@ -167,6 +161,7 @@ export interface UsersubmitInnterComment{
   other_commentid:string,
   other_comment:string,
   other_commentname : string,
+  authorid :string,
 }
 
 //显示外部评论
@@ -186,12 +181,14 @@ export interface searchinnerComment{
   taskid: string,
   commentid:string,
   comment:string,
+  userid ?: string
 }
 
 export interface ViewInnerComment{
   other_comment:string,
   other_commentid:string,
   other_commentname:string,
+  _id:string,
 }
 
 //搜索名字
@@ -208,4 +205,12 @@ export interface Searchname{
 //加入班级的邀请码
 export interface classinvitecode{
   userinvitecode : string,
+}
+
+//举报总结
+export interface warnsummarize{
+  taskid : string,
+  summarize : string,
+  authorid : string,
+  userid : string,
 }

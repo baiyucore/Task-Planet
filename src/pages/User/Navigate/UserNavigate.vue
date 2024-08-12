@@ -1,12 +1,8 @@
 <script setup lang="ts" name="App">
 import { RouterLink,RouterView } from 'vue-router';
 import { ClipboardList , ShoppingCart , ClipboardPenLine , School , User} from 'lucide-vue-next';
-import { Userinfor } from '@/store/user';
-const userinfor = Userinfor()
+
 </script>
-
-
-
 <template>  
 <div class=" ">
  <div class="navigate grid grid-cols-5 gap-x-0">
@@ -48,10 +44,8 @@ const userinfor = Userinfor()
         </div>
         
  </div>
-  
   <div >
-        <RouterView></RouterView>
-        
+        <RouterView></RouterView>    
   </div>
 
 
@@ -63,8 +57,7 @@ const userinfor = Userinfor()
 <style scoped>
     .navigate {
       display: flex;
-      justify-content: space-around;
-    
+      justify-content: space-around; 
       position: absolute;
       bottom: 30px;
       width: 100%;

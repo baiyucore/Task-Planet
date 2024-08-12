@@ -5,9 +5,8 @@ import { Button } from '@/components/ui/button'
 import { ArrowLeft  } from 'lucide-vue-next';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { createapi } from '@/pages/Api/CreateIndex';
-import { Createinfor } from '@/store/create';
-import { onMounted ,ref} from 'vue';
-import {  CreateViewTask, CreateViewtask, Createremovetask, viewTask } from '@/pages/Interface/CreateInterface';
+import { UseCreateStore } from '@/store/create';
+import {  CreateViewtask, Createremovetask, viewTask } from '@/pages/Interface/CreateInterface';
 import { toast } from 'vue-sonner';
 import {
   AlertDialog,
@@ -23,14 +22,10 @@ import {
 import { format } from 'date-fns';
 import {useQuery,useMutation} from '@tanstack/vue-query'
 
-
-const viewtask =ref<CreateViewTask[]>([])
 const router= useRouter();
-const createinfor = Createinfor()
+const createinfor = UseCreateStore()
 const route = useRoute();
 const classname = route.query.classname as string;
-
-
 
 const params : CreateViewtask = {
     account_id:createinfor.createid,
@@ -41,31 +36,16 @@ const {  isError, data, error} =useQuery({
     queryFn : async () =>  await  createapi.viewtask(params,classname),
    
   })
-onMounted(()=>{
-  const params : CreateViewtask = {
-    account_id:createinfor.createid,
-    condition : "已发布",
-  }
-
-  createapi.viewtask(params,classname).then((res)=>{
-    if(res.err_code === 0 ){
-      viewtask.value =res.publictask
-    }else{
-      toast.error(res.err_msg)
-    }
-  })
-
-})
 
 const mutation= useMutation({
   mutationFn: async (params:  Createremovetask) => {
-    const response = await  createapi.removetask(params)
+    const response = await  createapi.removetask(params,classname)
     return response
   },
   onSuccess:(res)=>{
     if( res.err_code === 0 ){
       toast.success("删除成功");
-
+      window.location.reload()
     } else{
       toast.error( res.err_msg );
     }
