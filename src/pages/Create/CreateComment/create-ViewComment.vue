@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { toast } from 'vue-sonner';
 import { useRouter,useRoute } from 'vue-router';
-import { ArrowLeft , Info, MessageCircle  } from 'lucide-vue-next';
+import { ArrowLeft , Info, MessageCircle ,Trash2  } from 'lucide-vue-next';
 import {  onMounted, ref } from 'vue'
 import { userapi } from '@/pages/Api/UserIndex';
 import { searchinnerComment, UsersubmitInnterComment, UsersumitComment, ViewInnerComment, ViewOutercomment, ViewOuterComment} from '@/pages/Interface/UserInterface';
@@ -18,13 +18,16 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Userinfor } from '@/store/user';
+import { Createinfor } from '@/store/create';
+import { deletecomment, deletesummarize } from '@/pages/Interface/CreateInterface';
+import { createapi } from '@/pages/Api/CreateIndex';
 
 const router = useRouter();
 const route = useRoute()
 const taskid  = route.query.taskid as string
 const authorid  = route.query.userid as string
 const username = route.query.username as string
-const summarize = route.query.summarize
+const summarize = route.query.summarize as string
 const outercomment  = ref<ViewOutercomment[]>([])
 const innercomment = ref<ViewInnerComment[]>([])
 
@@ -48,6 +51,21 @@ onMounted(()=>{
 
 })
 
+async function Deletesummarize() {
+  const params : deletesummarize = {
+    taskid:taskid,
+    userid: authorid,
+    summarize:summarize,
+  }
+  createapi.DeleteSummarize(params).then((res)=>{
+    if(res.err_code === 0){
+      onreturn()
+      toast.success("删除成功")
+    }else{
+      toast.error(res.err_msg)
+    }
+  })
+}
 
 function onreturn(){
   router.back();
@@ -58,8 +76,8 @@ async function onoutersubmit(event:Event) {
   isLoading.value =true
   const params : UsersumitComment={
     comment:comment.value,
-    commentid:Userinfor().userid,
-    name:Userinfor().username,
+    commentid:Createinfor().createid,
+    name:Createinfor().createname,
     taskid:taskid,
     userid : authorid,
   }
@@ -80,8 +98,8 @@ async function oninntersubmit(name : string,commentid:string,comments:string) {
   const params : UsersubmitInnterComment={
     taskid : taskid,
     other_comment : comment.value,
-    other_commentid:Userinfor().userid,
-    other_commentname:Userinfor().username,
+    other_commentid:Createinfor().createid,
+    other_commentname:Createinfor().createname,
     name: name,
     comment:comments,
     commentid:commentid,
@@ -113,19 +131,21 @@ async function viewinnerComment(commentid:string,comment: string) {
   })
 }
 
-async function warns(commentid:string,comment: string) {
-  const params:searchinnerComment={
+async function deleteothercomment(commentid:string,comment: string) {
+  const params:deletecomment={
     taskid:taskid,
     comment:comment,
     commentid:commentid,
   }
-  userapi.WarnComment(params).then((res)=>{
+  createapi.DeleteComment(params).then((res)=>{
     if(res.err_code === 0){
-      toast.success("举报成功")
+      window.location.reload()
+      toast.success("删除成功")
     }else{
       toast.error(res.err_msg)
     }
   })
+
 }
 
 </script>
@@ -176,7 +196,7 @@ async function warns(commentid:string,comment: string) {
   </Dialog>
          </div>
          <div class="col-start-6"> 
-          <Info class="size-6"/>  举报
+         <Trash2 class="size-6" @click="Deletesummarize()"/> 删除
          </div>
         </div> 
       </div>
@@ -247,7 +267,7 @@ async function warns(commentid:string,comment: string) {
               </div>
               <div class="col-start-6"> 
               
-                  <Info @click="warns(items.commentid,items.comment)" class="size-6"/>  举报
+                <Trash2 class="size-6" @click="deleteothercomment(items.commentid,items.comment)"/> 删除
            
            
               </div>

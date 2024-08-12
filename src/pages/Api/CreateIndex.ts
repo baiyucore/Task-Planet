@@ -1,13 +1,11 @@
 import axios from "axios";
 import {Createpath} from "./path";
-import { CreateAddproduct, Createid,Createreviseoneself, createaddclass ,CreateClassnameId,  checkprerequisite, searchname,Createmodifyproduct, CreateRemove, CreateAddTask, Createremovetask, Createpublictask,CreateViewtask,CreateComment, applycondition } from "../Interface/CreateInterface";
+import { CreateAddproduct, Createid,Createreviseoneself, createaddclass ,CreateClassnameId,  checkprerequisite, searchname,Createmodifyproduct, CreateRemove, CreateAddTask, Createremovetask, Createpublictask,CreateViewtask,CreateComment, applycondition, deletecomment, deletesummarize, Searchname } from "../Interface/CreateInterface";
 
 
 
 const createapi= {
- 
-  //问题
-  //gettest要没完成要修改
+
   async viewoverclass(params : Createid){
     const response= await axios.post(Createpath.createclassUrl,{
       account_id : params.account_id
@@ -63,9 +61,16 @@ const createapi= {
   },//在寻找指定成员
   async searchname(params: searchname){
     const response = await axios.post(Createpath.createsearchnameUrl,{
-      userinvitecode : params.userinvitecode,
-      searchname : params.searchname,
+      searchnameid : params.searchnameid,
+      identity : params.identity,
       
+    })
+    return response.data;
+  },//搜索栏搜索
+  async searchnametwo(params:Searchname){
+    const response = await axios.post(Createpath.createsearchnametwoUrl,{
+      userinvitecode :params.userinvitecode,
+      searchname : params.searchname,
     })
     return response.data;
   },//显示商品
@@ -90,8 +95,8 @@ const createapi= {
     });
     return response.data;
   },//添加or 修改任务
-  async addtask(params : CreateAddTask){
-    const response = await axios.post(Createpath.createaddtaskUrl,{
+  async addormodifytask(params : CreateAddTask){
+    const response = await axios.post(Createpath.createaddormodifytaskUrl,{
       condition: params.condition,
       account_id : params.account_id,
       taskname : params.taskname,
@@ -154,7 +159,29 @@ const createapi= {
       createid : params.createid,
     });
     return response.data;
-  },
+  },//显示所有个人总结
+  async ViewComment_task(taskid : string){
+    const response = await axios.post(Createpath.createViewComment_taskUrl,{
+      taskid : taskid,
+    });
+    return response.data;
+  },//删除总结里的评论
+  async DeleteComment(params:deletecomment){
+    const response = await axios.post(Createpath.createDeleteCommentUrl,{
+      taskid:params.taskid,
+      commentid:params.commentid,
+      comment : params.comment,
+    });
+    return response.data;
+  },//删除总结
+  async DeleteSummarize(params:deletesummarize){
+    const response = await axios.post(Createpath.createDeleteSummarizeUrl,{
+      taskid:params.taskid,
+      userid:params.userid,
+      summarize : params.summarize,
+    });
+    return response.data;
+  }
 
 }
 

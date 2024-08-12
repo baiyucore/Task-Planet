@@ -7,4 +7,9 @@ export const Auditorinfor = defineStore('auditorid',()=>{
   };
 
   return {auditorid , transmit}
-},  { persist: true   })
+},  {
+  //  persist: true   
+   persist: {
+    storage: sessionStorage
+  }
+  })

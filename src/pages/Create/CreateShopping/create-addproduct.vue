@@ -1,47 +1,63 @@
 <script setup lang="ts">
 import { toast } from 'vue-sonner';
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 import { ArrowLeft ,Check } from 'lucide-vue-next';
 import {  ref } from 'vue'
 import { Button } from '@/components/ui/button'
 import { createapi } from '@/pages/Api/CreateIndex';
-import { Createmodifyproduct } from '@/pages/Interface/CreateInterface';
+import { CreateAddproduct } from '@/pages/Interface/CreateInterface';
+import { Createinfor } from '@/store/create';
+import {useMutation} from '@tanstack/vue-query'
 
 const router = useRouter();
-const tranport = useRoute();
 const isLoading = ref(false);
 const productname = ref("");
 const productprice = ref(0);
 const totalnumber = ref(0);
-const product_name = tranport.query.productname as string 
+const createinfor = Createinfor()
 
+const mutation= useMutation({
+  mutationFn: async (params:  CreateAddproduct) => {
+    const response = await  createapi.addproduct(params)
+    return response
+  },
+  onMutate:()=>{
+    isLoading.value = true
+  },
+  onSuccess:(res)=>{
+    isLoading.value= true;
+    if( res.err_code === 0 ){
+      toast.success("添加成功");
+      router.back();
+
+    } else{
+      toast.error( res.err_msg );
+    }
+  },  
+  onError: (error) => {
+    isLoading.value = false
+    toast.error(error.message)
+  },
+  onSettled: () => {
+    isLoading.value = false
+  },
+
+})
 
 async function onSubmit(event:Event) {
   event.preventDefault();
-  isLoading.value= true;
-  const params :Createmodifyproduct = {
-    product_name : product_name,
+  mutation.mutate({
+    createid : createinfor.createid,
     productname : productname.value,
-    productprice: productprice.value,
-    totalnumber: totalnumber.value,
-  }
-  createapi.modifyproduct(params).then((res)=>{
-    if(res.err_code === 0){
-      toast.success("修改成功")
-      setTimeout(()=>router.push({path:"/usershopping"}))
-    }else {
-      toast.error( res.err_msg );
-    }
-  })
+    productprice : productprice.value,
+    totalnumber : totalnumber.value,
+    })
 
- 
   
 }
-
 function onreturn(){
   router.back();
 }
-
 </script>
 
 
@@ -51,7 +67,7 @@ function onreturn(){
    
    
     <form @submit="onSubmit">
-      <span  class="  ml-2 text-2xl  font-bold">修改商品</span> 
+      <span  class="   text-2xl  font-bold">添加商品</span> 
       <Button variant="outline" :disabled="isLoading"  class="float-right mr-5   border-transparent">
       <Check   /> 
       </Button>
@@ -86,10 +102,7 @@ function onreturn(){
           :disable="isLoading"
         />
       </div>
-    
-      
-      
-     
+   
     </form>
 
   </div>

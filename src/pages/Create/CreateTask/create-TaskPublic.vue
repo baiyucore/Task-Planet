@@ -1,35 +1,25 @@
 <script setup lang="ts">
-import { CirclePlus } from 'lucide-vue-next';
+import { Plus} from 'lucide-vue-next';
 import { useRouter } from 'vue-router';
 
 import { createapi } from '@/pages/Api/CreateIndex';
 import { Createinfor } from '@/store/create';
-import { onMounted ,ref} from 'vue';
-import {  CreateClass,  Createid } from '@/pages/Interface/CreateInterface';
+import {  Createid } from '@/pages/Interface/CreateInterface';
 import { toast } from 'vue-sonner';
-
+import { useQuery } from '@tanstack/vue-query'
 
 const router= useRouter();
 const createinfor = Createinfor()
 
-const isLoading = ref(false)
-const classname = ref<CreateClass[]>([])
+
 
 const params: Createid= {account_id: createinfor.createid}
-onMounted(()=>{
-  isLoading.value=true
+const {  isError, data, error,} =useQuery({
+    queryKey: ['create-viewcreateclass', params],
+    queryFn : () =>  createapi.viewoverclass(params)
+
   
-
-  createapi.viewoverclass(params).then((res)=>{
-    isLoading.value=false
-    if( res.err_code === 0 ){
-      classname.value=res.existed
-    }else{
-      toast.error(res.err_msg)
-    }
   })
-
-})
 
 
 function CreateAddtask(){
@@ -45,11 +35,15 @@ function viewtask(classname:string){
 
   <div>
     <div >
-      <CirclePlus class="absolute bottom-20 right-5 w-1/6 h-1/6 " @click="CreateAddtask" color="#ff0000"/>
+      <Plus class="absolute bottom-20 right-5 w-16 h-16 " color="#451a03" @click="CreateAddtask" />
     </div>
-    <h1 @click="viewtask(classnameview.classname)" v-for="classnameview in classname" :key="classnameview._id"  class="text-center select-none text-2xl mb-2">
+    <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
+    <span v-else-if="data">
+      <h1 @click="viewtask(classnameview.classname)" v-for="classnameview in data.existed" :key="classnameview._id"  class="text-center select-none text-2xl mb-2">
           {{classnameview.classname }}
         </h1>
+    </span>
+    
           
   </div>
 

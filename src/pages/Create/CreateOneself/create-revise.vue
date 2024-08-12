@@ -8,44 +8,55 @@ import { Input } from "@/components/ui/input";
 import { createapi } from '@/pages/Api/CreateIndex';
 import { Createreviseoneself } from '@/pages/Interface/CreateInterface';
 import { Createinfor } from '@/store/create';
-
+import { Userinfor } from '@/store/user';
+import {useMutation} from '@tanstack/vue-query'
 const createinfor = Createinfor()
-
-
 const router = useRouter();
-
 const create_name=ref("");
 const create_sex = ref("");
 const create_profile = ref("");
 const isLoading = ref(false);
+const mutation= useMutation({
+  mutationFn: async (params: Createreviseoneself) => {
+    const response = await   createapi.reviseoneself(params)
+    return response
+  },
+  onMutate:()=>{
+    isLoading.value = true
+  },
+  onSuccess:(res)=>{
+    isLoading.value= true;
+    if( res.err_code === 0 ){
+      Userinfor().transmitname(create_name.value)
+      toast.success("修改成功");
+      router.push({ path:"/createoneself" });
 
+    } else{
+      toast.error( res.err_msg );
+    }
+  },  
+  onError: (error) => {
+    isLoading.value = false
+    toast.error(error.message)
+  },
+  onSettled: () => {
+    isLoading.value = false
+  },
 
-
+})
 
 async function onSubmit(event:Event) {
   event.preventDefault();
   isLoading.value = true;
-  const params : Createreviseoneself = {
+  mutation.mutate({
     account_id: createinfor.createid,
     create_name: create_name.value,
     create_sex: create_sex.value,
     create_profile: create_profile.value,
-  }
-
-  createapi.reviseoneself(params).then((res)=>{
-    isLoading.value = false;
-    if( res.err_code === 0 ){
-      toast.success("修改成功");
-      setTimeout(()=> router.push({ path:"/createoneself" }));
-    } else{
-      toast.error(res.err_msg);
-    }
-  })
-  
+    })
 
 
 }
-
 function onreturn(){
   router.back();
 }
@@ -55,8 +66,6 @@ function onreturn(){
 <template>
   <div class="static mt-2">
     <ArrowLeft class="float-left ml-2 mt-1" @click="onreturn" />
-   
-
     <form @submit="onSubmit">
       
       <Button variant="outline" :disabled="isLoading"  class="float-right mr-5 mb-2  border-transparent">

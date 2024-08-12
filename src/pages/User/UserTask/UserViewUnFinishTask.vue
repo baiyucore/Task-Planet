@@ -8,7 +8,7 @@ import { UserCoinChange, UserSumitTask } from '@/pages/Interface/UserInterface';
 import { userapi } from '@/pages/Api/UserIndex';
 import { toast } from 'vue-sonner';
 import { Userinfor } from '@/store/user';
-
+import {useMutation} from '@tanstack/vue-query'
 
 const router = useRouter();
 const isLoading = ref(false);
@@ -17,28 +17,19 @@ const route = useRoute();
 const taskid = route.query.taskid as string;
 const taskname = route.query.taskname;
 const taskCompletionConditions = route.query.taskCompletionConditions  as string
-const taskstarttimeyear = route.query.taskstarttimeyear as string
-const taskstarttimemonth = route.query.taskstarttimemonth as string
-const taskstarttimeday = route.query.taskstarttimeday as string
+const taskstarttime = route.query.taskstarttime
+const taskovertime = route.query.taskovertime
 
-const taskovertimeyear = route.query.taskovertimeyear as string
-const taskovertimemonth = route.query.taskovertimemonth as string
-const taskovertimeday = route.query.taskovertimeday as string
-
-const successrewardone = parseInt(route.query.successrewardone as any)
-const successrewardtwo_one = route.query.successrewardtwo_one 
-const successrewardtwo_two = route.query.successrewardtwo_two 
+const successrewardone = typeof route.query.successrewardone === 'string' ? parseInt(route.query.successrewardone) : NaN;
+const successrewardtwo_one = typeof route.query.successrewardtwo_one === 'string' ? parseInt(route.query.successrewardtwo_one) : NaN;
+const successrewardtwo_two =  typeof route.query.successrewardtwo_two === 'string' ? parseInt(route.query.successrewardtwo_two) : NaN;
 const failed = route.query.failed as string
  
-
 const selectedOption = ref("null")
 const coin = ref(0)
-
-
 const summarize = ref("")
-function onreturn(){
-  router.back();
-}
+
+
 
 function selectreward(option : string){
   if(option === 'option1'){
@@ -51,50 +42,86 @@ function selectreward(option : string){
 }
 
 function rewardrandon(){
-  const max = parseInt(successrewardtwo_two as any)
-  const min = parseInt(successrewardtwo_one as any)
+  const max = Math.max(successrewardtwo_two,successrewardtwo_one)
+  const min = Math.min(successrewardtwo_two,successrewardtwo_one)
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
-async function onSubmit(event :Event) {
-    event.preventDefault();
-    isLoading.value = true;
-    if(selectedOption.value== "null"){
-      toast.error("必须选择奖励才能提交");
-      return ;
-    }
-    const params : UserSumitTask = {
-      taskid : taskid,
-      coin : coin.value,
-      summarize : summarize.value,
-      rewardselect:selectedOption.value,
-      userid : Userinfor().userid,
-      username : Userinfor().username,
-    }
-    const coinchange = Userinfor().coin + coin.value
-    Userinfor().coinchange(coinchange)
-    const param : UserCoinChange={
-      userid:Userinfor().userid,
-      coin:coinchange,
-    }
-    userapi.CoinChange(param)
-    userapi.SubmitTask(params).then((res)=>{
-      if(res.err_code === 0){
-          toast.success("提交成功,获得"+coin.value+"金币")
-          setTimeout(()=> router.back(),2000)
-       
 
-      }else{
-        toast.error(res.err_msg)
-      }
-    })
+
+// 提交任务的 mutation
+const { mutate: submitTask} = useMutation({
+  mutationFn: async (params: UserSumitTask) => {
+    const coinchange = Userinfor().coin + params.coin;
+    Userinfor().coinchange(coinchange);
+
+    const coinChangeParams: UserCoinChange = {
+      userid: Userinfor().userid,
+      coin: coinchange,
+    };
+
+    await userapi.CoinChange(coinChangeParams);
+
+    const response = await userapi.SubmitTask(params);
+
+    if (response.err_code === 0) {
+      toast.success(`提交成功, 获得 ${params.coin} 金币`);
+      setTimeout(() => router.back(), 2000);
+    } else {
+      toast.error(response.err_msg);
+    }
+    return response
+  },
+  onMutate:()=>{
+    isLoading.value = true
+  },
+  onSuccess:(res)=>{
+    if( res.err_code === 0 ){
+      toast.success(`提交成功, 获得 ${res.getcoin} 金币`);
+      setTimeout(() => router.back(), 2000);
+
+    } else{
+      toast.error( res.err_msg );
+    }
+  }, 
+  onError: (error) => {
+    isLoading.value = false
+    toast.error(error.message)
+  },
+  onSettled: () => {
+    isLoading.value = false
+  },
+
+});
+
+// 提交表单
+function onSubmit(event: Event) {
+  event.preventDefault();
+  if (selectedOption.value === "null") {
+    toast.error("必须选择奖励才能提交");
+    return;
+  }
+
+  const params: UserSumitTask = {
+    taskid,
+    coin: coin.value,
+    summarize: summarize.value,
+    rewardselect: selectedOption.value,
+    userid: Userinfor().userid,
+    username: Userinfor().username,
+  };
+
+  submitTask(params);
+}
+function onreturn(){
+  router.back();
 }
 
 </script>
 
 <template>
   <div class="static mt-2">
-    
-    <ArrowLeft class="float-left ml-2 mt-1" @click="onreturn" />
+ 
+    <ArrowLeft class="float-left ml-2 mt-1" @click=" onreturn" />
     <span  class="   text-2xl  font-bold">任务</span> 
       <Input  
         class="mt-5"
@@ -114,12 +141,12 @@ async function onSubmit(event :Event) {
       <br>
 
       <span class="ml-4">
-        开始时间 {{taskstarttimeyear}} - {{taskstarttimemonth}}-{{taskstarttimeday}}
+        开始时间 {{taskstarttime}}
       </span>
       
       <br>
       <span class="ml-4">
-        截止时间 {{taskovertimeyear}} - {{taskovertimemonth}}-{{taskovertimeday}}
+        截止时间 {{ taskovertime }}
       </span>
 
       <h1 class="text-center">以下选择进行2选1</h1>

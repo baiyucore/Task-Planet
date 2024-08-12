@@ -1,61 +1,60 @@
 <script setup lang="ts">
 import { toast } from 'vue-sonner';
-import { useRouter } from 'vue-router';
 import { ArrowLeft } from 'lucide-vue-next';
-import {  onMounted, ref } from 'vue'
 import { Button } from '@/components/ui/button'
 import { createapi } from '@/pages/Api/CreateIndex';
 import { Createinfor } from '@/store/create';
-import { applycondition, CreateApplyinfor } from '@/pages/Interface/CreateInterface';
-
+import { applycondition, } from '@/pages/Interface/CreateInterface';
+import { useRouter} from 'vue-router';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Userinfor } from '@/store/user';
+import { useQuery,useMutation } from '@tanstack/vue-query'
 
-const router = useRouter();
-const applyinfor = ref<CreateApplyinfor[]>([])
   const createid = Createinfor().createid
-onMounted(()=>{
-
-
-  createapi.application(createid).then((res)=>{
-    if(res.err_code === 0 ){
-       
-      applyinfor.value = res.application.application
-    }else{
-      toast.error(res.err_msg)
-    }
+  const router = useRouter();
+  const { isError, data, error,} =useQuery({
+    queryKey: ['craeteviewoneself', createid],
+    queryFn : () =>  createapi.application(createid)
   })
-  
+
+
+
+const mutation= useMutation({
+  mutationFn: async (params: applycondition) => {
+    const response = await   createapi.applycondition(params)
+    return response
+  },
+  onSuccess:(res)=>{
+    if( res.err_code === 0 ){
+      window.location.reload();
+
+    } else{
+      toast.error( res.err_msg );
+    }
+  },  
+  onError: (error) => {
+    toast.error(error.message)
+  },
+ 
+
 })
 
 
-
-
-function onreturn(){
-  router.back();
-}
-
-function aboutapplication(userid : string,userinvitecode:string,classname : string,condition: string){
+async function aboutapplication(userid : string,userinvitecode:string,classname : string,condition: string){
   const username = Userinfor().username
-  const params : applycondition= {
+  mutation.mutate({
     userinvitecode : userinvitecode,
     userid : userid,
     classname : classname,
     condition : condition,
     username : username,
     createid : createid,
-  }
-  createapi.applycondition(params).then((res)=>{
-    if(res.err_code=== 0 ){
-     
-        window.location.reload();
-    
-     
-    }else {
-      toast.error(res.err_msg)
-    }
-  })
+    })
 }
+function onreturn(){
+  router.back();
+}
+
 
 </script>
 
@@ -65,9 +64,10 @@ function aboutapplication(userid : string,userinvitecode:string,classname : stri
     <ArrowLeft class="float-left ml-2 mt-1" @click="onreturn" />
    
       <h2  class=" text-center  text-2xl  font-bold">申请列表</h2> 
-    
+      <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
+      <span v-else-if="data">
     <Accordion type="single" class="w-full" collapsible >
-    <AccordionItem v-for="item in applyinfor" :value="item.userid">
+    <AccordionItem v-for="item in data.application" :value="item.userid" :key="item.userid">
       <AccordionTrigger>{{ item.username }} id:{{ item.userid }} 申请加入 {{ item.classname }}</AccordionTrigger>
       <AccordionContent>
         <Button class="bg-sky-400 hover:bg-cyan-600 mr-2" @click="aboutapplication(item.userid,item.userinvitecode,item.classname,'同意')" >同意</Button>
@@ -76,7 +76,7 @@ function aboutapplication(userid : string,userinvitecode:string,classname : stri
       </AccordionContent>
     </AccordionItem>
   </Accordion>
-    
+      </span>
 
 
   </div>

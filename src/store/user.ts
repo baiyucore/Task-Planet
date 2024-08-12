@@ -30,4 +30,6 @@ export const Userinfor = defineStore('userid',()=>{
     classcreate.value = class_create
   }
   return {userid , clear,transmit, transmitname, username,useraddclass , transmitclassname,coin,coinchange,classcreate,transmitclasscreate}
-},  { persist: true   })
+},  { persist: {
+  storage: sessionStorage
+}  })

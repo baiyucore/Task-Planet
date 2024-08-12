@@ -12,6 +12,7 @@ import { systemapi } from '@/pages/Api/SystemIndex';
 import { firstfill } from '@/pages/Interface/SystemInterfact';
 import { Createinfor } from '@/store/create';
 import { Userinfor } from '@/store/user';
+import { useMutation } from '@tanstack/vue-query'
 
 
 let tranport= useRoute()
@@ -21,18 +22,17 @@ const account_identites= ref("")
 const account_name= ref("")
 const account_sex= ref("")
 const router=useRouter();
-async function onSubmit(event:Event) {
-  event.preventDefault();
-  isLoading.value = true;
-  const params : firstfill={
-    account_id:account_id,
-    account_identites : account_identites.value,
-    account_name: account_name.value,
-    account_sex: account_sex.value,
-  }
-  systemapi.firstfill(params).then((res)=>{
+ 
+const mutation = useMutation({
+  mutationFn: async (params:firstfill)=>{
+    const response= await systemapi.firstfill(params)
+    return response
+  },
+  onMutate: () => {
+    isLoading.value = true
+  },
+  onSuccess:(res)=>{
     isLoading.value=false
-    console.log(account_identites.value)
     if(res.err_code === 0 ){
         if(account_identites.value === "CREATE"){
           const createinfor = Createinfor()
@@ -50,12 +50,30 @@ async function onSubmit(event:Event) {
         else {
           toast.error("身份出现问题");
         }
-
     }else{
       toast.error(res.data.err_msg);
     }
+  },
+  onError: (error) => {
+    isLoading.value = false
+    toast.error(error.message)
+  },
+  onSettled: () => {
+    isLoading.value = false
+  },
+
+})
+
+
+
+async function onSubmit(event:Event) {
+  event.preventDefault();
+  mutation.mutate({
+    account_id:account_id,
+    account_identites : account_identites.value,
+    account_name: account_name.value,
+    account_sex: account_sex.value,
   })
- 
 }
 
 
@@ -63,10 +81,10 @@ async function onSubmit(event:Event) {
 
 
 <template>
-<div id="outer">
-      <div id="inner">
+<div class="flex relative">
+      <div class="justify-center  top-60 w-[400px] absolute   duration-700 sm:left-1/3  left-14">
         <form  @submit="onSubmit" >
-          <div class="logintext" >个人信息</div>  
+          <div class="logintext   cursor-default text-xl text-center text-teal-600" >个人信息</div>  
           <br> 
          <Input 
           v-model:model-value="account_name"
@@ -76,7 +94,7 @@ async function onSubmit(event:Event) {
           />  
           <br>
           <Select v-model:model-value="account_sex">
-              <SelectTrigger class="w-[180px]">
+              <SelectTrigger class="w-[400px]">
                 <SelectValue placeholder="性别" />
               </SelectTrigger>
               <SelectContent>
@@ -92,7 +110,7 @@ async function onSubmit(event:Event) {
             </Select>
             <br>
           <Select v-model:model-value="account_identites">
-              <SelectTrigger class="w-[180px]">
+              <SelectTrigger class="w-[400px]">
                 <SelectValue placeholder="选择身份" />
               </SelectTrigger>
               <SelectContent>
@@ -107,7 +125,7 @@ async function onSubmit(event:Event) {
               </SelectContent>
             </Select>
             <br>
-          <Button :disabled="isLoading" class="w-full">
+          <Button :disabled="isLoading" type="submit" class="w-full">
             登入
           </Button>                    
         </form>
@@ -116,27 +134,3 @@ async function onSubmit(event:Event) {
   
 </template>
 
-<style>
-
-    #outer{
-    margin-top: 300px;
-    width: 360px;
-    height: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 10px;
-    position: relative;
-    }
-    #inner{
-    width: 360px;
-    height: 308px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 5px solid rgb(125, 131, 138);
-    background-color: #ffffff;
-    border-radius: 20px;
-  }
-
-</style>

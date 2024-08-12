@@ -12,18 +12,18 @@ const createinfor= Createinfor()
 </script>
 
 <template>  
-<div class=" ">
- <div class="navigate grid grid-cols-5 gap-x-0">
 
-        <div>
-          <RouterLink :to="{path:'/createtaskfinsh' }" active-class="active" class="static">
-          <ClipboardList class="  relative size-8 top-1 left-8 "/>
-          <div class="  text-center">任务  </div>
+ <div class="navigate duration-700 " >
+
+        <div class="  ">
+          <RouterLink :to="{path:'/createtaskfinsh' }" active-class="active" >
+          <ClipboardList class="  size-8 ml-8 "/>
+          <div class=" pl-1 text-center">任务</div>
          </RouterLink>
 
         </div >
         
-        <div>
+        <div class=" text-center">
           <RouterLink :to="{path:'/createshopping'}" active-class="active" class="static">
           <ShoppingCart class="relative size-8 top-1 left-8"/>
           
@@ -31,7 +31,7 @@ const createinfor= Createinfor()
         </RouterLink>
 
         </div>
-        <div>
+        <div class="text-center">
           <RouterLink :to="{path:'/createcomment'}" active-class="active" class="static">
           <ClipboardPenLine  class=" relative size-8 top-1 left-8 " />
           
@@ -39,13 +39,13 @@ const createinfor= Createinfor()
         </RouterLink>
         </div>
     
-        <div>
+        <div class=" text-center">
           <RouterLink :to="{path:'/createclass'}" active-class="active" class="static">
           <School class=" relative size-8 top-1 left-8"/>
           <div class="pl-1 text-center">班级</div>
           </RouterLink>
         </div>
-        <div>
+        <div class="text-center">
           <RouterLink :to="{path:'/createoneself'}" active-class="active">
           <User class="relative size-8 top-1 left-8"/>
           <div class=" text-center">我的</div>
@@ -60,21 +60,19 @@ const createinfor= Createinfor()
   </div>
 
 
-</div>
+
 
 
 </template>
 
-<style>
+<style scoped>
 
     .navigate {
       display: flex;
       justify-content: space-around;
-    
       position: absolute;
       bottom: 30px;
-      width: 70%;
-      
+      width: 100%;
     }
     .navigate a {
       display: block;
@@ -95,12 +93,5 @@ const createinfor= Createinfor()
       font-weight: 900;
       font-family: 微软雅黑;
     }
-    .main-content {
-      margin: 0 auto;
-      margin-top: 30px;
-      border-radius: 10px;
-      width: 90%;
-      height: 400px;
-      border: 1px solid;
-    }
+
 </style>

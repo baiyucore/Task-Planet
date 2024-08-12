@@ -20,6 +20,9 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
+import { format } from 'date-fns';
+import {useQuery,useMutation} from '@tanstack/vue-query'
+
 
 const viewtask =ref<CreateViewTask[]>([])
 const router= useRouter();
@@ -27,17 +30,24 @@ const createinfor = Createinfor()
 const route = useRoute();
 const classname = route.query.classname as string;
 
-const isLoading = ref(false)
-onMounted(()=>{
-  isLoading.value =true
 
+
+const params : CreateViewtask = {
+    account_id:createinfor.createid,
+    condition : "已发布",
+  }
+const {  isError, data, error} =useQuery({
+    queryKey: ['create-viewpublictask', params],
+    queryFn : async () =>  await  createapi.viewtask(params,classname),
+   
+  })
+onMounted(()=>{
   const params : CreateViewtask = {
     account_id:createinfor.createid,
     condition : "已发布",
   }
 
   createapi.viewtask(params,classname).then((res)=>{
-    isLoading.value =false
     if(res.err_code === 0 ){
       viewtask.value =res.publictask
     }else{
@@ -47,50 +57,51 @@ onMounted(()=>{
 
 })
 
+const mutation= useMutation({
+  mutationFn: async (params:  Createremovetask) => {
+    const response = await  createapi.removetask(params)
+    return response
+  },
+  onSuccess:(res)=>{
+    if( res.err_code === 0 ){
+      toast.success("删除成功");
 
-
-
+    } else{
+      toast.error( res.err_msg );
+    }
+  },  
+  onError: (error) => {
+    toast.error(error.message)
+  },
+})
 
 function taskremover(taskid : string){
-  isLoading.value =true
-  const params: Createremovetask = {
+  mutation.mutate({
     taskid:taskid,
     createid : createinfor.createid,
     condition : "已发布",
-  }
-  createapi.removetask(params,classname).then((res)=>{
-    if( res.err_code === 0 ){
-      toast.success("删除成功")
-      
-      window.location.reload();
-    }else{
-      toast.error(res.err_msg)
-    }
   })
 }
-function onreturn(){
-  router.back();
-}
+
 
 function taskview(task :viewTask  ){
   const taskname = task.taskname
   const taskCompletionConditions = task.taskCompletionConditions
-  const taskstarttimeyear = task.taskstarttime.year
-  const taskstarttimemonth = task.taskstarttime.month
-  const taskstarttimeday = task.taskstarttime.day
-
-  const taskovertimeyear = task.taskovertime.year
-  const taskovertimemonth = task.taskovertime.month
-  const taskovertimeday = task.taskovertime.day
+  const startdate = new Date(task.taskstarttime);
+  const taskstarttime = format(startdate, 'yyyy-MM-dd HH:mm:ss');
+  const overdate = new Date(task.taskovertime);
+  const taskovertime = format(overdate, 'yyyy-MM-dd HH:mm:ss');
 
   const successrewardone =task.successrewardone
   const successrewardtwo_one = task.successrewardtwo_one
   const successrewardtwo_two = task.successrewardtwo_two
   const failed = task.failed
   router.push({path:'/createunpublicviewtask',query:{ 
-    taskname, taskCompletionConditions, taskovertimeyear, taskovertimemonth, taskovertimeday, 
-    taskstarttimeyear, taskstarttimemonth, taskstarttimeday, successrewardone,successrewardtwo_one,successrewardtwo_two,failed
+    taskname, taskCompletionConditions, taskovertime,taskstarttime, successrewardone,successrewardtwo_one,successrewardtwo_two,failed
   }});
+}
+function onreturn(){
+  router.back();
 }
 
 </script>
@@ -102,8 +113,9 @@ function taskview(task :viewTask  ){
   
     <Accordion type="single" class="w-full" collapsible >
    
-
-     <AccordionItem v-for="items in viewtask"  :value="items.task.taskid">
+      <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
+    <span v-else-if="data">
+      <AccordionItem v-for="items in data.publictask"  :value="items.task.taskid" :key="items._id">
         <AccordionTrigger class="text-xl">
         <div @click="taskview(items.task)"> {{ items.task.taskname}}</div>
       </AccordionTrigger>
@@ -134,6 +146,9 @@ function taskview(task :viewTask  ){
     
      
     </AccordionItem>
+      
+    </span>
+
    
    </Accordion>
     

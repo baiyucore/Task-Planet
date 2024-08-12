@@ -6,8 +6,7 @@ import FirstFill from "./pages/System/FirstFill";
 //用户端
 import UserNavigate from "./pages/User/Navigate/UserNavigate.vue";
 
-import UserTask from "./pages/User/UserTask/usertask.vue";
-import UserAddtask from "./pages/User/UserTask/user-addtask.vue";
+import UserTask from "./pages/User/UserTask/user-task.vue";
 import UserViewUnFinishTask from "./pages/User/UserTask/UserViewUnFinishTask.vue"
 import UserViewFinishTask from "./pages/User/UserTask/User-ViewFinishTask.vue";
 
@@ -17,9 +16,12 @@ import UserComment from "./pages/User/UserComment/usercomment.vue";
 import UserViewComment from "./pages/User/UserComment/user-ViewComment.vue";
 import UserViewOtherComment from "./pages/User/UserComment/user-ViewOtherComment.vue";
 
-import UserClass from "./pages/User/UserClass/userclass.vue";
+import UserClass from "./pages/User/UserClass/user-class.vue";
 import UserAddClass from "./pages/User/UserClass/UserAddClass.vue";
 import UserAboutClass from "./pages/User/UserClass/UserAboutClass.vue";
+import UserCheckClassMember from "./pages/User/UserClass/user-CheckClassMember.vue";
+import UserCheckOneSelf from "./pages/User/UserClass/user-CheckOneSelf.vue";
+import UserSearchname from "./pages/User/UserClass/user-searchname.vue";
 
 import UserOneself from "./pages/User/UserOneself/useroneself.vue";
 import UserRevieOneself from "./pages/User/UserOneself/userRevieOneself.vue";
@@ -38,18 +40,20 @@ import CreatePublictaskOne from "./pages/Create/CreateTask/create-TaskPublicOne.
 import CreateUnpublicViewTask from "./pages/Create/CreateTask/create-UnpublicViewTask.vue";
 
 import CreateShopping from "./pages/Create/CreateShopping/create-shopping.vue";
-import AddProduct from "./pages/Create/CreateShopping/addproduct.vue";
-import ModifyProduct from "./pages/Create/CreateShopping/modifyproduct.vue";
+import AddProduct from "./pages/Create/CreateShopping/create-addproduct.vue";
+import ModifyProduct from "./pages/Create/CreateShopping/create-modifyproduct.vue";
 
 import CreateComment from "./pages/Create/CreateComment/createcomment.vue";
 import CommentInfor from "./pages/Create/CreateComment/CommentInfor.vue";
+import createViewComment from "./pages/Create/CreateComment/create-ViewComment.vue";
 
 import CreateClass from "./pages/Create/CreateClass/create-class.vue";
-import AddClass from "./pages/Create/CreateClass/addclass.vue";
+import CreateAddClass from "./pages/Create/CreateClass/create-addclass.vue";
 import CreateCheckClass from "./pages/Create/CreateClass/create-checkclass.vue";
 import CreateCheckClassMember from "./pages/Create/CreateClass/create-checkclassmember.vue";
-import CreateRequestJoin from "./pages/Create/CreateClass/requestjoin.vue";
+import CreateRequestJoin from "./pages/Create/CreateClass/create-requestjoin.vue";
 import CreateCheckOneself from "./pages/Create/CreateClass/Create-CheckOneself.vue";
+import CreateSearchName from "./pages/Create/CreateClass/create-SearchName.vue";
 
 import CreateOneself from "./pages/Create/CreateOneself/create-oneself.vue";
 import CreateRevise from "./pages/Create/CreateOneself/create-revise.vue";
@@ -74,10 +78,14 @@ import AuditorDenounce from "./pages/Auditor/Auditor-Audit/auditor-Denounce.vue"
 import test from "./pages/Test/test.vue";
 
 
+import test2 from "./pages/Login/Login.vue"
 
 
 
 const routes = [
+  { path:"/test",component:test},
+  { path:"/test2",component:test2},
+
   { path: "/", component: Login },
   // {path:"/",component:test},
   { path: "/login", component: Login },
@@ -87,7 +95,6 @@ const routes = [
 
 
 //用户端
-  { path:"/useraddtask", component: UserAddtask},
   { path:"/userrevise", component : UserRevieOneself},
   { path:"/useraddclass", component : UserAddClass},
   { path:"/useraboutclass", component : UserAboutClass},
@@ -95,7 +102,9 @@ const routes = [
   { path:"/userviewfinishtask",component : UserViewFinishTask},
   { path:"/userviewcomment",component : UserViewComment},
   { path:"/userviewothercomment",component:UserViewOtherComment},
-
+  { path:"/usercheckclassmember", component:UserCheckClassMember},
+  { path:"/usercheckoneself",component:UserCheckOneSelf},
+  { path:"/usersearchname",component:UserSearchname},
   { path: "/usernavigate", component: UserNavigate,
     children:[
       {
@@ -128,7 +137,7 @@ const routes = [
    {path:"/addproduct",component: AddProduct },
    { path:"/createaddtask",component: CreateAddtask},
    { path:"/createrevise" , component: CreateRevise},
-   { path:"/addclass" , component: AddClass},
+   { path:"/addclass" , component: CreateAddClass},
    { path:"/createcheckclass" , component: CreateCheckClass},
    { path:"/createcheckclassmember" , component: CreateCheckClassMember},
    { path:"/createrequestjoin" , component: CreateRequestJoin},
@@ -139,6 +148,8 @@ const routes = [
    { path:"/createpublictaskone", component: CreatePublictaskOne},
    { path:"/createunpublicviewtask",component:CreateUnpublicViewTask},
    { path:"/commentinfor" , component:CommentInfor},
+   { path:"/createviewcomment",component:createViewComment},
+   { path:"/createsearchname",component:CreateSearchName},
    {   path: "/createnavigate", component: CreateNavigate,
    children:[
      {

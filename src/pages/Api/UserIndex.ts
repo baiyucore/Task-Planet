@@ -1,13 +1,13 @@
 import axios from "axios";
 import {Userpath} from "./path";
-import { UserApplyformember, UserBuyShopping, Comment,UserCoinChange, UserLoadTask, UserReviseOneself, UserSumitTask, UserViewAllTask, Userid, UsersumitComment, ViewOuterComment, UsersubmitInnterComment } from "../Interface/UserInterface";
+import { UserApplyformember, UserBuyShopping, Comment,UserCoinChange, UserLoadTask, UserReviseOneself, UserSumitTask, UserViewAllTask, Userid, UsersumitComment, ViewOuterComment, UsersubmitInnterComment, searchinnerComment, searchname, Searchname, classinvitecode } from "../Interface/UserInterface";
 
 
 
 
 const userapi = {
   //显示个人信息
-  async viewoneself(params : Userid){
+  async  viewoneself(params : Userid){
     const response = await axios.post(Userpath.UserViewOneslefUrl,{
       userid : params.userid,
     });
@@ -28,9 +28,9 @@ const userapi = {
     });
     return response.data;
   },//搜索班级
-  async searchclass(ClassUserInvitecode : string){
+  async searchclass(params:classinvitecode){
     const response = await axios.post(Userpath.UserSearchClassUrl,{
-      userinvitecode : ClassUserInvitecode,
+      userinvitecode : params.userinvitecode,
     });
     return response.data;
   },//申请加入
@@ -55,7 +55,23 @@ const userapi = {
       userinvitecode:userinvitecode,
     });
     return response.data;
-  },//提交任务
+  },//查询成员信息
+  async searchname(params:searchname){
+    const response = await axios.post(Userpath.UsersearchnameUrl,{
+      searchnameid : params.searchnameid,
+      identity : params.identity,
+      
+    })
+    return response.data;
+  },//搜索栏搜索
+  async searchnametwo(params:Searchname){
+    const response = await axios.post(Userpath.UsersearchnametwoUrl,{
+      userinvitecode :params.userinvitecode,
+      searchname : params.searchname,
+    })
+    return response.data;
+  },
+  //提交任务
   async SubmitTask(params : UserSumitTask){
     const response = await axios.post(Userpath.UserSubmitTaskUrl,{
       taskid : params.taskid,
@@ -146,6 +162,27 @@ const userapi = {
       other_commentname : params.other_commentname,
     });
     return response.data;
+  },//显示内部评论
+  async ViewInnerCommer(params:searchinnerComment){
+    const response = await axios.post(Userpath.UserViewInnerCommentUrl,{
+      taskid:params.taskid,
+      commentid:params.commentid,
+      comment : params.comment,
+    });
+    return response.data;
+  },//举报总结评论
+  async WarnComment(params:searchinnerComment){
+    const response = await axios.post(Userpath.UserWarnCommentUrl,{
+      taskid:params.taskid,
+      commentid:params.commentid,
+      comment : params.comment,
+    });
+    return response.data;
+  },//举报总结
+  async WarnSummarize(){
+    const response = await axios.post(Userpath.UserWarnSummarizeUrl,{
+      
+    })
   }
 
 }

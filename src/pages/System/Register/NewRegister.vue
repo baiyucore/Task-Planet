@@ -6,19 +6,24 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { systemapi } from "@/pages/Api/SystemIndex";
 import { accountinfor } from "@/pages/Interface/SystemInterfact";
+import { cn } from '@/lib/utils'
+import { useMutation } from '@tanstack/vue-query'
+import { buttonVariants } from '@/components/ui/button'
 
 const router = useRouter();
 const isLoading = ref(false);
 const account_id = ref("");
 const account_password = ref("");
-async function onSubmit(event:Event) {
-  event.preventDefault();
-  isLoading.value = true;
-  const params : accountinfor ={
-    account_id: account_id.value,
-    account_passowrd: account_password.value,
-  }
-  systemapi.register(params).then((res)=>{
+
+const mutation = useMutation({
+  mutationFn: async (params :accountinfor)=>{
+    const response = await systemapi.register(params)
+    return response
+  },
+  onMutate: ()=>{
+    isLoading.value =true
+  },
+  onSuccess:(res)=>{
     isLoading.value = false;
     if (res.err_code === 0) {
       toast.success("注册成功，即将跳转");
@@ -26,19 +31,31 @@ async function onSubmit(event:Event) {
     } else{
       toast.error(res.err_msg);
     }
+  },
+  onError:(error)=>{
+    isLoading.value = false;
+    toast.error(error.message)
+  },onSettled:()=>{
+    isLoading.value = false
+  },
+})
+
+async function onSubmit(event:Event) {
+  event.preventDefault();
+  mutation.mutate({
+    account_id: account_id.value,
+    account_passowrd: account_password.value,
   })
-
-
 }
 
 </script>
 
 <template>
-  <div id="outer">
-      <div id="inner">
+  <div class="flex relative">
+      <div class="justify-center  top-60 w-[400px] absolute duration-700 md:left-1/3 sm:left-1/3 left-14" >
         
         <form @submit="onSubmit">
-          <div class="logintext" >注册</div>
+          <div class="logintext ml-20  cursor-default font-serif text-teal-600" >注册</div>
           <Input  
           v-model:model-value="account_id"
           type="text"
@@ -47,14 +64,24 @@ async function onSubmit(event:Event) {
           />     
           <Input 
           v-model:model-value="account_password"
-          class="mt-2"
+          class="mt-5 mb-2"
           id="password"
           type="password"
           placeholder="密码 password"
           :disabled="isLoading"
           />
+          <a @click="$router.push({ path: '/login' })" 
+            :class="
+              cn(
+                buttonVariants({ variant: 'ghost' }),
+                'user-select-none Login text-violet-500 hover:text-violet-800 block italic'
+              )
+            "
+          >
+            已有账户，返回登入页面
+          </a>
 
-          <Button :disabled="isLoading" class="w-full mt-3 bg-teal-500">
+          <Button :disabled="isLoading" type="submit" class="mt-10 w-full bg-cyan-500 hover:bg-cyan-600">
             登入
           </Button>
         
@@ -66,27 +93,8 @@ async function onSubmit(event:Event) {
   
 </template>
 
-<style>
+<style scoped>
 
-#outer{
-  margin-top: 300px;
-  width: 360px;
-  height: 100px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: 10px;
-}
-#inner{
-  width: 360px;
-  height: 308px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 5px solid rgb(58, 111, 172);
-  background-color: #ffffff;
-  border-radius: 20px;
-}
 .logintext{
   font-size: 20px;
   font-weight: bold;
@@ -94,15 +102,12 @@ async function onSubmit(event:Event) {
   margin-bottom: 5px;
   text-align: center;
 }
-.LoginSubmit{
-  width: 210px;
-  height: 25px;
-  margin-bottom: 5px;
-  background-color: #08A5C8;
+.Login{
+  position: absolute;
+  right: 5%;
+  font-size: 15px;
+  cursor: pointer;
 }
-.LoginInput{
-  border-radius: 8px;
-  margin-bottom: 5px;
-}
+
 
 </style>

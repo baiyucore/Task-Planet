@@ -4,44 +4,50 @@ import {
   DateFormatter,
   type DateValue,
   getLocalTimeZone,
+  today,
 } from '@internationalized/date'
 import { Calendar as CalendarIcon } from 'lucide-vue-next'
 import { Calendar } from '@/components/ui/calendar'
 import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { cn } from '@/lib/utils'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { auditorapi } from '@/pages/Api/AuditorIndex';
 
-import { RouterLink , useRoute, useRouter} from 'vue-router';
-
-const df = new DateFormatter('en-US', {
+const df = new DateFormatter('zh-CN', {
   dateStyle: 'long',
 })
+const items = [
+  { value: 0, label: '今天' },
+  { value: -1, label: '昨天' },
+  { value: -2, label: '前天' },
+ 
+]
 
 const value = ref<DateValue>()
-const router= useRouter();
-const viewtaskvalue= ref('');
-watch(viewtaskvalue,(newValue)=>{
+  value.value =today(getLocalTimeZone()).add({ days: Number(0) })
 
-  switch(newValue){
-    case 'finish':
-    console.log('完成');
-    router.push({ path:"/usertaskfinsh" });
-      break;
-    case 'unfinished':
-    console.log('未完成')
-    router.push({ path:"/usertaskunfinshed" });
-      break;
-    default:
-      break;
+watch(value,(newValue,oldValue)=>{
+  if(newValue !== oldValue){
+  
+    auditorapi.test(value.value).then((res)=>{
+      
+    })
+
   }
+
 })
+
+
 
 </script>
 
 <template>
   <div class="static mt-2">
     <span  class=" ml-10  text-2xl  font-bold">评论</span> 
-    <Popover  >
+    <div class="float-right mr-7">
+      
+    <Popover>
     <PopoverTrigger as-child>
       <Button
         variant="outline"
@@ -54,14 +60,39 @@ watch(viewtaskvalue,(newValue)=>{
         {{ value ? df.format(value.toDate(getLocalTimeZone())) : "选择查看时间" }}
       </Button>
     </PopoverTrigger>
-    <PopoverContent class="w-auto p-0">
-      <Calendar v-model="value" initial-focus />
+    <PopoverContent class="flex w-auto flex-col gap-y-2 p-2">
+      <Select
+        @update:model-value="(v) => {
+          if (!v) return;
+          value = today(getLocalTimeZone()).add({ days: Number(v) });
+        }"
+      >
+        <SelectTrigger>
+          <SelectValue placeholder="选择" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem v-for="item in items" :key="item.value" :value="item.value.toString()">
+            {{ item.label }}
+          </SelectItem>
+        </SelectContent>
+      </Select>
+      <Calendar v-model="value" />
     </PopoverContent>
   </Popover>
 
 
+
+    </div>
+    
+
+
       <div class="main-content">
-        <RouterView></RouterView>
+       
+        {{ value }}
+       
+    
+
+    
         
       </div>
   </div>
@@ -72,17 +103,6 @@ watch(viewtaskvalue,(newValue)=>{
   
 </template>
 <style scoped>
-  .title {
-    text-align: center;
-    word-spacing: 5px;
-    margin: 30px 0;
-    height: 70px;
-    line-height: 70px;
-    background-image: linear-gradient(45deg, gray, white);
-    border-radius: 10px;
-    box-shadow: 0 0 2px;
-    font-size: 30px;
-  }
   .main-content {
       margin: 0 auto;
       margin-top: 30px;
@@ -90,5 +110,6 @@ watch(viewtaskvalue,(newValue)=>{
       width: 90%;
       height: 650px;
       border: 1px solid;
+      border-color: transparent;
     }
 </style>

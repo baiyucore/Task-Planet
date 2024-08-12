@@ -57,8 +57,8 @@ watch(value,(newValue,oldValue)=>{
 
 })
 
-function viewtask(classname : string,taskid:string){
-  router.push({path:'/commentinfor',query :{classname , taskid}});
+function viewtask(taskname : string,taskid:string){
+  router.push({path:'/commentinfor',query :{taskname , taskid}});
 
 }
 
@@ -109,7 +109,7 @@ function viewtask(classname : string,taskid:string){
 
 
       <div class="main-content">
-        <h1 v-for="items in commenallinfor" @click="viewtask(items.classname,items.taskid)" class="text-center select-none text-2xl mb-2">
+        <h1 v-for="items in commenallinfor" @click="viewtask(items.taskname,items.taskid)" class="text-center select-none text-2xl mb-2">
          {{items.classname}}--{{items.taskname}}
         </h1>
 

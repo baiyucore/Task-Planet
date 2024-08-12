@@ -11,17 +11,13 @@ const route = useRoute();
 
 const taskname = route.query.taskname;
 const taskCompletionConditions = route.query.taskCompletionConditions  as string
-const taskstarttimeyear = route.query.taskstarttimeyear as string
-const taskstarttimemonth = route.query.taskstarttimemonth as string
-const taskstarttimeday = route.query.taskstarttimeday as string
+const taskstarttime = route.query.taskstarttime
+const taskovertime = route.query.taskovertime
 
-const taskovertimeyear = route.query.taskovertimeyear as string
-const taskovertimemonth = route.query.taskovertimemonth as string
-const taskovertimeday = route.query.taskovertimeday as string
+const successrewardone = typeof route.query.successrewardone === 'string' ? parseInt(route.query.successrewardone) : NaN;
+const successrewardtwo_one = typeof route.query.successrewardtwo_one === 'string' ? parseInt(route.query.successrewardtwo_one) : NaN;
+const successrewardtwo_two =  typeof route.query.successrewardtwo_two === 'string' ? parseInt(route.query.successrewardtwo_two) : NaN;
 
-const successrewardone = parseInt(route.query.successrewardone as any)
-const successrewardtwo_one = route.query.successrewardtwo_one 
-const successrewardtwo_two = route.query.successrewardtwo_two 
 const failed = route.query.failed as string
 const summarize = route.query.summarize
 const rewardselect = route.query.rewardselect
@@ -57,12 +53,12 @@ function onreturn(){
       <br>
 
       <span class="ml-4">
-        开始时间 {{taskstarttimeyear}} - {{taskstarttimemonth}}-{{taskstarttimeday}}
+        开始时间 {{ taskstarttime }}
       </span>
       
       <br>
       <span class="ml-4">
-        截止时间 {{taskovertimeyear}} - {{taskovertimemonth}}-{{taskovertimeday}}
+        截止时间 {{ taskovertime }}
       </span>
 
       <h1 class="text-center">以下选择进行2选1</h1>

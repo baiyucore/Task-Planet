@@ -36,7 +36,7 @@ import UserAuthForm from "./components/UserAuthForm.vue";
       class="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex"
     >
       <div class="absolute inset-0 bg-zinc-900" />
-      <div class="relative z-20 flex items-center text-lg font-medium">
+      <div class="relative z-30 flex items-center text-lg font-medium">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
@@ -52,6 +52,9 @@ import UserAuthForm from "./components/UserAuthForm.vue";
           />
         </svg>
         TodoList
+      </div>
+      <div class="relative z-20 mt-auto">
+        111
       </div>
       <div class="relative z-20 mt-auto">
         <blockquote class="space-y-2">

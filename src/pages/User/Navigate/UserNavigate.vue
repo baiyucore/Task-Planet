@@ -60,15 +60,14 @@ const userinfor = Userinfor()
 
 </template>
 
-<style>
-
+<style scoped>
     .navigate {
       display: flex;
       justify-content: space-around;
     
       position: absolute;
       bottom: 30px;
-      width: 70%;
+      width: 100%;
       
     }
     .navigate a {

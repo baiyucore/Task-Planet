@@ -1,5 +1,4 @@
 import {  type DateValue} from '@internationalized/date'
-import { StringMappingType } from 'typescript';
 //用户id
 export interface Userid{
   userid: string;
@@ -47,6 +46,7 @@ export interface UserViewAllTask{
 }
 //接收显示任务
 export interface UserViewTask{
+  _id:string,
   taskinfor: ViewTask,
   summarize: string,
   rewardselect:string,
@@ -61,8 +61,8 @@ export interface viewTask{
   taskid : string,
   taskname :string,
   taskCompletionConditions : string,
-  taskovertime: Time,
-  taskstarttime:Time,
+  taskovertime: number,
+  taskstarttime:number,
   successrewardone: number,
   successrewardtwo_one : number,
   successrewardtwo_two : number,
@@ -77,17 +77,19 @@ export interface Time{
 export interface UserViewUnfinishTask{
   unfinishtask : ViewUnFinishTask,
   taskcondition: string,
+  _id:string,
 }
 export interface ViewUnFinishTask{
   task:viewUnFinishTask
   }
   export interface viewUnFinishTask{
+    _id:string,
     condition : string,
     taskid : string,
     taskname :string,
     taskCompletionConditions : string,
-    taskovertime: Time,
-    taskstarttime:Time,
+    taskovertime: number,
+    taskstarttime:number,
     successrewardone: number,
     successrewardtwo_one : number,
     successrewardtwo_two : number,
@@ -175,14 +177,35 @@ export interface ViewOuterComment{
 export interface ViewOutercomment{
   name : string,
   comment: string,
-  othercomment:OtherComment,
   taskid:string,
   commentid:string,
+  commentnumber:number,
 }
-export interface OtherComment{
-  othercomment:othercomment,
+
+export interface searchinnerComment{
+  taskid: string,
+  commentid:string,
+  comment:string,
 }
-export interface othercomment{
+
+export interface ViewInnerComment{
   other_comment:string,
-  other_commentname: string,
+  other_commentid:string,
+  other_commentname:string,
+}
+
+//搜索名字
+export interface searchname{
+  searchnameid : string,
+  identity:string,
+}
+//搜索栏搜索
+export interface Searchname{
+  userinvitecode : string ,
+  searchname:string,
+}
+
+//加入班级的邀请码
+export interface classinvitecode{
+  userinvitecode : string,
 }

@@ -8,13 +8,6 @@ import {  type DateValue} from '@internationalized/date'
   userinvitecode : string,
 }
 
-export interface CreateClass{
-  classname : string, 
-  // 无法在laf中查询
-  _id: string,
-  userinvitecode: string,
-}
-
 export interface CreateClassnameId{
   id : string,
   
@@ -65,8 +58,13 @@ export interface checkprerequisite{
 
 //搜索名字
 export interface searchname{
+  searchnameid : string,
+  identity:string,
+}
+//搜索栏搜索
+export interface Searchname{
   userinvitecode : string ,
-  searchname : string,
+  searchname:string,
 }
 //修改商品
 export interface Createmodifyproduct{
@@ -107,19 +105,17 @@ export interface viewTask{
   taskid : string,
   taskname :string,
   taskCompletionConditions : string,
-  taskovertime: Time,
-  taskstarttime:Time,
+  taskovertime: number,
+  taskstarttime:number,
   successrewardone: number,
   successrewardtwo_one : number,
   successrewardtwo_two : number,
   failed : number,
 }
+// 
 export interface Time{
-  year: string,
-  month:string,
-  day:string,
+  test:number
 }
-
 
 //显示未发布任务
 export interface CreateUnfinish{
@@ -167,14 +163,7 @@ export interface Createtaskinfor{
   taskid: string,
   taskname : string,
 }
-//申请信息
-export interface CreateApplyinfor{
-  userid:string,
-  classname : string,
-  create_id: string,
-  username : string,
-  userinvitecode : string,
-}
+
 // 申请同意或拒绝
 export interface applycondition{
   userid: string,
@@ -185,3 +174,15 @@ export interface applycondition{
   createid : string,
 }
 
+//删除总结里的评论
+export interface deletecomment{
+  taskid: string,
+  commentid:string,
+  comment:string,
+}
+//删除总结
+export interface deletesummarize{
+  taskid:string,
+  userid: string,
+  summarize: string,
+}

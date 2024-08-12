@@ -1,7 +1,5 @@
 <script setup lang="ts">
-
 import { ArrowLeft } from 'lucide-vue-next';
-import {  ref } from 'vue'
 import { Button } from '@/components/ui/button'
 import { useRoute, useRouter} from 'vue-router';
 import { userapi } from '@/pages/Api/UserIndex';
@@ -9,7 +7,7 @@ import { userapi } from '@/pages/Api/UserIndex';
 import { UserApplyformember } from '@/pages/Interface/UserInterface';
 import { Userinfor } from '@/store/user';
 import { toast } from 'vue-sonner';
-
+import {useMutation} from '@tanstack/vue-query'
 
 
 
@@ -21,28 +19,42 @@ const classname = route.query.classname as string
 const createid = route.query.createid as string
 const userinvitecode = route.query.userinvitecode as string
 
+const mutation= useMutation({
+  mutationFn: async (params: UserApplyformember) => {
+    const response = await   userapi.applyformember(params)
+    return response
+  },
+
+  onSuccess:(res)=>{
+    if( res.err_code === 0 ){
+      toast.success("申请成功");
+      router.push({ path:"/userclass" });
+
+    } else{
+      toast.error( res.err_msg );
+    }
+  },  
+  onError: (error) => {
+     toast.error(error.message)
+  },
+
+
+})
 
 
 
-function onreturn(){
-  router.back();
-}
-
-function applyformember(){
-  const params : UserApplyformember ={
+async function applyformember(event:Event){
+  event.preventDefault();
+  mutation.mutate({
     userid : Userinfor().userid,
     createid : createid,
     userinvitecode : userinvitecode,
     classname : classname,
     username :  Userinfor().username,
-  }
-  userapi.applyformember(params).then((res)=>{
-    if( res.err_code === 0 ){
-      toast.success("申请成功")
-    }else{
-      toast.error(res.err_msg)
-    }
-  })
+    })
+}
+function onreturn(){
+  router.back();
 }
 
 
@@ -65,9 +77,12 @@ function applyformember(){
         <span class="pr-6"> 班级简介</span>{{classbrief}}
      
       </div>
-      <Button @click="applyformember()" class="w-full bg-[#083EC8] mt-64" >
+      <form @click="applyformember">
+        <Button  type="submit" class="w-full bg-[#083EC8] mt-64" >
             申请加入
-      </Button>   
+      </Button> 
+      </form>
+        
       </div>
 
 

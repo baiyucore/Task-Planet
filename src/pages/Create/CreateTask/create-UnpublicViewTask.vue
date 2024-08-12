@@ -1,32 +1,24 @@
 <script setup lang="ts">
 import { Input } from '@/components/ui/input';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute,useRouter} from 'vue-router';
 import { ArrowLeft ,Check } from 'lucide-vue-next';
 import {  ref } from 'vue'
 import { Button } from '@/components/ui/button'
 
-const router = useRouter();
 const isLoading = ref(false);
 const route = useRoute();
-
+const router = useRouter();
 const taskname = route.query.taskname;
 const taskCompletionConditions = route.query.taskCompletionConditions  as string
-  const taskstarttimeyear = route.query.taskstarttimeyear as string
-  const taskstarttimemonth = route.query.taskstarttimemonth as string
-  const taskstarttimeday = route.query.taskstarttimeday as string
-  const taskovertimeyear = route.query.taskovertimeyear as string
-  const taskovertimemonth = route.query.taskovertimemonth as string
-  const taskovertimeday = route.query.taskovertimeday as string
+  const taskstarttime = route.query.taskstarttime 
+  const taskovertime = route.query.taskovertime
   const successrewardone =route.query.successrewardone as string
   const successrewardtwo_one = route.query.successrewardtwo_one as string
   const successrewardtwo_two = route.query.successrewardtwo_two as string
   const failed = route.query.failed as string
- 
-
-function onreturn(){
+  function onreturn(){
   router.back();
 }
-
 
 </script>
 
@@ -61,12 +53,12 @@ function onreturn(){
       <br>
 
       <span class="ml-4">
-        开始时间 {{taskstarttimeyear}} - {{taskstarttimemonth}}-{{taskstarttimeday}}
+        开始时间 {{taskstarttime}}
       </span>
       
       <br>
       <span class="ml-4">
-        截止时间 {{taskovertimeyear}} - {{taskovertimemonth}}-{{taskovertimeday}}
+        截止时间 {{ taskovertime }}
       </span>
   
       <div class="ml-2">

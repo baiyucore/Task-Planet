@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref , watch} from 'vue';
+import { ref , watch} from 'vue';
 import { Select, SelectContent,SelectItem,SelectTrigger,SelectValue,
 } from '@/components/ui/select'
 import { useRouter} from 'vue-router';
@@ -13,8 +13,8 @@ import { toast } from 'vue-sonner';
 import { UserLoadTask, UserViewAllTask, UserViewTask, UserViewUnfinishTask, viewTask, viewUnFinishTask } from '@/pages/Interface/UserInterface';
 import { Userinfor } from '@/store/user';
 import { userapi } from '@/pages/Api/UserIndex';
-
-
+import { useQuery, } from '@tanstack/vue-query'
+import { format } from 'date-fns';
 const router= useRouter();
 const df = new DateFormatter('zh-CN', {
   dateStyle: 'long',
@@ -27,15 +27,18 @@ const items = [
 const value = ref<DateValue>()
 const viewunfinishtask =ref<UserViewUnfinishTask[]>([])
 const viewfinishtask = ref<UserViewTask[]>([])
+value.value =today(getLocalTimeZone()).add({ days: Number(0) })
 
-  value.value =today(getLocalTimeZone()).add({ days: Number(0) })
-const parmas : UserViewAllTask= {
-      time:today(getLocalTimeZone()).add({ days: Number(0) }),
+
+
+  const parmas : UserViewAllTask= {
+    time:value.value,
       userid: Userinfor().userid,
       classname: Userinfor().useraddclass,
     }
     userapi.ViewAllTask(parmas).then((res)=>{
       if(res.err_code === 0){
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         viewunfinishtask.value = res.unfinishtask,
         viewfinishtask.value =res.finishtask
       }else{
@@ -43,26 +46,24 @@ const parmas : UserViewAllTask= {
       }
     })
 
-
-onMounted(()=>{
-  const params:UserLoadTask= {
+  const param:UserLoadTask= {
     userid : Userinfor().userid,
     classname : Userinfor().useraddclass,
   }
-  userapi.LoadTask(params).then((res)=>{
-    if( res.err_code === 0 ){
-      
-    }else{
-      toast.error(res.err_msg)
-    }
-  })
-})
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { isSuccess  } = useQuery({
+  queryKey: ['loadTasks'],
+  queryFn: () => userapi.LoadTask(param)
+ 
+});
+
+
+
 
 
 
 watch(value,(newValue,oldValue)=>{
   if(newValue !== oldValue){
-
     const parmas : UserViewAllTask= {
       time:newValue,
       userid: Userinfor().userid,
@@ -70,6 +71,7 @@ watch(value,(newValue,oldValue)=>{
     }
     userapi.ViewAllTask(parmas).then((res)=>{
       if(res.err_code === 0){
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         viewunfinishtask.value = res.unfinishtask,
         viewfinishtask.value =res.finishtask
       }else{
@@ -77,20 +79,16 @@ watch(value,(newValue,oldValue)=>{
       }
     })
   }
-
 })
 
 function unfinishtaskview(task :viewUnFinishTask  ){
   const taskid = task.taskid
   const taskname = task.taskname
   const taskCompletionConditions = task.taskCompletionConditions
-  const taskstarttimeyear = task.taskstarttime.year
-  const taskstarttimemonth = task.taskstarttime.month
-  const taskstarttimeday = task.taskstarttime.day
-
-  const taskovertimeyear = task.taskovertime.year
-  const taskovertimemonth = task.taskovertime.month
-  const taskovertimeday = task.taskovertime.day
+  const startdate = new Date(task.taskstarttime);
+  const taskstarttime = format(startdate, 'yyyy-MM-dd HH:mm:ss');
+  const overdate = new Date(task.taskovertime);
+  const taskovertime = format(overdate, 'yyyy-MM-dd HH:mm:ss');
 
   const successrewardone =task.successrewardone
   const successrewardtwo_one = task.successrewardtwo_one
@@ -98,31 +96,31 @@ function unfinishtaskview(task :viewUnFinishTask  ){
   const failed = task.failed
 
   router.push({path:'/userviewunfinishtask',query:{ 
-    taskid,taskname, taskCompletionConditions, taskovertimeyear, taskovertimemonth, taskovertimeday, 
-    taskstarttimeyear, taskstarttimemonth, taskstarttimeday, successrewardone,successrewardtwo_one,successrewardtwo_two,failed
+    taskid,taskname, taskCompletionConditions,taskstarttime,taskovertime, successrewardone,successrewardtwo_one,successrewardtwo_two,failed
   }});
 }
+
+
+
 
 function finishtaskview(task :viewTask,summarize: string ,rewardselect:string){
   const taskid = task.taskid
   const taskname = task.taskname
   const taskCompletionConditions = task.taskCompletionConditions
-  const taskstarttimeyear = task.taskstarttime.year
-  const taskstarttimemonth = task.taskstarttime.month
-  const taskstarttimeday = task.taskstarttime.day
 
-  const taskovertimeyear = task.taskovertime.year
-  const taskovertimemonth = task.taskovertime.month
-  const taskovertimeday = task.taskovertime.day
+  const startdate = new Date(task.taskstarttime);
+  const taskstarttime = format(startdate, 'yyyy-MM-dd HH:mm:ss');
+  const overdate = new Date(task.taskovertime);
+  const taskovertime = format(overdate, 'yyyy-MM-dd HH:mm:ss');
 
+  
   const successrewardone =task.successrewardone
   const successrewardtwo_one = task.successrewardtwo_one
   const successrewardtwo_two = task.successrewardtwo_two
   const failed = task.failed
   
   router.push({path:'/userviewfinishtask',query:{ 
-    taskid,taskname, taskCompletionConditions, taskovertimeyear, taskovertimemonth, taskovertimeday, 
-    taskstarttimeyear, taskstarttimemonth, taskstarttimeday, successrewardone,successrewardtwo_one,successrewardtwo_two,failed,summarize,rewardselect,
+    taskid,taskname, taskCompletionConditions,taskstarttime,taskovertime, successrewardone,successrewardtwo_one,successrewardtwo_two,failed,summarize,rewardselect,
   }});
 }
 
@@ -165,8 +163,8 @@ function finishtaskview(task :viewTask,summarize: string ,rewardselect:string){
   </Popover>
 
       <div class="main-content">
-        <h1  v-for="items in viewunfinishtask "   class=" relative" >
-          <div v-for="item in items.unfinishtask" class="left-0 select-none text-2xl  mb-2" >       
+        <h1  v-for="items in viewunfinishtask " :key="items._id"  class=" relative" >
+          <div v-for="item in items.unfinishtask" :key="item._id" class="left-0 select-none text-2xl  mb-2" >       
             <div  @click="unfinishtaskview(item)">
             {{ item.taskname }} 
             
@@ -177,7 +175,7 @@ function finishtaskview(task :viewTask,summarize: string ,rewardselect:string){
         </h1>
   
 
-        <h1  v-for="items in viewfinishtask"   class="relative" >
+        <h1  v-for="items in viewfinishtask" :key="items._id"  class="relative" >
 
          
           <div  class=" left-0 select-none text-2xl  mb-2">
@@ -188,6 +186,7 @@ function finishtaskview(task :viewTask,summarize: string ,rewardselect:string){
           </div>
           <span class="absolute inset-y-0 right-0 text-[#000000]">{{ items.taskinfor.taskcondition }}</span>
         </h1>
+
       </div>
   </div>
 

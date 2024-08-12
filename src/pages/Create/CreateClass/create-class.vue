@@ -1,48 +1,22 @@
 <script setup lang="ts">
-import { ref ,onMounted } from 'vue';
 import {  useRouter} from 'vue-router';
 import { toast } from 'vue-sonner';
 import { CirclePlus } from 'lucide-vue-next';
 import { createapi } from '@/pages/Api/CreateIndex';
-import { Createid , CreateClass } from'@/pages/Interface/CreateInterface';
+import { Createid  } from'@/pages/Interface/CreateInterface';
 import { Createinfor } from '@/store/create';
+import { useQuery } from '@tanstack/vue-query'
 
 const createinfor = Createinfor()
-
-
 const router = useRouter();
-const isLoading = ref(false)
-
-
-const classname = ref<CreateClass[]>([])
-
-
 const params: Createid= {account_id: createinfor.createid}
-onMounted(()=>{
-  isLoading.value=true
-  
 
-  createapi.viewoverclass(params).then((res)=>{
-    isLoading.value=false
-    if( res.err_code === 0 ){
-      classname.value=res.existed
-    }else{
-      toast.error(res.err_msg)
-    }
+const { isError, data, error,} =useQuery({
+    queryKey: ['craeteviewoneself', params],
+    queryFn : () =>   createapi.viewoverclass(params)
   })
 
-})
 
-
-
-
-
-function AddClass(){
-  router.push({ path:'/addclass'}); 
-}
-function requestjoin(){
-  router.push({ path:'/createrequestjoin' });
-} 
 function CheckClass(id : string){
    router.push({ path:'/createcheckclass', query:{id} });
 }
@@ -54,7 +28,7 @@ function CheckClass(id : string){
     <span  class="  ml-10  text-2xl select-none font-bold">班级</span> 
     <div class="w-[65px] absolute top-3 right-0">
       <svg
-      @click="requestjoin"
+      @click="$router.push({ path:'/createrequestjoin' })"
       xmlns="http://www.w3.org/2000/svg"
       width="28" 
       height="28" 
@@ -73,13 +47,16 @@ function CheckClass(id : string){
 
  
       <div class="main-content">
-        <CirclePlus class="absolute bottom-20 right-5 w-1/6 h-1/6 " @click="AddClass" color="#ff0000"/>
-        <h1 @click="CheckClass(classnameview.userinvitecode)" v-for="classnameview in classname" :key="classnameview._id"  class="text-center select-none text-2xl mb-2">
+        <CirclePlus class="absolute bottom-20 right-5 w-1/6 h-1/6 " @click="$router.push({ path:'/addclass'})" />
+
+
+        <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
+        <span v-else-if="data">
+        <h1 @click="CheckClass(classnameview.userinvitecode)" v-for="classnameview in data.existed" :key="classnameview._id"  class="text-center select-none text-2xl mb-2">
           {{classnameview.classname }}
         </h1>
        
-        <RouterView>
-        </RouterView>
+        </span>
         
       </div>
   </div>

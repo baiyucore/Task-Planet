@@ -16,38 +16,26 @@ import {
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { createapi } from '@/pages/Api/CreateIndex';
 import { Createinfor } from '@/store/create';
-import { onMounted ,ref} from 'vue';
+
 import { CreateViewtask, Createremovetask, viewTask } from '@/pages/Interface/CreateInterface';
 import { toast } from 'vue-sonner';
+import {useQuery,useMutation} from '@tanstack/vue-query'
+import { format } from 'date-fns';
+//不知道还有没有用
 
-const unfinitask =ref<viewTask[]>([])
 const router= useRouter();
 const createinfor = Createinfor()
 
-const isLoading = ref(false)
-onMounted(()=>{
-  isLoading.value =true
-
-  const params : CreateViewtask= {
+const params : CreateViewtask= {
     account_id:createinfor.createid,
     condition: "未发布",
   }
-
-  createapi.viewtask(params).then((res)=>{
-    isLoading.value =false
-    if(res.err_code === 0 ){
-      unfinitask.value =res.unpublictask
-    }else{
-      toast.error(res.err_msg)
-    }
+const {  isError, data, error,} =useQuery({
+    queryKey: ['create-viewunpublictask', params],
+    queryFn : async () =>  await  createapi.viewtask(params),
+   
   })
 
-})
-
-
-function CreateAddtask(){
-  router.push({ path: '/createaddtask' });
-}
 
 function taskpublich(taskid :string){
   router.push({path:'/createpublictask',query:{ taskid}});
@@ -57,56 +45,64 @@ function taskmodify(taskid : string){
   router.push({path:'/createmodify',query:{ taskid}});
 }
 
+//删除
+const mutation= useMutation({
+  mutationFn: async (params:  Createremovetask) => {
+    const response = await  createapi.removetask(params)
+    return response
+  },
+  onSuccess:(res)=>{
+    if( res.err_code === 0 ){
+      toast.success("删除成功");
+
+    } else{
+      toast.error( res.err_msg );
+    }
+  },  
+  onError: (error) => {
+    toast.error(error.message)
+  },
+})
 
 function taskremover(taskid : string){
-  isLoading.value =true
-  const params: Createremovetask = {
+
+  mutation.mutate({
     taskid:taskid,
     createid : createinfor.createid,
     condition : "未发布",
-  }
-  createapi.removetask(params).then((res)=>{
-    if( res.err_code === 0 ){
-      toast.success("删除成功")
-      
-      window.location.reload();
-    }else{
-      toast.error(res.err_msg)
-    }
   })
+
 }
 
 function taskview(task : viewTask){
   const taskname = task.taskname
   const taskCompletionConditions = task.taskCompletionConditions
-  const taskstarttimeyear = task.taskstarttime.year
-  const taskstarttimemonth = task.taskstarttime.month
-  const taskstarttimeday = task.taskstarttime.day
-
-  const taskovertimeyear = task.taskovertime.year
-  const taskovertimemonth = task.taskovertime.month
-  const taskovertimeday = task.taskovertime.day
-
+  const startdate = new Date(task.taskstarttime);
+  const taskstarttime = format(startdate, 'yyyy-MM-dd HH:mm:ss');
+  const overdate = new Date(task.taskovertime);
+  const taskovertime = format(overdate, 'yyyy-MM-dd HH:mm:ss');
   const successrewardone =task.successrewardone
   const successrewardtwo_one = task.successrewardtwo_one
   const successrewardtwo_two = task.successrewardtwo_two
-
   const failed = task.failed
   router.push({path:'/createunpublicviewtask',query:{ 
-    taskname, taskCompletionConditions, taskovertimeyear, taskovertimemonth, taskovertimeday, 
-    taskstarttimeyear, taskstarttimemonth, taskstarttimeday, successrewardone,successrewardtwo_one,successrewardtwo_two,failed
+    taskname, taskCompletionConditions,taskstarttime,taskovertime,
+    successrewardone,successrewardtwo_one,successrewardtwo_two,failed
   }});
 }
 
 </script>
 <template>
-
   <div>
     <div >
-      <CirclePlus class="absolute bottom-20 right-5 w-1/6 h-1/6 " @click="CreateAddtask" color="#ff0000"/>
+      <CirclePlus class="absolute bottom-20 right-5 w-1/6 h-1/6 " @click="$router.push({path:'/createaddtask'})" color="#ff0000"/>
     </div>
-        <Accordion type="single" class="w-full " collapsible >
-          <AccordionItem v-for="item in unfinitask"  :value="item.taskid">
+
+
+    <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
+    <span v-else-if="data">
+      <Accordion type="single" class="w-full " collapsible >
+          <AccordionItem v-for="item in data.unpublictask"  :value="item.taskid" :key="item._id">
             
             <AccordionTrigger class="text-xl">
                <div @click="taskview(item)"> {{ item.taskname }} </div>
@@ -140,6 +136,8 @@ function taskview(task : viewTask){
           </AccordionItem>
         </Accordion>
           
+    </span>
+  
   </div>
 
 </template>

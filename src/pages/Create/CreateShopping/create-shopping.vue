@@ -5,68 +5,61 @@ import { Button } from '@/components/ui/button'
 import { createapi } from '@/pages/Api/CreateIndex';
 import { Gift } from 'lucide-vue-next';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
-import { onMounted ,ref} from 'vue';
-import { CreateAddproduct, Createid, CreateRemove } from '@/pages/Interface/CreateInterface';
+import { Createid, CreateRemove } from '@/pages/Interface/CreateInterface';
 import { toast } from 'vue-sonner';
-
 import { Createinfor } from '@/store/create';
+import { useQuery,useMutation } from '@tanstack/vue-query'
 
 
 const createinfor = Createinfor()
-
-
 const router= useRouter();
-const isLoading = ref(false)
-const shopping  = ref<CreateAddproduct[]>([])
-onMounted(()=>{
-  isLoading.value = true
   const params : Createid={
     account_id: createinfor.createid
   }
-  createapi.viewproduct(params).then((res)=>{
-    isLoading.value = false
-    if( res.err_code === 0 ){
-      shopping.value = res.shopping
-    }else{
-      toast.error(res.err_msg)
-    }
+const { isError, data, error,} =useQuery({
+    queryKey: ['createcheckclass', params],
+    queryFn : () =>  createapi.viewproduct(params)
   })
+
+const mutation= useMutation({
+  mutationFn: async (params: CreateRemove) => {
+    const response = await createapi.removeproduct(params)
+    return response
+  },
+  onSuccess:(res)=>{
+    if( res.err_code === 0 ){
+      toast.success("删除成功")
+      window.location.reload();
+    } else{
+      toast.error( res.err_msg );
+    }
+  },  
+  onError: (error) => {
+    toast.error(error.message)
+  },
 })
 
-function AddProduct(){
-  router.push({ path:'/addproduct'});
 
+async function Remove(productname : string){
+  mutation.mutate({
+    proddcutname:productname
+    })
 }
+
 function ModifyProduct(productname: string){
   router.push({ path:'/modifyproduct',query:{productname} });
 }
-
-function Remove(productname : string){
-
-  isLoading.value= true
-  const params : CreateRemove={
-    proddcutname:productname
-  }
-  
-  createapi.removeproduct(params).then((res)=>{
-    if( res.err_code === 0 ){
-      toast.success("删除成功")
-      
-      window.location.reload();
-    }else{
-      toast.error(res.err_msg)
-    }
-  })
-}
-
 </script>
 
 <template>
   <div class="static mt-2">
     <h2  class=" text-center  font-bold text-2xl ">商城</h2> 
       <div class="main-content">
+
+        <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
+      <span v-else-if="data">
         <Accordion type="single" class="w-full " collapsible >
-          <AccordionItem v-for="item in shopping"  :value="item.productname">
+          <AccordionItem v-for="item in data.shopping"  :value="item._id" :key="item._id">
             
             <AccordionTrigger class="text-xl">
                <div class="flex-initial text-[#FF7710]"><Gift class="size-14 " color="#FF7710"/>{{ item.productname }} </div>  
@@ -81,18 +74,12 @@ function Remove(productname : string){
           </AccordionItem>
         </Accordion>
       
-
-    
+      </span>
 
     </div>
-    <CirclePlus class="absolute bottom-20 right-5 w-1/6 h-1/6 " @click="AddProduct" color="#ff0000"/>
-
+    <CirclePlus class="absolute bottom-20 right-5 w-1/6 h-1/6 " @click="$router.push({ path:'/addproduct'})" color="#ff0000"/>
 
   </div>
-
-  
-
-
   
 </template>
 <style scoped>

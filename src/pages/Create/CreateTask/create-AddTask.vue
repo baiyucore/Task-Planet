@@ -4,12 +4,9 @@ import { toast } from 'vue-sonner';
 import { useRouter } from 'vue-router';
 import { ArrowLeft ,Check } from 'lucide-vue-next';
 import {  ref } from 'vue'
-import {
-  DateFormatter,
-  type DateValue,
-  getLocalTimeZone,
-} from '@internationalized/date'
-
+import {DateFormatter,type DateValue,getLocalTimeZone, today,} from '@internationalized/date'
+import { Select, SelectContent,SelectItem,SelectTrigger,SelectValue,
+} from '@/components/ui/select'
 import { Calendar as CalendarIcon } from 'lucide-vue-next'
 import { Calendar } from '@/components/ui/calendar'
 import { Button } from '@/components/ui/button'
@@ -17,7 +14,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { cn } from '@/lib/utils'
 import { createapi } from '@/pages/Api/CreateIndex';
 import { CreateAddTask } from '@/pages/Interface/CreateInterface';
-
+import { useMutation } from '@tanstack/vue-query'
 import { Createinfor } from '@/store/create';
 import { nanoid } from 'nanoid'
 
@@ -34,41 +31,59 @@ const taskname = ref("");
 const taskcompletion = ref("");
 const startvalue = ref<DateValue>()
 const overvalue = ref<DateValue>()
+startvalue.value = today(getLocalTimeZone()).add({ days: Number(0) })
+overvalue.value = today(getLocalTimeZone()).add({ days: Number(1) })
+const items = [
+  { value: 0, label: '今天' },
+  { value: -1, label: '昨天' },
+  { value: -2, label: '前天' },
+]
 
-
-async function onSubmit(event:Event) {
-  event.preventDefault();
-  isLoading.value= true;
-  const params : CreateAddTask ={
-    condition: "add",
-    taskid : taskid,
-    account_id: createinfor.createid,
-    taskname : taskname.value,
-    taskcompletion : taskcompletion.value,
- 
-    taskovertime : overvalue.value,
-    taskstarttime: startvalue.value,
-
-
-    successrewardone : successrewardone.value,
-    successrewardtwo_one : successrewardtwo_one.value,
-    successrewardtwo_two : successrewardtwo_two.value,
-    failed:-failed.value,
-  }
-
-  createapi.addtask(params).then((res)=>{
-    isLoading.value = false;
+const mutation = useMutation({
+  mutationFn: async (params:  CreateAddTask) => {
+    const response = await createapi.addormodifytask(params)
+    return response
+  },
+  onMutate: () => {
+    isLoading.value = true
+  },
+  onSuccess:(res)=>{
+    isLoading.value= true;
     if( res.err_code === 0 ){
       toast.success("添加成功");
       router.back();
     } else{
       toast.error( res.err_msg );
     }
+  },  
+  onError: (error) => {
+    isLoading.value = false
+    toast.error(error.message)
+  },
+  onSettled: () => {
+    isLoading.value = false
+  },
+
+})
+
+async function onSubmit(event:Event) {
+  event.preventDefault();
+
+  
+  mutation.mutate({
+    condition: "add",
+    taskid : taskid,
+    account_id: createinfor.createid,
+    taskname : taskname.value,
+    taskcompletion : taskcompletion.value,
+    taskovertime : overvalue.value,
+    taskstarttime: startvalue.value,
+    successrewardone : successrewardone.value,
+    successrewardtwo_one : successrewardtwo_one.value,
+    successrewardtwo_two : successrewardtwo_two.value,
+    failed:-failed.value,
   })
 
-
- 
-  
 }
 
 const df = new DateFormatter('zh-CN', {
@@ -87,7 +102,7 @@ function onreturn(){
 <template>
   <div class="static mt-2">
     
-   
+
     <form @submit="onSubmit">
 
       <ArrowLeft class="float-left ml-2 mt-1" @click="onreturn" />
@@ -101,6 +116,7 @@ function onreturn(){
         type="text"
         placeholder="任务名称"
         :disable="isLoading"
+        required
       />
       <span class="mt-2 ml-2">完成任务条件</span>
       <Input  
@@ -115,44 +131,74 @@ function onreturn(){
       <span class="ml-4">
         开始时间
       </span>
-      <Popover >
-          <PopoverTrigger as-child>
-            <Button
-              variant="outline"
-              :class="cn(
-                'w-[280px] justify-start text-left font-normal ml-2',
-                !startvalue && 'text-muted-foreground',
-              )"
-            >
-              <CalendarIcon class="mr-2 h-4 w-4" />
-              {{ startvalue ? df.format(startvalue.toDate(getLocalTimeZone())) : "选择开始时间" }}
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent class="w-auto p-0">
-            <Calendar v-model="startvalue" initial-focus />
-          </PopoverContent>
+      <Popover>
+        <PopoverTrigger as-child>
+          <Button
+            variant="outline"
+            :class="cn(
+              'w-[280px] justify-start text-left font-normal ml-2',
+              !startvalue  && 'text-muted-foreground',
+            )"
+          >
+            <CalendarIcon class="mr-2 h-4 w-4" />
+            {{ startvalue ? df.format(startvalue.toDate(getLocalTimeZone())) : "选择查看时间" }}
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent class="flex w-auto flex-col gap-y-2 p-2">
+          <Select
+            @update:model-value="(v) => {
+              if (!v) return;
+              startvalue  = today(getLocalTimeZone()).add({ days: Number(v) });
+            }"
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="选择" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem v-for="item in items" :key="item.value" :value="item.value.toString()">
+                {{ item.label }}
+              </SelectItem>
+            </SelectContent>
+          </Select>
+          <Calendar v-model="startvalue" />
+        </PopoverContent>
       </Popover>
       <br>
       <span class="ml-4">
         截止时间
       </span>
-      <Popover >
-          <PopoverTrigger as-child>
-            <Button
-              variant="outline"
-              :class="cn(
-                'w-[280px] justify-start text-left font-normal ml-2',
-                !overvalue && 'text-muted-foreground',
-              )"
-            >
-              <CalendarIcon class="mr-2 h-4 w-4" />
-              {{ overvalue ? df.format(overvalue.toDate(getLocalTimeZone())) : "选择开始时间" }}
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent class="w-auto p-0">
-            <Calendar v-model="overvalue" initial-focus />
-          </PopoverContent>
-      </Popover>
+      <Popover>
+    <PopoverTrigger as-child>
+      <Button
+        variant="outline"
+        :class="cn(
+          'w-[280px] justify-start text-left font-normal ml-2',
+          !overvalue  && 'text-muted-foreground',
+        )"
+      >
+        <CalendarIcon class="mr-2 h-4 w-4" />
+        {{ overvalue ? df.format(overvalue.toDate(getLocalTimeZone())) : "选择查看时间" }}
+      </Button>
+    </PopoverTrigger>
+    <PopoverContent class="flex w-auto flex-col gap-y-2 p-2">
+      <Select
+        @update:model-value="(v) => {
+          if (!v) return;
+          overvalue = today(getLocalTimeZone()).add({ days: Number(v) });
+        }"
+      >
+        <SelectTrigger>
+          <SelectValue placeholder="选择" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem v-for="item in items" :key="item.value" :value="item.value.toString()">
+            {{ item.label }}
+          </SelectItem>
+        </SelectContent>
+      </Select>
+      <Calendar v-model="overvalue" />
+    </PopoverContent>
+  </Popover>
       <div class="ml-2">
         <span> 成功奖励1获得固定金币</span>
           
@@ -162,7 +208,7 @@ function onreturn(){
           type="number"
           placeholder="获得固定金币"
           :disable="isLoading"
-
+          required
         />
       </div>
 
@@ -174,6 +220,7 @@ function onreturn(){
           v-model="successrewardtwo_one"
           type="number"
           :disable="isLoading"
+          required
         />
         <span class="flex-none mt-5" >~</span>
         <input  
@@ -181,7 +228,7 @@ function onreturn(){
           v-model="successrewardtwo_two"
           type="number"
           :disable="isLoading"
-  
+          required
         />
       </div>
 
@@ -195,6 +242,7 @@ function onreturn(){
           placeholder="扣除金币 "
           :disable="isLoading"
           min="0"
+          required
         />
         
       </div>

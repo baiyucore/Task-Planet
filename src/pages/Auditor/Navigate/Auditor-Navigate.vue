@@ -43,7 +43,7 @@ import { ClipboardPenLine ,  Glasses ,Megaphone} from 'lucide-vue-next';
 
 </template>
 
-<style>
+<style scoped>
 
     .navigate {
       display: flex;
@@ -51,7 +51,7 @@ import { ClipboardPenLine ,  Glasses ,Megaphone} from 'lucide-vue-next';
     
       position: absolute;
       bottom: 30px;
-      width: 70%;
+      width: 100%;
       
     }
     .navigate a {

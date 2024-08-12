@@ -1,7 +1,7 @@
 import axios from "axios"
 import { Postnotice } from "../Interface/AuditorInterface"
 import { Auditorpath } from "./path"
-
+import {  type DateValue} from '@internationalized/date'
 
 const auditorapi={
 //发布新通知
@@ -24,6 +24,13 @@ async RemoveNotice(noticeid : string){
   });
   return responst.data;
 },
+
+async test(time :DateValue|undefined){
+  const responst = await axios.post(Auditorpath.testUrl,{
+    time :time
+  });
+  return responst.data;
+}
 
 }
 

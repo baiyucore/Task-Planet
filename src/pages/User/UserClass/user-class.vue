@@ -8,14 +8,22 @@ import { Userinfor } from '@/store/user';
 import { userapi } from '@/pages/Api/UserIndex';
 import { toast } from 'vue-sonner';
 import { UserClassinfor } from '@/pages/Interface/UserInterface';
+import { useQuery } from '@tanstack/vue-query'
 
 
 const router= useRouter();
 const classinfor =ref<UserClassinfor[]>([])
 
-function addclass(){
-  router.push({path:'/useraddclass'})
-}
+// const userid = Userinfor().userid
+
+
+// const { isError, data, error,} =useQuery({
+//     queryKey: ['userclassmember', userid],
+//     queryFn : () =>  userapi.viewclass(userid)
+
+  
+//   })
+
 onMounted(()=>{
   const userid = Userinfor().userid
   userapi.viewclass(userid).then((res)=>{
@@ -33,8 +41,8 @@ onMounted(()=>{
   })
 })
 
-function searchclass(user : string){
-  router.push({path:'/createcheckclassmember',query :{ user:user,identites:"USER"} })
+function searchclass(user : string,classname:string){
+  router.push({path:'/usercheckclassmember',query :{ user:user,classname} })
 }
 </script>
 
@@ -50,7 +58,7 @@ function searchclass(user : string){
 
       </div>
       <div class="flex-initial w-30 right">
-        <div @click="addclass()">
+        <div @click=" $router.push({path:'/useraddclass'})">
       <BadgePlus class="w-[100px]  top-2 right-0 size-8 " />
       <div class=" text-center  select-none "   >加入班级</div>
     </div>
@@ -64,7 +72,7 @@ function searchclass(user : string){
 
       <!-- 显示 -->
       <div class="main-content">
-        <h1 @click="searchclass(item.userinvitecode)" v-for="item in classinfor" :key="item.userinvitecode"  class="text-center select-none text-2xl mb-2">
+        <h1 @click="searchclass(item.userinvitecode,item.classname)" v-for="item in classinfor" :key="item.userinvitecode"  class="text-center select-none text-2xl mb-2">
           {{ item.classname }}
         </h1>
    
