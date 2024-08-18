@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref , watch} from 'vue';
+import { ref , watch} from 'vue';
 import { Select, SelectContent,SelectItem,SelectTrigger,SelectValue,
 } from '@/components/ui/select'
 import { useRouter} from 'vue-router';
@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { cn } from '@/lib/utils'
 import { toast } from 'vue-sonner';
-import { UserLoadTask, UserViewAllTask, UserViewTask, UserViewUnfinishTask, viewTask, viewUnFinishTask } from '@/pages/Interface/UserInterface';
+import {  UserViewAllTask, UserViewTask, UserViewUnfinishTask } from '@/pages/Interface/UserInterface';
 import { Userinfor } from '@/store/user';
 import { userapi } from '@/pages/Api/UserIndex';
 
@@ -20,27 +20,14 @@ const df = new DateFormatter('zh-CN', {
   dateStyle: 'long',
 })
 const items = [
-  { value: 0, label: '今天' },
+  { value: 0, label: '今天1' },
   { value: -1, label: '昨天' },
   { value: -2, label: '前天' },
 ]
 const value = ref<DateValue>()
 const viewunfinishtask =ref<UserViewUnfinishTask[]>([])
 const viewfinishtask = ref<UserViewTask[]>([])
-
-onMounted(()=>{
-  const params:UserLoadTask= {
-    userid : Userinfor().userid,
-    classname : Userinfor().useraddclass,
-  }
-  userapi.LoadTask(params).then((res)=>{
-    if( res.err_code === 0 ){
-      
-    }else{
-      toast.error(res.err_msg)
-    }
-  })
-})
+value.value =today(getLocalTimeZone()).add({ days: Number(0) })
 
 
 const isLoading= ref(false);
@@ -54,6 +41,7 @@ watch(value,(newValue,oldValue)=>{
     }
     userapi.ViewAllTask(parmas).then((res)=>{
       if(res.err_code === 0){
+         // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         viewunfinishtask.value = res.unfinishtask,
         viewfinishtask.value =res.finishtask
       }else{
@@ -64,57 +52,12 @@ watch(value,(newValue,oldValue)=>{
 
 })
 
-function unfinishtaskview(task :viewUnFinishTask  ){
-  const taskid = task.taskid
-  const taskname = task.taskname
-  const taskCompletionConditions = task.taskCompletionConditions
-  const taskstarttimeyear = task.taskstarttime.year
-  const taskstarttimemonth = task.taskstarttime.month
-  const taskstarttimeday = task.taskstarttime.day
-
-  const taskovertimeyear = task.taskovertime.year
-  const taskovertimemonth = task.taskovertime.month
-  const taskovertimeday = task.taskovertime.day
-
-  const successrewardone =task.successrewardone
-  const successrewardtwo_one = task.successrewardtwo_one
-  const successrewardtwo_two = task.successrewardtwo_two
-  const failed = task.failed
-
-  router.push({path:'/userviewunfinishtask',query:{ 
-    taskid,taskname, taskCompletionConditions, taskovertimeyear, taskovertimemonth, taskovertimeday, 
-    taskstarttimeyear, taskstarttimemonth, taskstarttimeday, successrewardone,successrewardtwo_one,successrewardtwo_two,failed
-  }});
-}
-
-function finishtaskview(task :viewTask,summarize: string ,rewardselect:string){
-  const taskid = task.taskid
-  const taskname = task.taskname
-  const taskCompletionConditions = task.taskCompletionConditions
-  const taskstarttimeyear = task.taskstarttime.year
-  const taskstarttimemonth = task.taskstarttime.month
-  const taskstarttimeday = task.taskstarttime.day
-
-  const taskovertimeyear = task.taskovertime.year
-  const taskovertimemonth = task.taskovertime.month
-  const taskovertimeday = task.taskovertime.day
-
-  const successrewardone =task.successrewardone
-  const successrewardtwo_one = task.successrewardtwo_one
-  const successrewardtwo_two = task.successrewardtwo_two
-  const failed = task.failed
-  
-  router.push({path:'/userviewfinishtask',query:{ 
-    taskid,taskname, taskCompletionConditions, taskovertimeyear, taskovertimemonth, taskovertimeday, 
-    taskstarttimeyear, taskstarttimemonth, taskstarttimeday, successrewardone,successrewardtwo_one,successrewardtwo_two,failed,summarize,rewardselect,
-  }});
-}
 
 </script>
 
 <template>
   <div class="static mt-2">
-    <span  class=" ml-10  text-2xl  font-bold">任务</span> 
+    <span  class=" ml-10  text-2xl  font-bold">审核记录</span> 
     <Popover>
     <PopoverTrigger as-child>
       <Button
@@ -149,29 +92,7 @@ function finishtaskview(task :viewTask,summarize: string ,rewardselect:string){
   </Popover>
 
       <div class="main-content">
-        <h1  v-for="items in viewunfinishtask "   class=" relative" >
-          <div v-for="item in items.unfinishtask" class="left-0 select-none text-2xl  mb-2" >       
-            <div  @click="unfinishtaskview(item)">
-            {{ item.taskname }} 
-            
-          </div>
-          </div>
-        
-         <span class="absolute inset-y-0 right-0 text-[#FF0000]">{{ items.taskcondition }}</span>
-        </h1>
-  
 
-        <h1  v-for="items in viewfinishtask"   class="relative" >
-
-         
-          <div  class=" left-0 select-none text-2xl  mb-2">
-            <div @click="finishtaskview(items.taskinfor.task,items.summarize,items.rewardselect)" >
-              {{ items.taskinfor.task.taskname }}
-            </div>
-            
-          </div>
-          <span class="absolute inset-y-0 right-0 text-[#000000]">{{ items.taskinfor.taskcondition }}</span>
-        </h1>
       </div>
   </div>
 

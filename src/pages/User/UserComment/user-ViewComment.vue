@@ -9,6 +9,9 @@ const router = useRouter();
 const route = useRoute()
 const taskid  = route.query.taskid as string
 const taskname  = route.query.taskname as string
+const taskstarttime =  route.query.taskstarttime 
+const taskovertime = route.query.taskovertime 
+
 
 const { isError, data, error,} =useQuery({
     queryKey: ['userviewcomment', taskid],
@@ -20,7 +23,7 @@ function onreturn(){
 }
 
 function othercomment(taskid:string,userid:string,username:string,summarize:string){
-  router.push({path:'/userviewothercomment' ,query:{taskid,userid,username,summarize}})
+  router.push({path:'/userviewothercomment' ,query:{taskid,userid,username,summarize,taskstarttime,taskovertime}})
 }
 
 </script>

@@ -9,9 +9,13 @@ import { userapi } from '@/pages/Api/UserIndex';
 import { Userinfor} from "@/store/user";
 import { UserReviseOneself } from '@/pages/Interface/UserInterface';
 import { useMutation} from '@tanstack/vue-query'
+import {
+  Select,SelectContent,SelectGroup,SelectItem,SelectTrigger,SelectValue,
+} from '@/components/ui/select'
 const userinfor = Userinfor()
 const router = useRouter();
 const username=ref("");
+username.value = userinfor.username
 const usersex = ref("");
 const userprofile = ref("");
 const isLoading = ref(false);
@@ -48,6 +52,7 @@ const mutation = useMutation({
 async function onSubmit(event:Event) {
   event.preventDefault();
   mutation.mutate({
+    userstartname:userinfor.username,
     userid : userinfor.userid,
     username : username.value,
     usersex:usersex.value,
@@ -62,32 +67,42 @@ function onreturn(){
 </script>
 
 <template>
-  <div class="static mt-2">
+  <div class="static mt-2 ">
     <ArrowLeft class="float-left ml-2 mt-1" @click="onreturn" />
-    <form @submit="onSubmit">  
-      <Button variant="outline" :disabled="isLoading"  class="float-right mr-5 mb-2  border-transparent">
+   
+    <form @submit="onSubmit"  >  
+
+      
+      <Button variant="outline" :disabled="isLoading"  class="float-right   border-transparent">
       <Check   /> 
       </Button>
-      <div class="ml-2 ">
+       
+      <div class="ml-2 mt-2">
         <Input  
           v-model:model-value="username"
           type="text "
-          placeholder="更换用户名"
-        
+          placeholder="{{ username }}"
           :disable="isLoading"
-          class="   text-2xl  font-bold placeholder:text-center"
+          class=" text-2xl font-bold placeholder:text-center block"
           />
       </div>
        
-      <div class="ml-2">
-        <span class="pr-6  "> 性别</span>
-        <input  
-          class="mt-5 ml-9 "
-          v-model="usersex"
-          type="text"
-          placeholder="性别"
-          :disable="isLoading"
-        />
+      <div class="ml-2 mt-4">
+        <Select v-model:model-value="usersex">
+              <SelectTrigger class="w-[400px]">
+                <SelectValue placeholder="性别" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectItem value="男">
+                    男
+                  </SelectItem>
+                  <SelectItem value="女">
+                    女
+                  </SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
       </div>
       <div class="ml-2">
         <span class="pr-6"> 个人评语</span>

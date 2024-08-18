@@ -4,17 +4,18 @@ export const Userinfor = defineStore('userid',()=>{
   const userid = ref("")
   const username = ref("")
   const useraddclass = ref("")
-  const coin = ref(-99999999)
-  const classcreate = ref("")
+  const coin = ref(0)
+  const classcreateid = ref("")
 
   function clear(){
-     coin.value = -99999999, 
-     classcreate.value="",
+     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+     coin.value = 0, 
+     classcreateid.value="",  
      userid.value="",
      useraddclass.value = "" ,
      username.value = ""
     };
-  function transmit(user_id : string){
+  function transmitid(user_id : string){
     userid.value =user_id
   };
   function transmitname(user_name : string){
@@ -26,10 +27,10 @@ export const Userinfor = defineStore('userid',()=>{
   function coinchange(coinchange: number){
     coin.value = coinchange
   }
-  function transmitclasscreate(class_create: string){
-    classcreate.value = class_create
+  function transmitclasscreateid(class_create: string){
+    classcreateid.value = class_create
   }
-  return {userid , clear,transmit, transmitname, username,useraddclass , transmitclassname,coin,coinchange,classcreate,transmitclasscreate}
+  return {userid , clear,transmitid, transmitname, username,useraddclass , transmitclassname,coin,coinchange,classcreateid,transmitclasscreateid}
 },  { persist: {
   storage: sessionStorage
 }  })

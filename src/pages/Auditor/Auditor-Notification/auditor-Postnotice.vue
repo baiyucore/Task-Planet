@@ -16,6 +16,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { auditorapi } from '@/pages/Api/AuditorIndex';
 import { Postnotice } from '@/pages/Interface/AuditorInterface';
 import { nanoid } from 'nanoid'
+import {useMutation} from '@tanstack/vue-query'
 
 const router = useRouter();
 const isLoading = ref(false);
@@ -33,16 +34,16 @@ const items = [
 ]
 const value = ref<DateValue>()
 
-async function onSubmit(event:Event) {
-  event.preventDefault();
-  isLoading.value= true;
-  const params : Postnotice={
-    noticecompletion:noticecompletion.value,
-    noticename:noticename.value,
-    noticetime:value.value,
-    noticeid : noticeid,
-  }
-  auditorapi.PostNotice(params).then((res)=>{
+const mutation = useMutation({
+  mutationFn: async (params: Postnotice) => {
+    const response = await auditorapi.PostNotice(params)
+    return response
+  },
+  onMutate: () => {
+    isLoading.value = true
+  },
+  onSuccess: (res) => {
+    isLoading.value = false
     if(res.err_code === 0 ){
       toast.success("发布成功")
       setTimeout(() => {
@@ -51,9 +52,25 @@ async function onSubmit(event:Event) {
     }else{
       toast.error(res.err_msg)
     }
+  },
+  onError: (error) => {
+    isLoading.value = false
+    toast.error(error.message)
+  },
+  onSettled: () => {
+    isLoading.value = false
+  },
+})
+
+async function onSubmit(event:Event) {
+  event.preventDefault();
+  mutation.mutate({
+    noticecompletion:noticecompletion.value,
+    noticename:noticename.value,
+    noticetime:value.value,
+    noticeid : noticeid,
   })
 }
-
 
 function onreturn(){
   router.back();
@@ -88,7 +105,7 @@ function onreturn(){
       <br>
 
       <span class="ml-4">
-        发布时间
+        设置定时发布时间
       </span>
       <Popover>
         <PopoverTrigger as-child>

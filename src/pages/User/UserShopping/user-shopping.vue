@@ -23,7 +23,7 @@ import { useMutation,useQuery } from '@tanstack/vue-query'
 
 const userinfor = Userinfor()
 const coin = userinfor.coin
-const createid = userinfor.classcreate
+const createid = userinfor.classcreateid
 
 const { isError, data, error,} =useQuery({
     queryKey: ['usershopping', createid],
@@ -84,7 +84,7 @@ function BuyShopping(shoppingvalue : number,totalnumber : number){
     userinfor.coinchange(coin-shoppingvalue)
 
     shoppingstoremutation.mutate({
-      createid : userinfor.classcreate,
+      createid : userinfor.classcreateid,
       totalnumber : totalnumber-1,
     })
 

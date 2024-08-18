@@ -31,6 +31,7 @@ export interface Createreviseoneself{
   create_name : string,
   create_sex : string,
   create_profile : string,
+  createstartname:string,
 }
 
 //创建者显示班级数据
@@ -171,8 +172,8 @@ export interface applycondition{
   userinvitecode : string,
   classname : string,
   condition: string,
-  username : string,
   createid : string,
+  username : string,
 }
 
 //删除总结里的评论

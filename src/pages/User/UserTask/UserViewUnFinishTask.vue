@@ -59,9 +59,9 @@ const { mutate: submitTask} = useMutation({
       coin: coinchange,
     };
 
-    await userapi.CoinChange(coinChangeParams);
+     userapi.CoinChange(coinChangeParams);
 
-    const response = await userapi.SubmitTask(params);
+    const response = userapi.SubmitTask(params);
     return response
   },
   onMutate:()=>{
@@ -100,12 +100,11 @@ function debounce<T extends (...args: any[]) => void>(func: T, delay: number): (
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const debouncedOnSubmit = debounce(function(this: any, event: Event) {
   event.preventDefault();
-  
+
   if (selectedOption.value === "null") {
     toast.error("必须选择奖励才能提交");
     return;
   }
-
   const params: UserSumitTask = {
     taskid,
     coin: coin.value,
@@ -114,9 +113,9 @@ const debouncedOnSubmit = debounce(function(this: any, event: Event) {
     userid: Userinfor().userid,
     username: Userinfor().username,
   };
-
   submitTask(params);
 }, 1000); 
+
 function onreturn(){
   router.back();
 }

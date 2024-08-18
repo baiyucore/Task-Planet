@@ -62,6 +62,7 @@ const createapi= {
       create_name : params.create_name,
       create_sex : params.create_sex,
       create_profile : params.create_profile,
+      createstartname :params.createstartname,
     });
     return response.data;
   },//寻找班级
@@ -175,8 +176,8 @@ const createapi= {
       userid: params.userid,
       classname: params.classname,
       condition : params.condition,
-      username : params.username ,
       createid : params.createid,
+      username : params.username,
     });
     return response.data;
   },//显示所有个人总结

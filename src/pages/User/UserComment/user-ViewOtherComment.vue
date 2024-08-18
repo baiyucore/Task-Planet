@@ -25,6 +25,7 @@ import { Label } from '@/components/ui/label'
 import { Userinfor } from '@/store/user';
 import { useMutation,useQuery } from '@tanstack/vue-query'
 
+
 const router = useRouter();
 const route = useRoute()
 const taskid  = route.query.taskid as string
@@ -32,6 +33,9 @@ const authorid  = route.query.userid as string
 const username = route.query.username as string
 const summarize = route.query.summarize as string
 const innercomment = ref<ViewInnerComment[]>([])
+
+const taskstarttime = typeof route.query.taskstarttime === 'string' ? parseInt(route.query.taskstarttime) : NaN;
+const taskovertime = typeof route.query.taskovertime === 'string' ? parseInt(route.query.taskovertime) : NaN;
 
 const comment = ref("")
 const isLoading = ref(false)
@@ -136,6 +140,7 @@ async function viewinnerComment(commentid:string,comment: string) {
     taskid:taskid,
     comment:comment,
     commentid:commentid,
+    
   })
 }
 
@@ -161,7 +166,10 @@ async function warns(commentid:string,comment: string) {
     taskid:taskid,
     comment:comment,
     commentid:commentid,
-    userid :Userinfor().userid
+    userid :Userinfor().userid,
+    classname : Userinfor().useraddclass,
+    taskstarttime:taskstarttime,
+    taskovertime:taskovertime
   })
 }
 
@@ -188,6 +196,9 @@ async function warnssummarize() {
     summarize:summarize,
     authorid : authorid,
     userid  : Userinfor().userid,
+    classname : Userinfor().useraddclass,
+    taskstarttime:taskstarttime,
+    taskovertime:taskovertime
   })
 }
 

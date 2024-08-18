@@ -4,15 +4,13 @@ import { useRouter, useRoute } from 'vue-router';
 import { ArrowLeft  } from 'lucide-vue-next';
 
 import { Textarea } from '@/components/ui/textarea'
-import { Button } from '@/components/ui/button'
+
 
 const router = useRouter();
 const route = useRoute()
 const noticename = route.query.name
 const noticecompletion = route.query.completion
-const year = route.query.year
-const month = route.query.month
-const day = route.query.day
+const taskstarttime = route.query.taskstarttime
 
 function onreturn(){
   router.back();
@@ -43,12 +41,10 @@ function onreturn(){
       <span class="ml-4">
         发布时间 
       </span>
-      {{ year }}-{{ month }} -{{ day}}
+      {{ taskstarttime }}
       <br>
 
-      <Button   disabled class="w-3/4 mt-10 mx-16 bg-[#083EC8] ">
-            发布
-       </Button>
+
 
 
   </div>

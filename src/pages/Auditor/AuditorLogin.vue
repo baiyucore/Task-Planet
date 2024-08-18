@@ -4,12 +4,9 @@ import { useRouter } from 'vue-router'
 import { toast } from 'vue-sonner'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { UseCreateStore } from '@/store/create'
-import { Userinfor } from '@/store/user'
 import { systemapi } from '@/pages/Api/SystemIndex'
 import { accountinfor } from '@/pages/Interface/SystemInterfact'
-import { buttonVariants } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
+import { Auditorinfor } from '@/store/auditor'
 import { useMutation } from '@tanstack/vue-query'
 
 
@@ -30,29 +27,12 @@ const mutation = useMutation({
   onSuccess: (res) => {
     isLoading.value = false
     if (res.err_code === 0) {
-      switch (res.account_identites) {
-        case 'CREATE':
-          // eslint-disable-next-line no-case-declarations
-          const createinfor = UseCreateStore()
-          createinfor.$clear()
-          createinfor.transmit(account_id.value)
-          createinfor.transmitname(res.name)
-          router.push({ path:"/createtaskfinsh"  })
-          break
-        case 'USER':
-          // eslint-disable-next-line no-case-declarations
-          const userinfor = Userinfor()
-          userinfor.clear()
-          userinfor.coinchange(res.coin)
-          userinfor.transmitid(account_id.value)
-          userinfor.transmitname(res.name)
-          userinfor.transmitclasscreateid(res.classreateid)
-          userinfor.transmitclassname(res.classname)
-          router.push({ path: '/usertask' })
-          break
-        default:
-          break
-      }
+    
+      // eslint-disable-next-line no-case-declarations
+     const auditorinfor = Auditorinfor()
+      auditorinfor.transmit(account_id.value)
+      router.push({ path: '/audit' })
+
     } else {
       toast.error(res.err_msg)
     }
@@ -81,7 +61,7 @@ async function onSubmit(event: Event) {
     <div class="justify-center top-60 mx-auto flex-col space-y-6 w-[400px] absolute md:left-1/3 duration-700 sm:left-1/3 left-14">
       <div>
         <form @submit="onSubmit">
-          <div class="logintext ml-20 cursor-default text-cyan-500">Academic Time</div>
+          <div class="logintext ml-20 cursor-default text-cyan-500">Auditor login</div>
           <Input 
             v-model:model-value="account_id"
             type="text"
@@ -102,16 +82,7 @@ async function onSubmit(event: Event) {
             :disabled="isLoading"
             required
           />
-          <a @click="$router.push({ path: '/register' })" 
-            :class="
-              cn(
-                buttonVariants({ variant: 'ghost' }),
-                'user-select-none Loginregister text-violet-500 hover:text-violet-800 block italic'
-              )
-            "
-          >
-            注册
-          </a>
+  
           <Button :disabled="isLoading" type="submit" class="rounded-full mt-10 w-full bg-cyan-500 hover:bg-cyan-600">
             登入
           </Button>

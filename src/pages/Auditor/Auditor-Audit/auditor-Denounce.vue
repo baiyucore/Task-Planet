@@ -10,32 +10,28 @@ import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { cn } from '@/lib/utils'
 import { toast } from 'vue-sonner';
-import { UserLoadTask, UserViewAllTask, UserViewTask, UserViewUnfinishTask, viewTask, viewUnFinishTask } from '@/pages/Interface/UserInterface';
-import { Userinfor } from '@/store/user';
-import { userapi } from '@/pages/Api/UserIndex';
-
+import { auditorapi } from '@/pages/Api/AuditorIndex';
+import { warnarray } from '@/pages/Interface/AuditorInterface';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 
 const router= useRouter();
 const df = new DateFormatter('zh-CN', {
   dateStyle: 'long',
 })
+
 const items = [
   { value: 0, label: '今天' },
   { value: -1, label: '昨天' },
   { value: -2, label: '前天' },
 ]
 const value = ref<DateValue>()
-const viewunfinishtask =ref<UserViewUnfinishTask[]>([])
-const viewfinishtask = ref<UserViewTask[]>([])
+value.value =today(getLocalTimeZone()).add({ days: Number(0) })
+const warninfor =ref<warnarray[]>([])
 
 onMounted(()=>{
-  const params:UserLoadTask= {
-    userid : Userinfor().userid,
-    classname : Userinfor().useraddclass,
-  }
-  userapi.LoadTask(params).then((res)=>{
-    if( res.err_code === 0 ){
-      
+  auditorapi.checkTimeWarn(value.value).then((res)=>{
+    if(res.err_code === 0){
+      warninfor.value = res.warnexisted
     }else{
       toast.error(res.err_msg)
     }
@@ -47,19 +43,13 @@ const isLoading= ref(false);
 watch(value,(newValue,oldValue)=>{
   if(newValue !== oldValue){
     isLoading.value=true;
-    const parmas : UserViewAllTask= {
-      time:newValue,
-      userid: Userinfor().userid,
-      classname: Userinfor().useraddclass,
+    auditorapi.checkTimeWarn(newValue).then((res)=>{
+    if(res.err_code === 0){
+      warninfor.value = res.warnexisted
+    }else{
+      toast.error(res.err_msg)
     }
-    userapi.ViewAllTask(parmas).then((res)=>{
-      if(res.err_code === 0){
-        viewunfinishtask.value = res.unfinishtask,
-        viewfinishtask.value =res.finishtask
-      }else{
-        toast.error(res.err_msg)
-      }
-    })
+  })
   }
 
 })
@@ -105,7 +95,22 @@ watch(value,(newValue,oldValue)=>{
   </Popover>
 
       <div class="main-content">
-     
+        
+        <Accordion type="single" class="w-full " collapsible >
+            <AccordionItem v-for="items in warninfor"  :value="items._id" :key="items._id">     
+              <AccordionTrigger class="text-2xl">    
+                <div > 被举报 {{ items.warnedcommentid }} 内容 {{ items.warncomment }} </div> 
+              </AccordionTrigger>
+              <AccordionContent>
+                <Button class="bg-rose-700 hover:bg-rose-800 mr-2"  >删除并记录违规</Button>
+                <Button class="bg-stone-600 hover:bg-stone-800" >并无违规</Button>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        <!-- <div v-for="items in warninfor" :key="items._id">
+         被举报 {{ items.warnedcommentid }} 内容 {{ items.warncomment }} 
+
+        </div> -->
       </div>
   </div>
 

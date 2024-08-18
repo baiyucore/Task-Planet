@@ -10,9 +10,13 @@ import { Createreviseoneself } from '@/pages/Interface/CreateInterface';
 import { UseCreateStore} from '@/store/create';
 import { Userinfor } from '@/store/user';
 import {useMutation} from '@tanstack/vue-query'
+import {
+  Select,SelectContent,SelectGroup,SelectItem,SelectTrigger,SelectValue,
+} from '@/components/ui/select'
 const createinfor = UseCreateStore()
 const router = useRouter();
 const create_name=ref("");
+create_name.value = createinfor.createname
 const create_sex = ref("");
 const create_profile = ref("");
 const isLoading = ref(false);
@@ -53,6 +57,7 @@ async function onSubmit(event:Event) {
     create_name: create_name.value,
     create_sex: create_sex.value,
     create_profile: create_profile.value,
+    createstartname:createinfor.createname,
     })
 
 
@@ -67,17 +72,14 @@ function onreturn(){
   <div class="static mt-2">
     <ArrowLeft class="float-left ml-2 mt-1" @click="onreturn" />
     <form @submit="onSubmit">
-      
       <Button variant="outline" :disabled="isLoading"  class="float-right mr-5 mb-2  border-transparent">
       <Check   /> 
       </Button>
-
-
       <div class="ml-2 ">
         <Input  
           v-model:model-value="create_name"
           type="text "
-          placeholder="更换用户名"
+          placeholder="{{create_name}}"
         
           :disable="isLoading"
           class="   text-2xl  font-bold placeholder:text-center"
@@ -85,14 +87,21 @@ function onreturn(){
       </div>
        
       <div class="ml-2">
-        <span class="pr-6  "> 性别</span>
-        <input  
-          class="mt-5 ml-9 "
-          v-model="create_sex"
-          type="text"
-          placeholder="性别"
-          :disable="isLoading"
-        />
+        <Select v-model:model-value="create_sex">
+              <SelectTrigger class="w-[400px]">
+                <SelectValue placeholder="性别" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectItem value="男">
+                    男
+                  </SelectItem>
+                  <SelectItem value="女">
+                    女
+                  </SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
       </div>
       <div class="ml-2">
         <span class="pr-6"> 个人评语</span>

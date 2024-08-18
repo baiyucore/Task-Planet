@@ -64,7 +64,7 @@ const { isError, data, error,} =useQuery({
   })
 
   function onreturn(){
-  router.back();
+    router.push("/createtaskunfinshed");
 }
 
 </script>

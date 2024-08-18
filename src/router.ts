@@ -61,6 +61,7 @@ import CreateRevise from "./pages/Create/CreateOneself/create-revise.vue";
 
 
 //管理者
+import AuditorLogin from "./pages/Auditor/AuditorLogin.vue";
 import AuditorNavigate from "./pages/Auditor/Navigate/Auditor-Navigate.vue";
 
 import AuditorNotification from "./pages/Auditor/Auditor-Notification/auditor-Notification.vue";
@@ -190,6 +191,7 @@ const routes = [
   },
 
   //管理者
+  { path:"/auditorlogin",component:AuditorLogin},
   { path:"/auditorviewnoticeinfor",component:AuditorViewNotiveInfor},
   { path:"/auditorpostnotice",component: AuditorPostNotice},
   { path:"/auditornavigate", component: AuditorNavigate,

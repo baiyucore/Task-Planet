@@ -25,6 +25,7 @@ const userapi = {
       user_name : params.username,
       user_sex: params.usersex,
       user_profile : params.userprofile,
+      userstartname : params.userstartname
     });
     return response.data;
   },//在商城中商品
@@ -185,6 +186,9 @@ const userapi = {
       commentid:params.commentid,
       comment : params.comment,
       userid : params.userid,
+      taskstarttime:params.taskstarttime,
+      taskovertime:params.taskovertime,
+      classname : params.classname,
     });
     return response.data;
   },//举报总结
@@ -194,6 +198,9 @@ const userapi = {
       summarize : params.summarize,
       authorid : params.authorid,
       userid : params.userid,
+      taskstarttime:params.taskstarttime,
+      taskovertime:params.taskovertime,
+      classname :params.classname,
     });
     return response.data;
   }

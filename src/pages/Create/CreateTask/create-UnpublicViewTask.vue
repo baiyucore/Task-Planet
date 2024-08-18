@@ -16,8 +16,9 @@ const taskCompletionConditions = route.query.taskCompletionConditions  as string
   const successrewardtwo_one = route.query.successrewardtwo_one as string
   const successrewardtwo_two = route.query.successrewardtwo_two as string
   const failed = route.query.failed as string
-  function onreturn(){
-  router.back();
+  
+function onreturn(){
+  router.push("/createtaskunfinshed");
 }
 
 </script>

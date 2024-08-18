@@ -81,8 +81,8 @@ watch(value,(newValue,oldValue)=>{
   }
 })
 
-function viewcomment(taskid : string,taskname:string){
-  router.push({path:'/userviewcomment',query:{taskid,taskname}});
+function viewcomment(taskid : string,taskname:string,taskstarttime:number,taskovertime:number){
+  router.push({path:'/userviewcomment',query:{taskid,taskname,taskstarttime ,taskovertime }});
 }
 
 
@@ -127,14 +127,14 @@ function viewcomment(taskid : string,taskname:string){
       <div class="main-content">
         <h1  v-for="items in viewunfinishtask " :key="items._id"  class=" relative" >
           <div v-for="item in items.unfinishtask" :key="item._id" class="left-0 select-none text-2xl  mb-2" >       
-            <div  @click="viewcomment(item.taskid,item.taskname)">
-            {{ item.taskname }}   
+            <div  @click="viewcomment(item.taskid,item.taskname,item.taskstarttime,item.taskovertime)">
+            {{ item.taskname }} 
           </div>
           </div>
         </h1>
         <h1  v-for="items in viewfinishtask" :key="items._id"  class="relative" >
           <div  class=" left-0 select-none text-2xl  mb-2">
-            <div @click="viewcomment(items.taskinfor.task.taskid,items.taskinfor.task.taskname)" >
+            <div @click="viewcomment(items.taskinfor.task.taskid,items.taskinfor.task.taskname,items.taskinfor.task.taskstarttime,items.taskinfor.task.taskovertime)" >
               {{ items.taskinfor.task.taskname }}  
             </div>        
           </div>

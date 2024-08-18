@@ -7,10 +7,17 @@ import { auditorapi } from '@/pages/Api/AuditorIndex';
 import { ViewPostNotice } from '@/pages/Interface/AuditorInterface';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
-
+import { useQuery } from '@tanstack/vue-query'
+import { format } from 'date-fns';
 const router= useRouter();
 
 const noticeinfor = ref<ViewPostNotice[]>([])
+
+
+const { isError, data, error,} =useQuery({
+    queryKey: ['auditornotification'],
+    queryFn : () =>  auditorapi.ViewPostNotice()
+  })
 
 onMounted(()=>{
   auditorapi.ViewPostNotice().then((res)=>{
@@ -26,10 +33,10 @@ onMounted(()=>{
 function viewnoticeinfor(item:ViewPostNotice){
   const name = item.noticename
   const completion = item.noticecompletion
-  const year = item.noticetime.year
-  const month = item.noticetime.month
-  const day = item.noticetime.day
-  router.push({path:'/auditorviewnoticeinfor',query:{name,completion,year,month,day}})
+
+  const startdate = new Date(item.noticetime)
+  const taskstarttime = format(startdate, 'yyyy-MM-dd HH:mm:ss');
+  router.push({path:'/auditorviewnoticeinfor',query:{name,completion,taskstarttime}})
 }
 function postnotice(){
   router.push({path:'/auditorpostnotice'})
@@ -75,16 +82,23 @@ function removenotice(noticeid : string){
 
       <div class="main-content">
       
-        <Accordion type="single" class="w-full " collapsible >
-          <AccordionItem v-for="item in noticeinfor"  :value="item.noticename">     
-            <AccordionTrigger class="text-2xl">    
-              <div @click="viewnoticeinfor(item)">{{ item.noticename }}</div> 
-            </AccordionTrigger>
-            <AccordionContent>
-              <Button class="bg-rose-700 hover:bg-rose-800" @click="removenotice(item.noticeid)">删除</Button>
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
+        <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
+        <span v-else-if="data">
+            <Accordion type="single" class="w-full " collapsible >
+            <AccordionItem v-for="item in data.postnotice"  :value="item.noticename" :key="item._id">     
+              <AccordionTrigger class="text-2xl">    
+                <div @click="viewnoticeinfor(item)">{{ item.noticename }}</div> 
+              </AccordionTrigger>
+              <AccordionContent>
+                <Button class="bg-rose-700 hover:bg-rose-800" @click="removenotice(item.noticeid)">删除</Button>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+
+
+        </span>
+
+
 
    
       </div>

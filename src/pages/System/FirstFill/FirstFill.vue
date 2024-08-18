@@ -43,7 +43,7 @@ const mutation = useMutation({
         else if(account_identites.value === "USER"){
           const userinfor = Userinfor()
           userinfor.clear()
-          userinfor.transmit(account_id)
+          userinfor.transmitid(account_id)
           userinfor.transmitname(account_name.value)
           router.push({ path:'/usertask' });
         } 

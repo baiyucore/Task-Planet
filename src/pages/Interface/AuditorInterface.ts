@@ -10,11 +10,26 @@ export interface Postnotice{
 export interface ViewPostNotice{
   noticename: string,
   noticecompletion: string,
-  noticetime: time,
+  noticetime: number,
   noticeid: string,
 }
 export interface time{
   year:string,
   month:string,
   day:string,
+}
+
+export interface login{
+  account_id: string,
+  account_password : string,
+}
+
+//
+export interface warnarray{
+  warnuserid : string,
+  warnedcommentid : string,
+  warncomment:string,
+  taskid : string,
+  classname : string,
+  _id: string,
 }

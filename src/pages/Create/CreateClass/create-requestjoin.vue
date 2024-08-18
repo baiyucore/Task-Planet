@@ -7,7 +7,6 @@ import { UseCreateStore } from '@/store/create';
 import { applycondition, } from '@/pages/Interface/CreateInterface';
 import { useRouter} from 'vue-router';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
-import { Userinfor } from '@/store/user';
 import { useQuery,useMutation } from '@tanstack/vue-query'
 
   const createid = UseCreateStore().createid
@@ -40,14 +39,13 @@ const mutation= useMutation({
 })
 
 
-async function aboutapplication(userid : string,userinvitecode:string,classname : string,condition: string){
-  const username = Userinfor().username
+async function aboutapplication(userid : string,userinvitecode:string,classname : string,username:string,condition: string){
   mutation.mutate({
     userinvitecode : userinvitecode,
     userid : userid,
     classname : classname,
     condition : condition,
-    username : username,
+    username: username,
     createid : createid,
     })
 }
@@ -64,20 +62,21 @@ function onreturn(){
     <ArrowLeft class="float-left ml-2 mt-1" @click="onreturn" />
    
       <h2  class=" text-center  text-2xl  font-bold">申请列表</h2> 
+      <Accordion type="single" class="w-full" collapsible >
       <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
       <span v-else-if="data">
-    <Accordion type="single" class="w-full" collapsible >
+
     <AccordionItem v-for="item in data.application" :value="item.userid" :key="item.userid">
       <AccordionTrigger>{{ item.username }} id:{{ item.userid }} 申请加入 {{ item.classname }}</AccordionTrigger>
       <AccordionContent>
-        <Button class="bg-sky-400 hover:bg-cyan-600 mr-2" @click="aboutapplication(item.userid,item.userinvitecode,item.classname,'同意')" >同意</Button>
-              <Button class="bg-rose-700 hover:bg-rose-800 mr-2" @click="aboutapplication(item.userid,item.userinvitecode,item.classname,'拒绝')">拒绝</Button>
+        <Button class="bg-sky-400 hover:bg-cyan-600 mr-2" @click="aboutapplication(item.userid,item.userinvitecode,item.classname,item.username,'同意')" >同意</Button>
+              <Button class="bg-rose-700 hover:bg-rose-800 mr-2" @click="aboutapplication(item.userid,item.userinvitecode,item.classname,item.username,'拒绝')">拒绝</Button>
              
       </AccordionContent>
     </AccordionItem>
-  </Accordion>
-      </span>
 
+      </span>
+    </Accordion>
 
   </div>
 </template>

@@ -1,5 +1,5 @@
 import axios from "axios"
-import { Postnotice } from "../Interface/AuditorInterface"
+import { login, Postnotice, warnarray } from "../Interface/AuditorInterface"
 import { Auditorpath } from "./path"
 import {  type DateValue} from '@internationalized/date'
 
@@ -10,7 +10,7 @@ async PostNotice(params: Postnotice){
     noticename : params.noticename,
     noticecompletion: params.noticecompletion,
     noticetime: params.noticetime,
-    noticeif: params.noticeid,
+    noticeid: params.noticeid,
   });
   return responst.data;
 },//显示通知
@@ -30,7 +30,29 @@ async test(time :DateValue|undefined){
     time :time
   });
   return responst.data;
+},//登入
+async login(params:login){
+  const responst = await axios.post(Auditorpath.AuditroLoginUrl,{
+    account_id:params.account_id,
+    account_password :params.account_password
+  })
+  return responst.data;
+},//举报信息体现
+async checkTimeWarn(params:DateValue|undefined){
+  const responst = await axios.post(Auditorpath.AuditorCheckTimeWarnUrl,{
+    time : params,
+  })
+  return responst.data;
+},//
+async WarnRecord(params:warnarray){
+  const responst = await axios.post(Auditorpath.AuditorWarnRecordsUrl,{
+    taskid:params.taskid,
+    warnuserid:params.warnuserid,
+    warnedcommentid:params.warnedcommentid,
+    
+  })
 }
+
 
 }
 

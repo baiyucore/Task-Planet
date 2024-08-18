@@ -14,6 +14,7 @@ export interface UserReviseOneself{
   username: string,
   usersex : string,
   userprofile : string,
+  userstartname : string,
 }
 //用户申请
 export interface UserApplyformember{
@@ -181,7 +182,10 @@ export interface searchinnerComment{
   taskid: string,
   commentid:string,
   comment:string,
+  taskstarttime ?:number,
+  taskovertime?:number,
   userid ?: string
+  classname ?:string,
 }
 
 export interface ViewInnerComment{
@@ -213,4 +217,7 @@ export interface warnsummarize{
   summarize : string,
   authorid : string,
   userid : string,
+  taskstarttime :number,
+  taskovertime:number,
+  classname : string,
 }

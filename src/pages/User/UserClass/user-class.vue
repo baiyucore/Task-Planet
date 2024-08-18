@@ -1,28 +1,21 @@
 <script setup lang="ts">
-import { onMounted,ref} from 'vue';
 import {  useRouter} from 'vue-router';
 import { BadgePlus } from 'lucide-vue-next';
 import { Userinfor } from '@/store/user';
 import { userapi } from '@/pages/Api/UserIndex';
 import { toast } from 'vue-sonner';
+import { useQuery } from '@tanstack/vue-query'
 
 const router= useRouter();
-const classname = ref("");
-const userinvitecode = ref("")
-onMounted(()=>{
-  const userid = Userinfor().userid
-  userapi.viewclass(userid).then((res)=>{
-    if(res.err_code === 0){
-        classname.value = res.classname 
-        userinvitecode.value = res.userinvitecode
 
-        Userinfor().transmitclassname(res.classname )
-        Userinfor().transmitclasscreate(res.createid)
-    }else {
-      toast.error(res.err_msg)
-    }
+
+const userid = Userinfor().userid
+const { isError, data, error,} =useQuery({
+    queryKey: ['userclass', userid],
+    queryFn : () => userapi.viewclass(userid)
   })
-})
+
+
 
 function searchclass(user : string,classname:string){
   router.push({path:'/usercheckclassmember',query :{ user:user,classname} })
@@ -55,9 +48,20 @@ const addclass = ()=>{
 
       <!-- 显示 -->
       <div class="main-content">
-        <h1 @click="searchclass(userinvitecode,classname)"   class="text-center select-none text-2xl mb-2">
-          {{ classname }}
+        <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
+        <span v-else-if="data">
+          <span class="hidden">
+            {{ Userinfor().transmitclassname(data.classname) }}
+          </span>
+   
+          <h1 @click="searchclass(data.userinvitecode,data.classname)"   class="text-center select-none text-2xl mb-2">
+          {{ data.classname }}
         </h1>
+
+        </span>
+
+
+        
    
       </div>
   </div>
