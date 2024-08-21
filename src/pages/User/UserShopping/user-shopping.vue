@@ -19,13 +19,18 @@ import { userapi } from '@/pages/Api/UserIndex';
 import { Userinfor } from '@/store/user';
 import { UserBuyShopping, UserCoinChange  } from '@/pages/Interface/UserInterface';
 import { useMutation,useQuery } from '@tanstack/vue-query'
+import { format } from 'date-fns';
 
 
 const userinfor = Userinfor()
 const coin = userinfor.coin
 const createid = userinfor.classcreateid
+const now = new Date();
 
-const { isError, data, error,} =useQuery({
+const time = format(now,'yyyy-MM-dd HH:mm:ss')
+
+
+const { isError, data, error,refetch} =useQuery({
     queryKey: ['usershopping', createid],
     queryFn : () => userapi.viewshopping(createid)
   })
@@ -36,10 +41,8 @@ const { isError, data, error,} =useQuery({
     const response = await userapi.CoinChange(params)
     return response
   },
-  onSuccess:(res)=>{
-    if( res.err_code !== 0 ){
-      toast.error( res.err_msg )
-    } 
+  onSuccess:()=>{
+    
   },  
   onError: (error) => {
     toast.error(error.message)
@@ -54,7 +57,7 @@ const shoppingstoremutation = useMutation({
   onSuccess:(res)=>{
     if( res.err_code === 0 ){
       toast.success("购买成功")
-      window.location.reload();
+      refetch()
     } else{
         toast.error(res.err_msg)
       }
@@ -65,11 +68,8 @@ const shoppingstoremutation = useMutation({
 })
 
 
-function BuyShopping(shoppingvalue : number,totalnumber : number){
-  if(totalnumber==0 || totalnumber<0){
-    toast.error("总兑换次数不足，无法购买。")
-    return ;
-  }
+function BuyShopping(shoppingvalue : number,productid : string){
+ 
   if(coin<0){
     toast.error("金币为负数无法购买")
     return ;
@@ -85,7 +85,9 @@ function BuyShopping(shoppingvalue : number,totalnumber : number){
 
     shoppingstoremutation.mutate({
       createid : userinfor.classcreateid,
-      totalnumber : totalnumber-1,
+      userid: userinfor.userid,
+      productid:productid,
+      time : time,
     })
 
   }
@@ -102,7 +104,7 @@ function debounce<T extends (...args: any[]) => void>(func: T, delay: number): (
       }, delay);
   };
 }
-const debouncebuyshopping = debounce(BuyShopping,1000);
+const debouncebuyshopping = debounce(BuyShopping,100);
 </script>
 
 <template>
@@ -151,7 +153,7 @@ const debouncebuyshopping = debounce(BuyShopping,1000);
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                       <AlertDialogCancel>取消</AlertDialogCancel>
-                      <AlertDialogAction @click="debouncebuyshopping(item.productprice,item.totalnumber)">确定</AlertDialogAction>
+                      <AlertDialogAction :disabled="item.totalnumber === 0" @click="debouncebuyshopping(item.productprice,item.productid,)">确定</AlertDialogAction>
                     </AlertDialogFooter>
                   </AlertDialogContent>
               </AlertDialog>

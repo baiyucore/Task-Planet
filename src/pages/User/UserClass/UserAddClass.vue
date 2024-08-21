@@ -46,6 +46,10 @@ const mutation= useMutation({
 
 })
 
+function handleInput(event: Event) {
+  const input = event.target as HTMLInputElement;
+  UserInvitecode.value = input.value.trimStart();
+}
 
 
 //搜索
@@ -76,10 +80,11 @@ function onreturn(){
           <Search />
         </Button>
         <Input
-          v-model:model-value="UserInvitecode"
+          v-model="UserInvitecode"
           type="text"
           placeholder="填写邀请码"
           :disabled="isLoading"
+           @input="handleInput"
           />    
       </div>    
     </form>

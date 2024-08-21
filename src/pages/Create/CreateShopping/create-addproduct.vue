@@ -8,7 +8,9 @@ import { createapi } from '@/pages/Api/CreateIndex';
 import { CreateAddproduct } from '@/pages/Interface/CreateInterface';
 import { UseCreateStore } from '@/store/create';
 import {useMutation} from '@tanstack/vue-query'
+import { nanoid } from 'nanoid'
 
+const productid =nanoid(8)
 const router = useRouter();
 const isLoading = ref(false);
 const productname = ref("");
@@ -51,6 +53,7 @@ async function onSubmit(event:Event) {
     productname : productname.value,
     productprice : productprice.value,
     totalnumber : totalnumber.value,
+    productid : productid,
     })
 
   

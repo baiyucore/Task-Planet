@@ -11,8 +11,14 @@ import { Calendar } from '@/components/ui/calendar'
 import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { cn } from '@/lib/utils'
+import { toast } from 'vue-sonner';
+import { useRouter } from 'vue-router';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { AuditorViewComment } from '@/pages/Interface/AuditorInterface';
 import { auditorapi } from '@/pages/Api/AuditorIndex';
+
+
+const router = useRouter()
 
 const df = new DateFormatter('zh-CN', {
   dateStyle: 'long',
@@ -25,20 +31,28 @@ const items = [
 ]
 
 const value = ref<DateValue>()
-  value.value =today(getLocalTimeZone()).add({ days: Number(0) })
+const commenallinfor = ref<AuditorViewComment[]>([])
+value.value =today(getLocalTimeZone()).add({ days: Number(0) })
+
 
 watch(value,(newValue,oldValue)=>{
   if(newValue !== oldValue){
-  
-    auditorapi.test(value.value).then((res)=>{
-      
-    })
-
+  auditorapi.ViewComment(newValue).then((res)=>{
+    
+    if(res.err_code === 0){
+      commenallinfor.value = res.taskinfor
+    }else {
+      toast.error(res.err_msg)
+    }
+  })
   }
 
 })
 
+function viewtask(taskname : string,taskid:string){
+  router.push({path:'/auditorcommentinfor',query :{taskname , taskid}});
 
+}
 
 </script>
 
@@ -87,8 +101,10 @@ watch(value,(newValue,oldValue)=>{
 
 
       <div class="main-content">
-       
-        {{ value }}
+        <h1 v-for="items in commenallinfor" @click="viewtask(items.taskname,items.taskid)" :key="items._id" class="text-center select-none text-2xl mb-2">
+         {{items.classname}}--{{items.taskname}}
+        </h1>
+
        
     
 

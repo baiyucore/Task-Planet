@@ -51,7 +51,7 @@ const addclass = ()=>{
         <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
         <span v-else-if="data">
           <span class="hidden">
-            {{ Userinfor().transmitclassname(data.classname) }}
+            {{ Userinfor().transmitclassname(data.classname)}} {{ Userinfor().transmitclasscreateid(data.createid)  }}
           </span>
    
           <h1 @click="searchclass(data.userinvitecode,data.classname)"   class="text-center select-none text-2xl mb-2">

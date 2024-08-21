@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref , watch} from 'vue';
+import { onMounted,ref , watch} from 'vue';
 import { Select, SelectContent,SelectItem,SelectTrigger,SelectValue,
 } from '@/components/ui/select'
-import { useRouter} from 'vue-router';
+
 import {DateFormatter,type DateValue,getLocalTimeZone, today,} from '@internationalized/date'
 import { Calendar as CalendarIcon } from 'lucide-vue-next'
 import { Calendar } from '@/components/ui/calendar'
@@ -10,12 +10,10 @@ import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { cn } from '@/lib/utils'
 import { toast } from 'vue-sonner';
-import {  UserViewAllTask, UserViewTask, UserViewUnfinishTask } from '@/pages/Interface/UserInterface';
-import { Userinfor } from '@/store/user';
-import { userapi } from '@/pages/Api/UserIndex';
+import { auditorapi } from '@/pages/Api/AuditorIndex';
+import { viewauditorrecord } from '@/pages/Interface/AuditorInterface';
 
 
-const router= useRouter();
 const df = new DateFormatter('zh-CN', {
   dateStyle: 'long',
 })
@@ -25,25 +23,29 @@ const items = [
   { value: -2, label: '前天' },
 ]
 const value = ref<DateValue>()
-const viewunfinishtask =ref<UserViewUnfinishTask[]>([])
-const viewfinishtask = ref<UserViewTask[]>([])
+const viewrecord =ref<viewauditorrecord[]>([])
 value.value =today(getLocalTimeZone()).add({ days: Number(0) })
 
-
-const isLoading= ref(false);
-watch(value,(newValue,oldValue)=>{
-  if(newValue !== oldValue){
-    isLoading.value=true;
-    const parmas : UserViewAllTask= {
-      time:newValue,
-      userid: Userinfor().userid,
-      classname: Userinfor().useraddclass,
-    }
-    userapi.ViewAllTask(parmas).then((res)=>{
+onMounted(()=>{
+  auditorapi.ViewAuditRecord(value.value).then((res)=>{
       if(res.err_code === 0){
          // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-        viewunfinishtask.value = res.unfinishtask,
-        viewfinishtask.value =res.finishtask
+        viewrecord.value = res.record
+
+      }else{
+        toast.error(res.err_msg)
+      }
+    })
+})
+
+watch(value,(newValue,oldValue)=>{
+  if(newValue !== oldValue){
+  
+    auditorapi.ViewAuditRecord(newValue).then((res)=>{
+      if(res.err_code === 0){
+         // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+        viewrecord.value = res.record
+
       }else{
         toast.error(res.err_msg)
       }
@@ -92,7 +94,9 @@ watch(value,(newValue,oldValue)=>{
   </Popover>
 
       <div class="main-content">
-
+        <div v-for="items in viewrecord " :key="items._id">
+           {{ items.warnuserid }}举报 {{ items.warnedcommentid }}的内容{{ items.warninfor }} 结果 {{ items.result }}
+        </div>
       </div>
   </div>
 

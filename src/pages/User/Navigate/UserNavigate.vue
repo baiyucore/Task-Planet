@@ -1,11 +1,61 @@
 <script setup lang="ts" name="App">
 import { RouterLink,RouterView } from 'vue-router';
 import { ClipboardList , ShoppingCart , ClipboardPenLine , School , User} from 'lucide-vue-next';
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
+import Button from '@/components/ui/button/Button.vue';
+import { Userinfor } from '@/store/user';
+import { useQuery } from '@tanstack/vue-query'
+import { toast } from 'vue-sonner';
+import { userapi } from '@/pages/Api/UserIndex';
+import { computed } from 'vue';
+import { notice } from '@/pages/Interface/SystemInterfact';
 
+
+const { isError, data, error} =useQuery<notice>({
+    queryKey: ['usernotification'],
+    queryFn : () =>  userapi.viewnotice()
+  })
+
+
+function changenoticeopen(){
+  Userinfor().changenoticeopen();
+}
+const isDialogOpen = computed(() => {
+  const userData = data.value;  
+  return Userinfor().noticeopen && userData?.existednumber !== undefined && userData.existednumber !== 0;
+});
 </script>
 <template>  
 <div class=" ">
  <div class="navigate grid grid-cols-5 gap-x-0">
+  <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
+  <span v-else-if="data">
+        <Dialog v-model:open="isDialogOpen">
+            <DialogTrigger as-child>
+
+            </DialogTrigger>
+            <DialogContent class="sm:max-w-[425px] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle>系统通知</DialogTitle>
+              </DialogHeader>
+              <div v-for="items in data.notification" :key="items._id">                
+                {{ items.noticename }} 内容 {{ items.noticecompletion }}
+              </div>
+
+              <Button @click="changenoticeopen"> 确定</Button>
+        
+                <DialogFooter>
+                    </DialogFooter>
+            </DialogContent>
+          </Dialog>
+  </span>
         <div>
           <RouterLink :to="{path:'/usertask'}" active-class="active" class="static">
           <ClipboardList class="  relative size-8 top-1 left-8 "/>

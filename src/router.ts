@@ -70,6 +70,8 @@ import AuditorViewNotiveInfor from "./pages/Auditor/Auditor-Notification/auditor
 
 
 import AuditorComment from  "./pages/Auditor/AuditorComment/AuditorComment.vue";
+import AuditorCommentinfor from "./pages/Auditor/AuditorComment/auditor-commentinfor.vue";
+import AuditorViewcomment from "./pages/Auditor/AuditorComment/auditor-viewcomment.vue";
 
 import AuditorAudit from "./pages/Auditor/Auditor-Audit/auditor-Audit.vue";
 import AuditorAuditRecoreds from "./pages/Auditor/Auditor-Audit/auditor-AuditRecords.vue";
@@ -190,7 +192,9 @@ const routes = [
    ],
   },
 
-  //管理者
+  //审核
+  { path:"/auditorcommentinfor",component:AuditorCommentinfor},
+  { path:"/auditorviewcomment",component:AuditorViewcomment},
   { path:"/auditorlogin",component:AuditorLogin},
   { path:"/auditorviewnoticeinfor",component:AuditorViewNotiveInfor},
   { path:"/auditorpostnotice",component: AuditorPostNotice},

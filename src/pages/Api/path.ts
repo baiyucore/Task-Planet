@@ -9,6 +9,7 @@ const Createpath = {
   createapplicationUrl:      "https://falpwq5knm.bja.sealos.run/Create-Application",
   createapplyconditionUrl:    "https://falpwq5knm.bja.sealos.run/Create-applycondition",
   createsearchnametwoUrl:     "https://falpwq5knm.bja.sealos.run/Create-SearchnameTwo",
+  createremoverclassmemberUrl: "https://falpwq5knm.bja.sealos.run/Create-RemoveClassMember",
 
   createaddormodifytaskUrl:    "https://falpwq5knm.bja.sealos.run/Create-AddorModifyTask",
   createpublictaskUrl: "https://falpwq5knm.bja.sealos.run/Create-PublichTask",
@@ -30,12 +31,14 @@ const Createpath = {
   createaddproductUrl :    "https://falpwq5knm.bja.sealos.run/Create-AddProduct",
   createremovieproductUrl : "https://falpwq5knm.bja.sealos.run/Create-RemoveProduct",
   
+  createViewNoticeUrl : "https://falpwq5knm.bja.sealos.run/viewNotice"
  
 }
 
 const Userpath={
   UserViewOneslefUrl: "https://falpwq5knm.bja.sealos.run/User-ViewOneself",
   UserReviseOneslefUrl:"https://falpwq5knm.bja.sealos.run/User-ReviseOneself",
+  UserviewCoinRecordUrl:"https://falpwq5knm.bja.sealos.run/User-viewCoinRecord",
 
   UserViewShoppingUrl:"https://falpwq5knm.bja.sealos.run/User-ViewShopping",
   UserBuyShoppingUrl:"https://falpwq5knm.bja.sealos.run/User-BuyShopping",
@@ -62,15 +65,20 @@ const Userpath={
   UserWarnSummarizeUrl:"https://falpwq5knm.bja.sealos.run/User-WarnSummarize",
 
   UserCoinChangeUrl:"https://falpwq5knm.bja.sealos.run/User-CoinChange",
+  UserViewNoticeUrl:"https://falpwq5knm.bja.sealos.run/viewNotice",
 }
 
 const Auditorpath={
   AuditorPostNoticeUrl:"https://falpwq5knm.bja.sealos.run/Auditor-PostNoice",
   AuditorViewNoticeInforUrl : "https://falpwq5knm.bja.sealos.run/Auditor-VPostNoice",
   AuditorRemoveNoticeUrl:"https://falpwq5knm.bja.sealos.run/Auditor-RemoveNotice",
-  AuditorWarnRecordsUrl:"",
+  AuditorWarnRecordsUrl:"https://falpwq5knm.bja.sealos.run/Auditor-WarnRecord",
   AuditorCheckTimeWarnUrl:"https://falpwq5knm.bja.sealos.run/Auditor-CheckWarn",
   AuditroLoginUrl:"https://falpwq5knm.bja.sealos.run/Auditor-Login",
+  AuditorViewauditorrecoredUrl:"https://falpwq5knm.bja.sealos.run/Auditor-ViewAuditorRecord",
+  AudtiorCommentUrl:"https://falpwq5knm.bja.sealos.run/Auditor-ViewComment",
+  AuditorPublishNoticeUrl:"https://falpwq5knm.bja.sealos.run/Auditor-PublishNotice",
+
   testUrl:"https://falpwq5knm.bja.sealos.run/test2",
 }
 

@@ -115,9 +115,10 @@ const userapi = {
   },//购买商品
   async BuyShopping(params : UserBuyShopping){
     const response = await axios.post(Userpath.UserBuyShoppingUrl,{
-      totalnumber: params.totalnumber,
       createid: params.createid,
-
+      time: params.time,
+      userid:params.userid,
+      productid:params.productid
     });
     return response.data;
   },//显示当天的班级总结
@@ -189,6 +190,7 @@ const userapi = {
       taskstarttime:params.taskstarttime,
       taskovertime:params.taskovertime,
       classname : params.classname,
+      location :params.location,
     });
     return response.data;
   },//举报总结
@@ -201,9 +203,21 @@ const userapi = {
       taskstarttime:params.taskstarttime,
       taskovertime:params.taskovertime,
       classname :params.classname,
+      location: params.location,
     });
     return response.data;
+  },//查看金币记录
+  async viewCoinRecord(params:{userid:string}){
+    const response = await axios.post(Userpath.UserviewCoinRecordUrl,{
+      userid:params.userid,
+    })
+    return response.data;
+  },//获得全部通知
+  async viewnotice(){
+    const response = await axios.post(Userpath.UserViewNoticeUrl)
+    return response.data;
   }
+
 
 }
 export {userapi}

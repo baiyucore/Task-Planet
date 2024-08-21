@@ -20,7 +20,9 @@ import {
   deletesummarize, 
   Searchname ,
   ViewOuterComment,
+  Removeclassmember,
 } from "../Interface/CreateInterface";
+
 
 
 
@@ -53,6 +55,7 @@ const createapi= {
       productprice : params.productprice,
       totalnumber : params.totalnumber,
       createid : params.createid,
+      productid:params.productid,
     });
     return response.data;
   },//修改个人信息
@@ -209,7 +212,20 @@ const createapi= {
       userid : params.userid,
     });
     return response.data;
-  },
+  },//移除班级成员
+  async Removeclassmember(params:Removeclassmember){
+    const response = await axios.post(Createpath.createremoverclassmemberUrl,{
+      userid:params.userid,
+      userinvitecode:params.userinvitecode,
+      identity :"user",
+      classname : params.classname
+    })
+    return response.data;
+  },//获得全部通知
+  async viewnotice(){
+    const response = await axios.post(Createpath.createViewNoticeUrl)
+    return response.data;
+  }
 
 }
 

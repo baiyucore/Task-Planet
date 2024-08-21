@@ -6,7 +6,7 @@ export const Userinfor = defineStore('userid',()=>{
   const useraddclass = ref("")
   const coin = ref(0)
   const classcreateid = ref("")
-
+  const noticeopen = ref(true);
   function clear(){
      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
      coin.value = 0, 
@@ -14,6 +14,7 @@ export const Userinfor = defineStore('userid',()=>{
      userid.value="",
      useraddclass.value = "" ,
      username.value = ""
+     noticeopen.value =true;
     };
   function transmitid(user_id : string){
     userid.value =user_id
@@ -30,7 +31,10 @@ export const Userinfor = defineStore('userid',()=>{
   function transmitclasscreateid(class_create: string){
     classcreateid.value = class_create
   }
-  return {userid , clear,transmitid, transmitname, username,useraddclass , transmitclassname,coin,coinchange,classcreateid,transmitclasscreateid}
+  function changenoticeopen(){
+    noticeopen.value=false;
+  }
+  return {noticeopen,changenoticeopen,userid , clear,transmitid, transmitname, username,useraddclass , transmitclassname,coin,coinchange,classcreateid,transmitclasscreateid}
 },  { persist: {
   storage: sessionStorage
 }  })

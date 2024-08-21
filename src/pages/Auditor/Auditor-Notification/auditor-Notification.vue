@@ -1,58 +1,79 @@
 <script setup lang="ts">
-import { onMounted,ref} from 'vue';
 import {  useRouter} from 'vue-router';
 import { BellPlus } from 'lucide-vue-next';
 import { toast } from 'vue-sonner';
 import { auditorapi } from '@/pages/Api/AuditorIndex';
-import { ViewPostNotice } from '@/pages/Interface/AuditorInterface';
+import {  deltenotice, publishnotice, ViewPostNotice } from '@/pages/Interface/AuditorInterface';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
-import { useQuery } from '@tanstack/vue-query'
+import { useMutation,useQuery } from '@tanstack/vue-query'
 import { format } from 'date-fns';
+
 const router= useRouter();
-
-const noticeinfor = ref<ViewPostNotice[]>([])
-
-
-const { isError, data, error,} =useQuery({
+const { isError, data, error,refetch} =useQuery({
     queryKey: ['auditornotification'],
     queryFn : () =>  auditorapi.ViewPostNotice()
   })
-
-onMounted(()=>{
-  auditorapi.ViewPostNotice().then((res)=>{
-    if(res.err_code === 0 ){
-      noticeinfor.value=res.postnotice
-    }else{
-      toast.error(res.err_msg)
-    }
-  })
-})
 
 
 function viewnoticeinfor(item:ViewPostNotice){
   const name = item.noticename
   const completion = item.noticecompletion
 
-  const startdate = new Date(item.noticetime)
-  const taskstarttime = format(startdate, 'yyyy-MM-dd HH:mm:ss');
-  router.push({path:'/auditorviewnoticeinfor',query:{name,completion,taskstarttime}})
+  router.push({path:'/auditorviewnoticeinfor',query:{name,completion}})
 }
 function postnotice(){
   router.push({path:'/auditorpostnotice'})
 }
 
-function removenotice(noticeid : string){
-  auditorapi.RemoveNotice(noticeid).then((res)=>{
+
+const removemutation = useMutation({
+  mutationFn: async ( params:deltenotice) => {
+    const response = await auditorapi.RemoveNotice(params)
+    return response
+  },
+  onSuccess:(res)=>{
     if(res.err_code === 0 ){
       toast.success("删除成功")
-      window.location.reload()
+      refetch()
     }else{
       toast.error(res.err_msg)
     }
+  },  
+  onError: (error) => {
+    toast.error(error.message)
+  },
+})
+function removenotice(noticeid : string){
+  removemutation.mutate({
+    noticeid:noticeid,
   })
 }
-
+const publishmutation = useMutation({
+  mutationFn: async ( params:publishnotice) => {
+    const response = await auditorapi.PublishNotice(params)
+    return response
+  },
+  onSuccess:(res)=>{
+    if(res.err_code === 0 ){
+      toast.success("发布成功")
+      refetch()
+    }else{
+      toast.error(res.err_msg)
+    }
+  },  
+  onError: (error) => {
+    toast.error(error.message)
+  },
+})
+function PublishNotice(noticeid:string){
+  const now = new Date();
+  const time = format(now,'yyyy-MM-dd HH:mm:ss')
+  publishmutation.mutate({
+    noticeid:noticeid,
+    time:time
+  })
+}
 </script>
 
 <template>
@@ -74,11 +95,6 @@ function removenotice(noticeid : string){
       </div>
     </div>
     
- 
-    
-
-
-
 
       <div class="main-content">
       
@@ -87,10 +103,11 @@ function removenotice(noticeid : string){
             <Accordion type="single" class="w-full " collapsible >
             <AccordionItem v-for="item in data.postnotice"  :value="item.noticename" :key="item._id">     
               <AccordionTrigger class="text-2xl">    
-                <div @click="viewnoticeinfor(item)">{{ item.noticename }}</div> 
+                <div @click="viewnoticeinfor(item)">{{ item.noticename }}  {{ item.condition }}</div> 
               </AccordionTrigger>
               <AccordionContent>
-                <Button class="bg-rose-700 hover:bg-rose-800" @click="removenotice(item.noticeid)">删除</Button>
+                <Button v-show="item.condition !=='已发布'" class="bg-teal-500 hover:bg-teal-700 mr-2" @click="PublishNotice(item.noticeid)">发布</Button>
+                <Button class="bg-rose-700 hover:bg-rose-800 mr-2" @click="removenotice(item.noticeid)">删除</Button>
               </AccordionContent>
             </AccordionItem>
           </Accordion>

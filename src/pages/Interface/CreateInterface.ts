@@ -24,6 +24,7 @@ export interface CreateAddproduct {
   productname : string,
   productprice : number,
   totalnumber : number,
+  productid:string,
 }
 //创建者个人信息
 export interface Createreviseoneself{
@@ -192,4 +193,10 @@ export interface deletesummarize{
 export interface ViewOuterComment{
   taskid:string,
   userid: string,
+}
+//移除班级成员
+export interface Removeclassmember{
+  userid : string,
+  userinvitecode : string,
+  classname : string,
 }

@@ -20,8 +20,8 @@ const { isError, data, error,} =useQuery({
   
   })
 
-function oncheckclassmember( user:string,class_name :string){
-  router.push({path:'/createcheckclassmember', query:{ user,class_name}});
+function oncheckclassmember( userinvitecode:string,class_name :string){
+  router.push({path:'/createcheckclassmember', query:{ userinvitecode,class_name}});
 }
 
 function onreturn(){

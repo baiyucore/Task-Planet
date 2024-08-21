@@ -2,16 +2,12 @@
 import { Input } from '@/components/ui/input';
 import { useRouter, useRoute } from 'vue-router';
 import { ArrowLeft  } from 'lucide-vue-next';
-
 import { Textarea } from '@/components/ui/textarea'
-
 
 const router = useRouter();
 const route = useRoute()
 const noticename = route.query.name
 const noticecompletion = route.query.completion
-const taskstarttime = route.query.taskstarttime
-
 function onreturn(){
   router.back();
 }
@@ -38,11 +34,7 @@ function onreturn(){
       />
       <br>
 
-      <span class="ml-4">
-        发布时间 
-      </span>
-      {{ taskstarttime }}
-      <br>
+
 
 
 

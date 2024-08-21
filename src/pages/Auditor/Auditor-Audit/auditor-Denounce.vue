@@ -2,7 +2,7 @@
 import { onMounted, ref , watch} from 'vue';
 import { Select, SelectContent,SelectItem,SelectTrigger,SelectValue,
 } from '@/components/ui/select'
-import { useRouter} from 'vue-router';
+
 import {DateFormatter,type DateValue,getLocalTimeZone, today,} from '@internationalized/date'
 import { Calendar as CalendarIcon } from 'lucide-vue-next'
 import { Calendar } from '@/components/ui/calendar'
@@ -13,8 +13,8 @@ import { toast } from 'vue-sonner';
 import { auditorapi } from '@/pages/Api/AuditorIndex';
 import { warnarray } from '@/pages/Interface/AuditorInterface';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
+import { startOfDay } from 'date-fns';
 
-const router= useRouter();
 const df = new DateFormatter('zh-CN', {
   dateStyle: 'long',
 })
@@ -38,11 +38,13 @@ onMounted(()=>{
   })
 })
 
+const now = new Date();
+const Time = startOfDay(now);
+const time = Time.getTime();
 
-const isLoading= ref(false);
 watch(value,(newValue,oldValue)=>{
   if(newValue !== oldValue){
-    isLoading.value=true;
+
     auditorapi.checkTimeWarn(newValue).then((res)=>{
     if(res.err_code === 0){
       warninfor.value = res.warnexisted
@@ -50,10 +52,21 @@ watch(value,(newValue,oldValue)=>{
       toast.error(res.err_msg)
     }
   })
+  
   }
 
 })
 
+function warnrecode(params : warnarray,result: string){
+
+  auditorapi.WarnRecord(params,result,time).then((res)=>{
+    if(res.err_code=== 0 ){
+      toast.success('处理成功')
+    }else{
+      toast.error(res.err_msg)
+    }
+  })
+}
 
 
 </script>
@@ -97,20 +110,16 @@ watch(value,(newValue,oldValue)=>{
       <div class="main-content">
         
         <Accordion type="single" class="w-full " collapsible >
-            <AccordionItem v-for="items in warninfor"  :value="items._id" :key="items._id">     
-              <AccordionTrigger class="text-2xl">    
-                <div > 被举报 {{ items.warnedcommentid }} 内容 {{ items.warncomment }} </div> 
+            <AccordionItem v-for="items in warninfor"  :value="items._id" :key="items._id" >     
+              <AccordionTrigger class="text-xl">    
+                <div > {{ items.warnedcommentid }} 被举报在 {{ items.classname }} 中内容{{ items.warncomment }} </div> 
               </AccordionTrigger>
               <AccordionContent>
-                <Button class="bg-rose-700 hover:bg-rose-800 mr-2"  >删除并记录违规</Button>
-                <Button class="bg-stone-600 hover:bg-stone-800" >并无违规</Button>
+                <Button class="bg-rose-700 hover:bg-rose-800 mr-2" @click="warnrecode(items,'违规')" >删除并记录违规</Button>
+                <Button class="bg-stone-600 hover:bg-stone-800" @click="warnrecode(items,'未违规')"  >并无违规</Button>
               </AccordionContent>
             </AccordionItem>
-          </Accordion>
-        <!-- <div v-for="items in warninfor" :key="items._id">
-         被举报 {{ items.warnedcommentid }} 内容 {{ items.warncomment }} 
-
-        </div> -->
+            </Accordion>
       </div>
   </div>
 

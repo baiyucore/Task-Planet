@@ -19,10 +19,10 @@ const searchname= ref("") ;
 
 
 let tranport= useRoute();
-const user = tranport.query.user as string 
+const userinvitecode = tranport.query.userinvitecode as string 
 const classname = tranport.query.class_name
 const params : checkprerequisite = {
-          user : user,
+          user : userinvitecode,
         }
 
      
@@ -68,14 +68,14 @@ const { isError, data, error,} =useQuery({
 async function onSearch(event:Event) {
   event.preventDefault()
  mutation.mutate({
-    userinvitecode : user,
+    userinvitecode : userinvitecode,
     searchname : searchname.value
     })
 
 }
 //应该传入id，用ID去查
 function oncheckmember_oneself(searchid : string,identity : string){
-  router.push({path:"/checkoneself" , query:{searchid,identity}})
+  router.push({path:"/checkoneself" , query:{classname,searchid,identity,userinvitecode}})
 }
 
 function onreturn(){
@@ -127,7 +127,11 @@ function onreturn(){
         <div v-for="userview in data.usermember" :key="userview._id"  class="cursor-pointer mb-2"  >
        
           <div   @click="oncheckmember_oneself(userview.userid,userview.identity)" >
-            {{userview.name}}
+            {{userview.name}} 
+            <template v-if="userview.warnnumber">
+              违规次数 {{ userview.warnnumber }}
+            </template>
+         
           </div>
          
         </div>

@@ -3,15 +3,17 @@ import { toast } from 'vue-sonner';
 import { useRouter, useRoute} from 'vue-router';
 import { ArrowLeft } from 'lucide-vue-next';
 import { createapi } from '@/pages/Api/CreateIndex';
-import { searchname } from '@/pages/Interface/CreateInterface';
-import { useQuery } from '@tanstack/vue-query'
+import { Removeclassmember, searchname } from '@/pages/Interface/CreateInterface';
+import { useQuery,useMutation } from '@tanstack/vue-query'
+import Button from '@/components/ui/button/Button.vue';
 
 
 const router = useRouter();
 let tranport= useRoute()
 const searchid=tranport.query.searchid as string
 const identity = tranport.query.identity as string
-
+const userinvitecode = tranport.query.userinvitecode as string
+const classname = tranport.query.classname as string
 const params : searchname ={
     searchnameid: searchid,
     identity :identity,
@@ -21,12 +23,33 @@ const { isError, data, error,} =useQuery({
     queryFn : () =>  createapi.searchname(params)  
   })
 
-
-
   function onreturn(){
   router.back();
 }
 
+
+const mutation= useMutation({
+  mutationFn: async ( params :Removeclassmember) => {
+    const response = await  createapi.Removeclassmember(params)
+    return response
+  },
+  onSuccess:(res)=>{
+    if( res.err_code === 0 ){
+      toast.success("删除成功")
+    } else{
+      toast.error( res.err_msg );
+    }
+  },  
+
+})
+
+function removeuserclass(){
+  mutation.mutate({
+    userid:searchid,
+    userinvitecode : userinvitecode,
+    classname :classname
+    })
+}
 </script>
 
 <template>
@@ -50,6 +73,11 @@ const { isError, data, error,} =useQuery({
           <div>个人评语</div>
           <div>{{data.profile}}</div>
         </div>
+
+        <Button  @click="removeuserclass" type="button" class="rounded-full mt-10 w-full bg-rose-500 hover:bg-rose-600">
+          移除班级
+        </Button>
+
     </span>
       </div>
   </div>

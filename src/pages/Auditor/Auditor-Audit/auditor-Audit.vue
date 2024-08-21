@@ -1,13 +1,5 @@
 <script setup lang="ts">
-import { ref , watch , onBeforeMount} from 'vue';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
+import { ref , watch } from 'vue';
 import {  useRouter} from 'vue-router';
 
 const router= useRouter();

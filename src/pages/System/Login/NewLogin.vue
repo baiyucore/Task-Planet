@@ -46,7 +46,7 @@ const mutation = useMutation({
           userinfor.coinchange(res.coin)
           userinfor.transmitid(account_id.value)
           userinfor.transmitname(res.name)
-          userinfor.transmitclasscreateid(res.classreateid)
+          userinfor.transmitclasscreateid(res.classcreateid)
           userinfor.transmitclassname(res.classname)
           router.push({ path: '/usertask' })
           break

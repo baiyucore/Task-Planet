@@ -6,6 +6,7 @@ import { defineStore } from "pinia"
 export const UseCreateStore = defineStore('createstore',()=>{
   const createid = ref("")
   const createname = ref("")
+  const noticeopen = ref(true);
   function transmit(create_id : string){
     createid.value =create_id
   };
@@ -15,8 +16,12 @@ export const UseCreateStore = defineStore('createstore',()=>{
   function $clear(){
     createid.value = ""
     createname.value = ""
+    noticeopen.value =true;
   }
-  return {createid ,$clear, transmit,transmitname,createname}
+  function changenoticeopen(){
+    noticeopen.value=false;
+  }
+  return { noticeopen,changenoticeopen,createid ,$clear, transmit,transmitname,createname}
 },  { persist: {
   storage: sessionStorage
 }  })

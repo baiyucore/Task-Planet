@@ -108,8 +108,10 @@ export interface UserLoadTask{
 
 //购买商品
 export interface UserBuyShopping{
-  totalnumber: number,
   createid :string,
+  time:string,
+  userid:string,
+  productid:string,
 }
 
 export interface Comment{
@@ -162,7 +164,7 @@ export interface UsersubmitInnterComment{
   other_commentid:string,
   other_comment:string,
   other_commentname : string,
-  authorid :string,
+  authorid ?:string,
 }
 
 //显示外部评论
@@ -186,6 +188,7 @@ export interface searchinnerComment{
   taskovertime?:number,
   userid ?: string
   classname ?:string,
+  location ?:string,
 }
 
 export interface ViewInnerComment{
@@ -220,4 +223,14 @@ export interface warnsummarize{
   taskstarttime :number,
   taskovertime:number,
   classname : string,
+  location :string,
+}
+
+//显示金币记录
+export interface coinrecord{
+  _id:string,
+  time:number,
+  productname : string,
+  productprice:number,
+
 }
