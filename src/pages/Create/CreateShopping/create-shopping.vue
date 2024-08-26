@@ -1,6 +1,43 @@
+<template>
+  <div class="flex h-12  justify-center  bg-[#0369a1]">
+    <span  class=" text-2xl content-center text-slate-100 font-bold ">商城</span> 
+  </div>
+  <div class="main-content ">
+        <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
+      <span v-else-if="data">
+        <Accordion type="single" class="w-full  " collapsible  orientation="horizontal">
+          
+          <AccordionItem v-for="item in data.shopping"  :value="item._id" :key="item._id">
+           
+            <AccordionTrigger class="text-xl ml-2">
+               <div class="flex-initial text-[#0ea5e9]"><Gift class="size-10 " color="#0ea5e9"/>{{ item.productname }} </div>  
+               价格:{{ item.productprice }} 总兑换次数:{{item.totalnumber}}
+            </AccordionTrigger>
+            
+              <AccordionContent>
+                <div class=" flex justify-center gap-4">
+              <Button class="bg-sky-400 hover:bg-cyan-600" @click="ModifyProduct(item.productname)">修改</Button>
+              <Button class="bg-rose-700 hover:bg-rose-800" @click="Remove(item.productname) ">下架</Button>
+            </div>
+            </AccordionContent>
+           
+           
+          </AccordionItem>
+  
+        </Accordion>
+      
+      </span>
+  </div>
+
+    <Plus class="absolute bottom-24 right-8 w-14 h-14 cursor-pointer " @click="$router.push({ path:'/addproduct'})" color="#0ea5e9"/>
+
+ 
+  
+</template>
+
 <script setup lang="ts">
 import {  useRouter} from 'vue-router';
-import { CirclePlus } from 'lucide-vue-next';
+import { Plus } from 'lucide-vue-next';
 import { Button } from '@/components/ui/button'
 import { createapi } from '@/pages/Api/CreateIndex';
 import { Gift } from 'lucide-vue-next';
@@ -51,45 +88,15 @@ function ModifyProduct(productname: string){
 }
 </script>
 
-<template>
-  <div class="static mt-2">
-    <h2  class=" text-center  font-bold text-2xl ">商城</h2> 
-      <div class="main-content">
-
-        <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
-      <span v-else-if="data">
-        <Accordion type="single" class="w-full " collapsible >
-          <AccordionItem v-for="item in data.shopping"  :value="item._id" :key="item._id">
-            
-            <AccordionTrigger class="text-xl">
-               <div class="flex-initial text-[#FF7710]"><Gift class="size-14 " color="#FF7710"/>{{ item.productname }} </div>  
-               价格:{{ item.productprice }} 总兑换次数:{{item.totalnumber}}
-            </AccordionTrigger>
-            <AccordionContent>
-    
-              <Button class="bg-sky-400 hover:bg-cyan-600" @click="ModifyProduct(item.productname)">修改</Button>
-              <Button class="bg-rose-700 hover:bg-rose-800" @click="Remove(item.productname) ">下架</Button>
-              
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
-      
-      </span>
-
-    </div>
-    <CirclePlus class="absolute bottom-20 right-5 w-1/6 h-1/6 " @click="$router.push({ path:'/addproduct'})" color="#ff0000"/>
-
-  </div>
-  
-</template>
 <style scoped>
  
   .main-content {
       margin: 0 auto;
       border-radius: 10px;
-      width: 90%;
-      height: 650px;
+      width: 100%;
+      height: calc(90vh - 70px);
       border: 1px solid;
       border-color: transparent;
+      overflow: auto;
     }
 </style>

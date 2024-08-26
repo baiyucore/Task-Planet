@@ -1,3 +1,174 @@
+<template>
+  <div class=" mt-2">
+    <form @submit="onSubmit">
+      <div class="flex   justify-between">
+        <ArrowLeft class="mt-2 ml-2 cursor-pointer" @click="onreturn" />
+      
+      <span  class=" cursor-default text-2xl  font-bold">修改任务</span> 
+        <Button variant="outline" :disabled="isLoading"  class=" mr-1  hover:bg-transparent shadow-transparent border-transparent">
+        <Check   /> 
+       </Button>
+      </div>
+     
+      <div class="flex flex-col  ">
+    
+          <div class="ml-4 mt-2 mb-2"> 任务名称</div>       
+        <div class="flex justify-center">
+          <Input  
+          class="w-11/12  "
+          v-model:model-value="taskname"
+          type="text"
+          placeholder="输入任务名称"
+          :disable="isLoading"
+          required
+        />
+       
+        </div>
+        <span class="m-4">完成任务条件</span>
+        <div class="flex justify-center">
+        <Textarea 
+        class="w-11/12  "
+        v-model:model-value="taskcompletion"
+        type="text"
+        placeholder="完成任务条件"
+        :disable="isLoading"
+        />
+       
+        </div>
+      </div>
+
+     <div class="flex content-center flex-col mt-4">
+      <div class="flex content-center">
+        <span class="ml-4 mt-1"> 开始时间 </span>
+          <Popover>
+            <PopoverTrigger as-child>
+              <Button
+                variant="outline"
+                :class="cn(
+                  'w-[280px] justify-start text-left font-normal ml-2',
+                  !startvalue  && 'text-muted-foreground',
+                )"
+              >
+                <CalendarIcon class="mr-2 h-4 w-4" />
+                {{ startvalue ? df.format(startvalue.toDate(getLocalTimeZone())) : "选择查看时间" }}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent class="flex w-auto flex-col gap-y-2 p-2">
+              <Select
+                @update:model-value="(v) => {
+                  if (!v) return;
+                  startvalue  = today(getLocalTimeZone()).add({ days: Number(v) });
+                }"
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="选择" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem v-for="item in items" :key="item.value" :value="item.value.toString()">
+                    {{ item.label }}
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+              <Calendar v-model="startvalue" />
+            </PopoverContent>
+          </Popover>
+
+
+      </div>
+     
+     <div class="flex content-center mt-4">
+
+      <span class="ml-4 mt-1 ">
+        截止时间
+      </span>
+      <Popover>
+    <PopoverTrigger as-child>
+      <Button
+        variant="outline"
+        :class="cn(
+          'w-[280px] justify-start text-left font-normal ml-2',
+          !overvalue  && 'text-muted-foreground',
+        )"
+      >
+        <CalendarIcon class="mr-2 h-4 w-4" />
+        {{ overvalue ? df.format(overvalue.toDate(getLocalTimeZone())) : "选择查看时间" }}
+      </Button>
+    </PopoverTrigger>
+    <PopoverContent class="flex w-auto flex-col gap-y-2 p-2">
+      <Select
+        @update:model-value="(v) => {
+          if (!v) return;
+          overvalue = today(getLocalTimeZone()).add({ days: Number(v) });
+        }"
+      >
+        <SelectTrigger>
+          <SelectValue placeholder="选择" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem v-for="item in items" :key="item.value" :value="item.value.toString()">
+            {{ item.label }}
+          </SelectItem>
+        </SelectContent>
+      </Select>
+      <Calendar v-model="overvalue" />
+    </PopoverContent>
+      </Popover>
+     </div>      
+     <div class=" flex ml-4 mt-4">
+        <span class="mt-1"> 成功奖励1获得固定金币</span>
+          
+        <Input  
+          class=" ml-2 w-5/12 "
+          v-model="successrewardone"
+          type="number"
+          placeholder="获得固定金币"
+          :disable="isLoading"
+          required
+        />
+      </div>
+
+      <div class="ml-4 mt-4 flex ">
+        <div class="mt-1"> 成功奖励2获得随机金币</div>
+          
+        <Input  
+          class=" ml-1  w-3/12"
+          v-model="successrewardtwo_one"
+          type="number"
+          :disable="isLoading"
+          required
+        />
+        <span class="text-2xl " >~</span>
+        <Input  
+          class=" w-3/12 "
+          v-model="successrewardtwo_two"
+          type="number"
+          :disable="isLoading"
+          required
+        />
+      </div>
+
+      <div class="ml-4 mt-4 flex ">
+        <span class="mt-1"> 失败扣除</span>
+          
+        <Input  
+          class="ml-2 w-5/12 "
+          v-model="failed"
+          type="number"
+          placeholder="扣除金币 "
+          :disable="isLoading"
+          min="0"
+          required
+        />
+        
+      </div>
+
+     </div>
+            
+    </form>
+
+  </div>
+</template>
+
 <script setup lang="ts">
 import { Input } from '@/components/ui/input';
 import { toast } from 'vue-sonner';
@@ -22,7 +193,7 @@ import { CreateAddTask } from '@/pages/Interface/CreateInterface';
 
 import { UseCreateStore } from '@/store/create';
 import { useMutation } from '@tanstack/vue-query'
-
+import { Textarea } from '@/components/ui/textarea'
 const items = [
   { value: 0, label: '今天' },
   { value: -1, label: '昨天' },
@@ -99,154 +270,9 @@ const df = new DateFormatter('zh-CN', {
 
 
 function onreturn(){
-  router.back();
+  console.log(1)
+  router.push({ path:"/createtaskunfinshed" });
 }
 
 
 </script>
-<template>
-  <div class="static mt-2">
-    
-    <ArrowLeft class="float-left ml-2 mt-1" @click="onreturn" />
-    <span  class="   text-2xl  font-bold">修改任务</span> 
-   
-    <form @submit="onSubmit">
-      <Button variant="outline" :disabled="isLoading"  class="float-right mr-5 mb-2  border-transparent">
-      <Check   /> 
-     </Button>
-      <Input  
-        class="mt-5"
-        v-model:model-value="taskname"
-        type="text"
-        placeholder="任务名称"
-        :disable="isLoading"
-      />
-      <span class="mt-2 ml-2">完成任务条件</span>
-      <Input  
-        class="mt-2 h-[100px]  "
-        v-model:model-value="taskcompletion"
-        type="text"
-        placeholder="完成任务条件"
-        :disable="isLoading"
-      />
-      <br>
-
-      <span class="ml-4">
-        开始时间
-      </span>
-      <Popover>
-        <PopoverTrigger as-child>
-          <Button
-            variant="outline"
-            :class="cn(
-              'w-[280px] justify-start text-left font-normal ml-2',
-              !startvalue  && 'text-muted-foreground',
-            )"
-          >
-            <CalendarIcon class="mr-2 h-4 w-4" />
-            {{ startvalue ? df.format(startvalue.toDate(getLocalTimeZone())) : "选择查看时间" }}
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent class="flex w-auto flex-col gap-y-2 p-2">
-          <Select
-            @update:model-value="(v) => {
-              if (!v) return;
-              startvalue  = today(getLocalTimeZone()).add({ days: Number(v) });
-            }"
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="选择" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem v-for="item in items" :key="item.value" :value="item.value.toString()">
-                {{ item.label }}
-              </SelectItem>
-            </SelectContent>
-          </Select>
-          <Calendar v-model="startvalue" />
-        </PopoverContent>
-      </Popover>
-      <br>
-      <span class="ml-4">
-        截止时间
-      </span>
-      <Popover>
-    <PopoverTrigger as-child>
-      <Button
-        variant="outline"
-        :class="cn(
-          'w-[280px] justify-start text-left font-normal ml-2',
-          !overvalue  && 'text-muted-foreground',
-        )"
-      >
-        <CalendarIcon class="mr-2 h-4 w-4" />
-        {{ overvalue ? df.format(overvalue.toDate(getLocalTimeZone())) : "选择查看时间" }}
-      </Button>
-    </PopoverTrigger>
-    <PopoverContent class="flex w-auto flex-col gap-y-2 p-2">
-      <Select
-        @update:model-value="(v) => {
-          if (!v) return;
-          overvalue = today(getLocalTimeZone()).add({ days: Number(v) });
-        }"
-      >
-        <SelectTrigger>
-          <SelectValue placeholder="选择" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem v-for="item in items" :key="item.value" :value="item.value.toString()">
-            {{ item.label }}
-          </SelectItem>
-        </SelectContent>
-      </Select>
-      <Calendar v-model="overvalue" />
-    </PopoverContent>
-  </Popover>
-      <div class="ml-2">
-        <span> 成功奖励1获得固定金币</span>
-          
-        <input  
-          class="mt-5 ps-8"
-          v-model="successrewardone"
-          type="number"
-          placeholder="获得固定金币"
-          :disable="isLoading"
-        />
-      </div>
-      <div class="ml-2 flex gap-2">
-        <span class="flex-none mt-5"> 成功奖励2获得随机金币</span>
-          
-        <input  
-          class="mt-5 ps-8 flex-none w-14"
-          v-model="successrewardtwo_one"
-          type="number"
-          :disable="isLoading"
-        />
-        <span class="flex-none mt-5" >~</span>
-        <input  
-          class="mt-5  flex-none w-14 "
-          v-model="successrewardtwo_two"
-          type="number"
-          :disable="isLoading"
-        />
-      </div>
-      <div class="ml-2">
-        <span> 失败</span>
-          
-        <input  
-          class="mt-5 ps-8"
-          v-model="failed"
-          type="number"
-          placeholder="扣除金币 "
-          :disable="isLoading"
-        />
-      </div>
-    
-      
-
-    
-        
-    </form>
-
-  </div>
-</template>

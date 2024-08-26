@@ -111,7 +111,7 @@ const isDialogOpen = computed(() => {
       position: absolute;
       bottom: 30px;
       width: 100%;
-      
+      flex-grow: 1;
     }
     .navigate a {
       display: block;
@@ -137,7 +137,7 @@ const isDialogOpen = computed(() => {
       margin-top: 30px;
       border-radius: 10px;
       width: 90%;
-      height: 400px;
+      height: calc(90vh - 70px);
       border: 1px solid;
     }
 </style>

@@ -54,34 +54,43 @@ async function onSubmit(event:Event) {
   <div class="flex relative">
       <div class="justify-center  top-60 w-[400px] absolute duration-700 md:left-1/3 sm:left-1/3 left-14" >
         
-        <form @submit="onSubmit">
-          <div class="logintext ml-20  cursor-default font-serif text-teal-600" >注册</div>
+        <form @submit="onSubmit" class="flex  flex-col">
+          <div class="justify-center m-auto cursor-default font-bold text-xl text-cyan-500" >注册</div>
           <Input  
-          v-model:model-value="account_id"
+          v-model="account_id"
           type="text"
           placeholder="账号 123456"
           :disable="isLoading"
+          class="mt-5 placeholder:italic placeholder:text-slate-400 block bg-white 
+            w-full  border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none
+            focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
           />     
           <Input 
-          v-model:model-value="account_password"
-          class="mt-5 mb-2"
+          v-model="account_password"
+          class="mt-5 placeholder:italic placeholder:text-slate-400 block bg-white 
+            w-full  border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none
+            focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm "
           id="password"
           type="password"
           placeholder="密码 password"
           :disabled="isLoading"
+          
           />
-          <a @click="$router.push({ path: '/login' })" 
+          <div class="flex justify-end">
+            <a @click="$router.push({ path: '/login' })" 
             :class="
               cn(
                 buttonVariants({ variant: 'ghost' }),
-                'user-select-none Login text-violet-500 hover:text-violet-800 block italic'
+                'user-select-none cursor-pointer  text-center  mt-1 mb-1 text-violet-500 hover:text-violet-800 block italic'
               )
             "
           >
             已有账户，返回登入页面
           </a>
 
-          <Button :disabled="isLoading" type="submit" class="mt-10 w-full bg-cyan-500 hover:bg-cyan-600">
+          </div>
+         
+          <Button :disabled="isLoading" type="submit" class=" w-full bg-cyan-500 hover:bg-cyan-600">
             登入
           </Button>
         
@@ -92,22 +101,3 @@ async function onSubmit(event:Event) {
   </div>
   
 </template>
-
-<style scoped>
-
-.logintext{
-  font-size: 20px;
-  font-weight: bold;
-  width: 200px;
-  margin-bottom: 5px;
-  text-align: center;
-}
-.Login{
-  position: absolute;
-  right: 5%;
-  font-size: 15px;
-  cursor: pointer;
-}
-
-
-</style>

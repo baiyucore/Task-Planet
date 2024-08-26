@@ -1,40 +1,4 @@
-<script setup lang="ts" name="App">
-import { RouterLink,RouterView } from 'vue-router';
-import { ClipboardList , ShoppingCart , ClipboardPenLine , School , User} from 'lucide-vue-next';
-import { computed } from 'vue';
-import { notice } from '@/pages/Interface/SystemInterfact';
-import { useQuery } from '@tanstack/vue-query'
-import { UseCreateStore } from '@/store/create';
-import { toast } from 'vue-sonner';
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog'
-import Button from '@/components/ui/button/Button.vue';
-import { createapi } from '@/pages/Api/CreateIndex';
-
-const { isError, data, error} =useQuery<notice>({
-    queryKey: ['usernotification'],
-    queryFn : () =>  createapi.viewnotice()
-  })
-
-
-function changenoticeopen(){
-  UseCreateStore().changenoticeopen();
-}
-const isDialogOpen = computed(() => {
-  const userData = data.value;  
-  return UseCreateStore().noticeopen && userData?.existednumber !== undefined && userData.existednumber !== 0;
-});
-</script>
-
 <template>  
-
- <div class="navigate duration-700 " >
   <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
   <span v-else-if="data">
         <Dialog v-model:open="isDialogOpen">
@@ -45,8 +9,17 @@ const isDialogOpen = computed(() => {
               <DialogHeader>
                 <DialogTitle>系统通知</DialogTitle>
               </DialogHeader>
-              <div v-for="items in data.notification" :key="items._id">                
-                {{ items.noticename }} 内容 {{ items.noticecompletion }}
+
+              <div v-for="items in data.notification" :key="items._id" >    
+                <div class="flex justify-center text-xl  "  >
+                  {{ items.noticename }}
+                </div>            
+               
+
+                <div class="">
+                  {{ items.noticecompletion }}
+                </div>
+                
               </div>
 
               <Button @click="changenoticeopen"> 确定</Button>
@@ -56,7 +29,10 @@ const isDialogOpen = computed(() => {
             </DialogContent>
           </Dialog>
   </span>
-        <div class="  ">
+
+  <div class="navigate duration-700 " >
+
+        <div class=" text-center ">
           <RouterLink :to="{path:'/createtaskfinsh' }" active-class="active" >
           <ClipboardList class="  size-8 ml-8 "/>
           <div class=" pl-1 text-center">任务</div>
@@ -100,16 +76,46 @@ const isDialogOpen = computed(() => {
         
   </div>
 
-
-
-
-
 </template>
+<script setup lang="ts" name="App">
+import { RouterLink,RouterView } from 'vue-router';
+import { ClipboardList , ShoppingCart , ClipboardPenLine , School , User} from 'lucide-vue-next';
+import { computed } from 'vue';
+import { notice } from '@/pages/Interface/SystemInterfact';
+import { useQuery } from '@tanstack/vue-query'
+import { UseCreateStore } from '@/store/create';
+import { toast } from 'vue-sonner';
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
+import Button from '@/components/ui/button/Button.vue';
+import { createapi } from '@/pages/Api/CreateIndex';
+
+const { isError, data, error} =useQuery<notice>({
+    queryKey: ['usernotification'],
+    queryFn : () =>  createapi.viewnotice()
+  })
+
+
+function changenoticeopen(){
+  UseCreateStore().changenoticeopen();
+}
+const isDialogOpen = computed(() => {
+  const userData = data.value;  
+  return UseCreateStore().noticeopen && userData?.existednumber !== undefined && userData.existednumber !== 0;
+});
+</script>
 
 <style scoped>
 
     .navigate {
       display: flex;
+      flex-grow: 1;
       justify-content: space-around;
       position: absolute;
       bottom: 30px;

@@ -1,5 +1,57 @@
+
+<template>
+  <div>
+    <div >
+      <Plus class="absolute bottom-24 right-8 w-14 h-14 cursor-pointer "  color="#1e1b4b" @click="$router.push({path:'/createaddtask'})"/>
+    </div>
+
+
+    <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
+    <span v-else-if="data">
+      <Accordion type="single" class="w-full " collapsible >
+          <AccordionItem v-for="item in data.unpublictask"  :value="item.taskid" :key="item._id">
+            
+            <AccordionTrigger class="text-xl">
+               <div @click="taskview(item)"> {{ item.taskname }} </div>
+              
+            </AccordionTrigger>
+            <AccordionContent>
+           <div class=" flex justify-center gap-4">
+            <Button class="bg-indigo-400 hover:bg-indigo-600" @click="taskpublich(item.taskid)" >发布</Button>
+              <Button class="bg-neutral-700 hover:bg-neutral-500" @click="taskmodify(item.taskid)">修改</Button>
+              <AlertDialog>
+                <AlertDialogTrigger as-child>
+                  <Button variant="outline" class="bg-rose-700 hover:bg-rose-800 text-white" >
+                    删除
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>你确定删除?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      删除后无法复原
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>取消</AlertDialogCancel>
+                    <AlertDialogAction  @click="taskremover(item.taskid)">确认</AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+           </div>
+             
+
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+          
+    </span>
+  
+  </div>
+
+</template>
 <script setup lang="ts">
-import { CirclePlus } from 'lucide-vue-next';
+import { Plus } from 'lucide-vue-next';
 import { useRouter } from 'vue-router';
 import { Button } from '@/components/ui/button'
 import {
@@ -92,52 +144,3 @@ function taskview(task : viewTask){
 }
 
 </script>
-<template>
-  <div>
-    <div >
-      <CirclePlus class="absolute bottom-20 right-5 w-1/6 h-1/6 " @click="$router.push({path:'/createaddtask'})" color="#ff0000"/>
-    </div>
-
-
-    <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
-    <span v-else-if="data">
-      <Accordion type="single" class="w-full " collapsible >
-          <AccordionItem v-for="item in data.unpublictask"  :value="item.taskid" :key="item._id">
-            
-            <AccordionTrigger class="text-xl">
-               <div @click="taskview(item)"> {{ item.taskname }} </div>
-              
-            </AccordionTrigger>
-            <AccordionContent>
-           
-              <Button class="bg-sky-400 hover:bg-cyan-600" @click="taskpublich(item.taskid)" >发布</Button>
-              <Button class="bg-amber-700 hover:bg-amber-800" @click="taskmodify(item.taskid)">修改</Button>
-              <AlertDialog>
-                <AlertDialogTrigger as-child>
-                  <Button variant="outline" class="bg-rose-700 hover:bg-rose-800 text-white" >
-                    删除
-                  </Button>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>你确定删除?</AlertDialogTitle>
-                    <AlertDialogDescription>
-                      删除后无法复原
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>取消</AlertDialogCancel>
-                    <AlertDialogAction  @click="taskremover(item.taskid)">确认</AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
-
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
-          
-    </span>
-  
-  </div>
-
-</template>

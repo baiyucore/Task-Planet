@@ -78,7 +78,7 @@ import { ClipboardPenLine ,  Glasses ,Megaphone} from 'lucide-vue-next';
       margin-top: 30px;
       border-radius: 10px;
       width: 90%;
-      height: 400px;
+      height: calc(90vh - 70px);
       border: 1px solid;
     }
 </style>

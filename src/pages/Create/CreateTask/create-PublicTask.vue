@@ -1,3 +1,58 @@
+<template>
+  <div class=" h-lvh ">
+
+ 
+    <div class="flex h-12 justify-center  bg-teal-500  text-white static">
+     
+        <ArrowLeft class="absolute top-3 left-0 cursor-pointer" @click="onreturn" />
+     
+      
+      <span  class=" content-center  text-2xl cursor-default  font-bold">选择班级</span> 
+    </div>
+ 
+  
+    <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
+        <span v-else-if="data">
+    <form @submit="onSubmit" >
+     
+     <div v-for="item in data.existed"  :key="item._id" >
+   
+      <div class="flex mt-2 text-xl  ml-2 ">
+      
+      <Checkbox
+            :checked="checkclass.includes(item.classname)"
+            :disabled="isLoading"
+            @update:checked="(isChecked) => toggleCheck(item.classname, isChecked)"
+          />
+          <span class="ml-2  ">{{ item.classname }}</span>
+
+    </div>
+     
+     </div>
+  
+      <div class="flex justify-center">
+        <Button  :disabled="isLoading"  class="w-5/12 mt-6 bg-teal-500  ">
+            确定
+          </Button>
+      </div>
+     
+     
+     
+      <br>      
+    </form>
+  </span>
+
+
+  
+
+
+
+
+
+
+
+  </div>
+</template>
 <script setup lang="ts">
 import { toast } from 'vue-sonner';
 import { useRouter,useRoute } from 'vue-router';
@@ -8,7 +63,7 @@ import { createapi } from '@/pages/Api/CreateIndex';
 import { UseCreateStore } from '@/store/create';
 import { Createid ,Createpublictask} from '@/pages/Interface/CreateInterface';
 import { useMutation,useQuery } from '@tanstack/vue-query'
-
+import { Checkbox } from '@/components/ui/checkbox'
 const createinfor = UseCreateStore()
 const router = useRouter();
 const isLoading = ref(false);
@@ -16,8 +71,8 @@ const isLoading = ref(false);
 const route = useRoute();
 const taskid =route.query.taskid as string
 
-const checkclass = ref([]);
-
+// const checkclass = ref([]);
+const checkclass = ref<string[]>([]);
 const mutation = useMutation({
   mutationFn: async (params:  Createpublictask) => {
     const response = await   createapi.taskpublictask(params)
@@ -49,7 +104,7 @@ const mutation = useMutation({
 async function onSubmit(event:Event) {
   event.preventDefault();
   isLoading.value= true;
-
+ 
   mutation.mutate({
     creatateid:createinfor.createid,
     taskid: taskid,
@@ -67,35 +122,11 @@ const { isError, data, error,} =useQuery({
     router.push("/createtaskunfinshed");
 }
 
+function toggleCheck(classname: string, isChecked: boolean) {
+  if (isChecked) {
+    checkclass.value.push(classname);
+  } else {
+    checkclass.value = checkclass.value.filter(cls => cls !== classname);
+  }
+}
 </script>
-
-<template>
-  <div class="static mt-2">
-    
-    <ArrowLeft class="float-left ml-2 mt-1" @click="onreturn" />
-    <span  class="   text-2xl  font-bold">选择班级</span> 
-   
-    <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
-        <span v-else-if="data">
-    <form @submit="onSubmit">
-     <div v-for="item in data.existed"  :key="item._id">
-   
-      <input  
-        class="mt-5"
-        v-model="checkclass"
-        :value="item.classname"
-        type="checkbox"
-       
-        :disable="isLoading"
-      />{{item.classname}}
-     </div>
-     <Button  :disabled="isLoading"  class="w-full mt-3 bg-teal-500  ">
-      确定
-     </Button>
-     
-     
-      <br>      
-    </form>
-  </span>
-  </div>
-</template>

@@ -1,11 +1,18 @@
 <script setup lang="ts">
 import {  useRouter} from 'vue-router';
 import { toast } from 'vue-sonner';
-import { CirclePlus } from 'lucide-vue-next';
+import { Plus } from 'lucide-vue-next';
 import { createapi } from '@/pages/Api/CreateIndex';
 import { Createid  } from'@/pages/Interface/CreateInterface';
 import { UseCreateStore } from '@/store/create';
 import { useQuery } from '@tanstack/vue-query'
+import { MessageSquareDot } from 'lucide-vue-next';
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 
 const createinfor = UseCreateStore()
 const router = useRouter();
@@ -20,46 +27,35 @@ const { isError, data, error,} =useQuery({
 function CheckClass(id : string){
    router.push({ path:'/createcheckclass', query:{id} });
 }
-
+function requestjoin(){
+  router.push({ path:'/createrequestjoin' })
+}
 </script>
 
 <template>
-  <div class="static mt-2">
-    <span  class="  ml-10  text-2xl select-none font-bold">班级</span> 
-    <div class="w-[65px] absolute top-3 right-0">
-      <svg
-      @click="$router.push({ path:'/createrequestjoin' })"
-      xmlns="http://www.w3.org/2000/svg"
-      width="28" 
-      height="28" 
-      viewBox="0 0 24 24" 
-      fill="none" 
-      stroke="currentColor" 
-      stroke-width="2" 
-      stroke-linecap="round" 
-      stroke-linejoin="round" 
-      class=" lucide lucide-message-square-dot ">
-      <path d="M11.7 3H5a2 2 0 0 0-2 2v16l4-4h12a2 2 0 0 0 2-2v-2.7"/>
-      <circle stroke="red" cx="18" cy="6" r="3"/>
-    </svg>
+  <div class="flex h-12  justify-between  bg-gray-600">
+    <span  class="  ml-4 cursor-default text-2xl content-center text-slate-100 font-bold">班级</span> 
+    <div class=" content-center mr-4 cursor-pointer " @click="requestjoin">
+      <MessageSquareDot  class="size-8"  color="#f1f5f9"/>
     </div>
-
+  </div>
 
  
-      <div class="main-content">
-        <CirclePlus class="absolute bottom-20 right-5 w-1/6 h-1/6 " @click="$router.push({ path:'/addclass'})" />
-
-
-        <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
-        <span v-else-if="data">
-        <h1 @click="CheckClass(classnameview.userinvitecode)" v-for="classnameview in data.existed" :key="classnameview._id"  class="text-center select-none text-2xl mb-2">
-          {{classnameview.classname }}
-        </h1>
-       
-        </span>
-        
-      </div>
+  <div class="main-content overflow-auto">
+   
+    <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
+    <span v-else-if="data"  class="overflow-auto">
+      <Card @click="CheckClass(classnameview.userinvitecode)" v-for="classnameview in data.existed" :key="classnameview._id" class="mb-3 cursor-pointer">
+      <CardHeader>
+        <CardTitle>{{classnameview.classname }}</CardTitle>
+        <CardDescription> 成员数:{{ classnameview.studentnumber }} </CardDescription>
+      </CardHeader>    
+    </Card>
+    </span>
+    
   </div>
+
+  <Plus class="absolute bottom-24 right-8 w-14 h-14 cursor-pointer " @click="$router.push({ path:'/addclass'})" />
 
   
 
@@ -72,7 +68,7 @@ function CheckClass(id : string){
       margin-top: 30px;
       border-radius: 10px;
       width: 90%;
-      height: 650px;
+      height: calc(90vh - 70px);
       border: 1px solid;
       border-color: transparent;
     }

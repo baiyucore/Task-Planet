@@ -78,22 +78,22 @@ async function onSubmit(event: Event) {
 
 <template>
   <div class="flex relative">
-    <div class="justify-center top-60 mx-auto flex-col space-y-6 w-[400px] absolute md:left-1/3 duration-700 sm:left-1/3 left-14">
+    <div class=" top-60 mx-auto flex-col space-y-6 w-[400px] absolute md:left-1/3 duration-700 sm:left-1/3 left-14">
       <div>
-        <form @submit="onSubmit">
-          <div class="logintext ml-20 cursor-default text-cyan-500">Academic Time</div>
+        <form @submit="onSubmit" class="flex  flex-col">
+          <div class=" justify-center m-auto cursor-default font-bold text-xl text-cyan-500">Task Planet</div>
           <Input 
-            v-model:model-value="account_id"
+            v-model="account_id"
             type="text"
             placeholder="账号 123456"
             :disabled="isLoading"
             class="mt-5 placeholder:italic placeholder:text-slate-400 block bg-white 
-            w-full border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none
+            w-full  border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none
             focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
             required
           />
           <Input 
-            v-model:model-value="account_password"
+            v-model="account_password"
             class="mt-5 placeholder:italic placeholder:text-slate-400 block bg-white border border-slate-300 rounded-md py-2 pl-9
             pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1"
             id="password"
@@ -102,17 +102,20 @@ async function onSubmit(event: Event) {
             :disabled="isLoading"
             required
           />
-          <a @click="$router.push({ path: '/register' })" 
+          <div class="flex justify-end">
+            <a @click="$router.push({ path: '/register' })" 
             :class="
               cn(
                 buttonVariants({ variant: 'ghost' }),
-                'user-select-none Loginregister text-violet-500 hover:text-violet-800 block italic'
+                'user-select-none cursor-pointer text-base text-center mt-1 mb-1 w-14 text-violet-500 hover:text-violet-800  italic'
               )
             "
           >
             注册
           </a>
-          <Button :disabled="isLoading" type="submit" class="rounded-full mt-10 w-full bg-cyan-500 hover:bg-cyan-600">
+          </div>
+         
+          <Button :disabled="isLoading" type="submit" class=" w-full bg-cyan-500 hover:bg-cyan-600">
             登入
           </Button>
         </form>
@@ -120,20 +123,3 @@ async function onSubmit(event: Event) {
     </div>
   </div>
 </template>
-
-<style scoped>
-.logintext {
-  font-size: 20px;
-  font-weight: bold;
-  width: 200px;
-  margin-bottom: 5px;
-  text-align: center;
-}
-
-.Loginregister {
-  position: absolute;
-  right: 5%;
-  font-size: 15px;
-  cursor: pointer;
-}
-</style>

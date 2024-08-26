@@ -83,17 +83,17 @@ async function onSubmit(event:Event) {
 <template>
 <div class="flex relative">
       <div class="justify-center  top-60 w-[400px] absolute   duration-700 sm:left-1/3  left-14">
-        <form  @submit="onSubmit" >
-          <div class="logintext   cursor-default text-xl text-center text-teal-600" >个人信息</div>  
+        <form  @submit="onSubmit" class="flex  flex-col">
+          <div class="justify-center m-auto cursor-default font-bold text-xl text-cyan-500" >个人信息</div>  
           <br> 
          <Input 
-          v-model:model-value="account_name"
+          v-model="account_name"
           type="text"
           placeholder="用户名"
           :disabled="isLoading"
           />  
           <br>
-          <Select v-model:model-value="account_sex">
+          <Select v-model="account_sex">
               <SelectTrigger class="w-[400px]">
                 <SelectValue placeholder="性别" />
               </SelectTrigger>
@@ -109,7 +109,7 @@ async function onSubmit(event:Event) {
               </SelectContent>
             </Select>
             <br>
-          <Select v-model:model-value="account_identites">
+          <Select v-model="account_identites">
               <SelectTrigger class="w-[400px]">
                 <SelectValue placeholder="选择身份" />
               </SelectTrigger>
@@ -125,7 +125,7 @@ async function onSubmit(event:Event) {
               </SelectContent>
             </Select>
             <br>
-          <Button :disabled="isLoading" type="submit" class="w-full">
+          <Button :disabled="isLoading" type="submit" class="w-full bg-cyan-500 hover:bg-cyan-600 ">
             登入
           </Button>                    
         </form>

@@ -194,7 +194,7 @@ function finishtaskview(task :viewTask,summarize: string ,rewardselect:string){
       margin-top: 30px;
       border-radius: 10px;
       width: 90%;
-      height: 650px;
+      height: calc(90vh - 70px);
       border: 1px solid;
       border-color: transparent;
     }
