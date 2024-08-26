@@ -1,3 +1,41 @@
+<template>
+  <div class="static mt-2">
+    <ArrowLeft class="float-left ml-2 mt-1" @click="back" />
+    <form @submit="onSubmit">
+      <span  class="   text-2xl  font-bold">添加新班级</span> 
+      <Button variant="outline" type="submit" :disabled="isLoading"  class="float-right mr-5   border-transparent">
+      <Check   /> 
+      </Button>
+   
+      <div class="ml-2">
+        <span class="pr-6  "> 班级名称</span>
+        <input  
+          class="mt-5 "
+          v-model="classname"
+          type="text"
+          placeholder="班级名称"
+          :disable="isLoading"
+        />
+      </div>
+      <div class="ml-2">
+        <span class="pr-6"> 班级简介</span>
+        <input  
+          class="mt-5 "
+          v-model="classbrief"
+          type="text"
+          placeholder="简介"
+          :disable="isLoading"
+        />
+      </div>
+     
+    
+      
+      
+     
+    </form>
+
+  </div>
+</template>
 <script setup lang="ts">
 import { toast } from 'vue-sonner';
 import { ArrowLeft ,Check } from 'lucide-vue-next';
@@ -62,43 +100,3 @@ async function onSubmit(event:Event) {
  }
 
 </script>
-
-
-<template>
-  <div class="static mt-2">
-    <ArrowLeft class="float-left ml-2 mt-1" @click="back" />
-    <form @submit="onSubmit">
-      <span  class="   text-2xl  font-bold">添加新班级</span> 
-      <Button variant="outline" type="submit" :disabled="isLoading"  class="float-right mr-5   border-transparent">
-      <Check   /> 
-      </Button>
-   
-      <div class="ml-2">
-        <span class="pr-6  "> 班级名称</span>
-        <input  
-          class="mt-5 "
-          v-model="classname"
-          type="text"
-          placeholder="班级名称"
-          :disable="isLoading"
-        />
-      </div>
-      <div class="ml-2">
-        <span class="pr-6"> 班级简介</span>
-        <input  
-          class="mt-5 "
-          v-model="classbrief"
-          type="text"
-          placeholder="简介"
-          :disable="isLoading"
-        />
-      </div>
-     
-    
-      
-      
-     
-    </form>
-
-  </div>
-</template>
