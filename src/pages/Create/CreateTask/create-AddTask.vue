@@ -1,7 +1,7 @@
 <template>
   <div class=" mt-2">
     <form @submit="onSubmit">
-      <div class="flex   justify-between">
+      <div class="flex border-4 border-transparent border-b-slate-950   justify-between">
         <ArrowLeft class="mt-2 ml-2 cursor-pointer" @click="onreturn" />
       
       <span  class=" cursor-default text-2xl  font-bold">添加任务</span> 

@@ -51,7 +51,7 @@ const mutation = useMutation({
           toast.error("身份出现问题");
         }
     }else{
-      toast.error(res.data.err_msg);
+      toast.error(res.err_msg);
     }
   },
   onError: (error) => {

@@ -1,9 +1,44 @@
+<template>
+  <div class="static ">
+    <ArrowLeft class="absolute top-3 left-0 cursor-pointer" @click="onreturn" />
+    <div class="flex h-12 justify-center border-4 border-transparent border-b-slate-950   ">
+    <span  class="text-center text-2xl col-start-2 col-span-4  font-bold">{{ taskname }}</span> 
+    </div>
+
+    <div class="main-content">
+      <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
+      <span v-else-if="data">
+        <div class="flex flex-wrap justify-around ">
+          <Card v-for="item in data.commentinfor" :key="item._id"  class="relative w-[180px] m-4 " @click="othercomment(item.taskid,item.userid,item.username,item.summarize)">
+          <CardHeader>
+            <CardTitle class="text-center">{{ item.username}} 的总结</CardTitle>  
+          </CardHeader> 
+          <CardContent >
+            <div class="text-center truncate">
+             {{item.summarize}}
+            </div> 
+        </CardContent>    
+        </Card>
+        </div>
+      </span>
+    </div>
+ 
+  </div>
+</template>
+
 <script setup lang="ts">
 import { toast } from 'vue-sonner';
 import { useRouter,useRoute } from 'vue-router';
 import { ArrowLeft  } from 'lucide-vue-next';
 import { createapi } from '@/pages/Api/CreateIndex';
 import { useQuery } from '@tanstack/vue-query'
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+} from '@/components/ui/card'
+
 
 const router = useRouter();
 const route = useRoute()
@@ -25,36 +60,17 @@ function othercomment(taskid:string,userid:string,username:string,summarize:stri
 
 </script>
 
-<template>
-  <div class="static mt-2">
-    <ArrowLeft class="float-left ml-2 mt-1" @click="onreturn" />
-
-    <span  class="  ml-2 text-2xl  font-bold">{{ taskname }}</span> 
-    <div class="main-content">
-      <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
-      <span v-else-if="data">
-
-      <div v-for="item in data.commentinfor" :key="item._id">
-        <div @click="othercomment(item.taskid,item.userid,item.username,item.summarize)" class="cursor-pointer" >
-          {{ item.username}} 的总结
-        </div>
-         
-        </div>
-      </span>
-    </div>
-  </div>
-</template>
-
 
 <style scoped>
   .main-content {
       margin: 0 auto;
       margin-top: 30px;
       border-radius: 10px;
-      width: 90%;
+      width: 100%;
       height: calc(90vh - 70px);
       border: 1px solid;
       border-color: transparent;
+      overflow: auto;
     }
 
 </style>

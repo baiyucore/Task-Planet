@@ -1,3 +1,43 @@
+<template>
+  <div class="static ">
+    <ArrowLeft class="absolute top-3 left-0 cursor-pointer" @click="onreturn" />
+   
+  
+      <div class="flex h-12 justify-center border-4 border-transparent border-b-slate-950   ">
+     
+     <span  class="  text-center text-2xl col-start-2 col-span-4  font-bold">申请列表</span> 
+   </div>
+
+
+   <div class="flex flex-col overflow-auto">
+    <Accordion type="single" class="w-11/12 content-center m-auto " collapsible >
+      <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
+      <span v-else-if="data">
+
+    <AccordionItem v-for="item in data.application" :value="item.userid" :key="item.userid">
+      <AccordionTrigger>{{ item.username }} id:{{ item.userid }} 申请加入 {{ item.classname }}</AccordionTrigger>
+      <AccordionContent>
+        <div class=" flex justify-center gap-4">
+          <Button class="bg-sky-400 hover:bg-cyan-600 mr-2" @click="aboutapplication(item.userid,item.userinvitecode,item.classname,item.username,'同意')" >同意</Button>
+         <Button class="bg-rose-700 hover:bg-rose-800 mr-2" @click="aboutapplication(item.userid,item.userinvitecode,item.classname,item.username,'拒绝')">拒绝</Button>
+             
+          
+        </div>
+
+           
+      </AccordionContent>
+    </AccordionItem>
+
+      </span>
+    </Accordion>
+
+   </div>
+
+    
+
+  </div>
+</template>
+
 <script setup lang="ts">
 import { toast } from 'vue-sonner';
 import { ArrowLeft } from 'lucide-vue-next';
@@ -56,27 +96,3 @@ function onreturn(){
 
 </script>
 
-
-<template>
-  <div class="static mt-2">
-    <ArrowLeft class="float-left ml-2 mt-1" @click="onreturn" />
-   
-      <h2  class=" text-center  text-2xl  font-bold">申请列表</h2> 
-      <Accordion type="single" class="w-full" collapsible >
-      <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
-      <span v-else-if="data">
-
-    <AccordionItem v-for="item in data.application" :value="item.userid" :key="item.userid">
-      <AccordionTrigger>{{ item.username }} id:{{ item.userid }} 申请加入 {{ item.classname }}</AccordionTrigger>
-      <AccordionContent>
-        <Button class="bg-sky-400 hover:bg-cyan-600 mr-2" @click="aboutapplication(item.userid,item.userinvitecode,item.classname,item.username,'同意')" >同意</Button>
-              <Button class="bg-rose-700 hover:bg-rose-800 mr-2" @click="aboutapplication(item.userid,item.userinvitecode,item.classname,item.username,'拒绝')">拒绝</Button>
-             
-      </AccordionContent>
-    </AccordionItem>
-
-      </span>
-    </Accordion>
-
-  </div>
-</template>

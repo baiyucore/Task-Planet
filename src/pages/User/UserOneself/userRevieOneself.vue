@@ -1,3 +1,71 @@
+
+<template>
+  <div class="static mt-2 ">
+    <form @submit="onSubmit"  >  
+      <div class="flex border-4 border-transparent border-b-slate-950  justify-between">
+        <ArrowLeft class="mt-1 ml-2 cursor-pointer" @click="onreturn" />
+        <span  class=" cursor-default text-2xl  font-bold">修改个人信息</span> 
+        <Button variant="outline" :disabled="isLoading"  class="mr-1  hover:bg-transparent shadow-transparent border-transparent">
+      <Check   /> 
+      </Button>
+
+      </div>
+
+
+      <div class="flex flex-col  ">
+
+        <div class="flex justify-center mt-3">
+          <div class="mr-3 mt-1.5">用户名称 </div> 
+          <Input  
+          v-model:model-value="username"
+          type="text "
+          placeholder="{{username}}"
+          :disable="isLoading"
+          class="  w-8/12 text-2xl  font-bold placeholder:text-center"
+          />
+
+        </div>
+
+
+      </div>
+      <div class="flex mt-3 justify-center">
+        <div class="mr-11 mt-1.5">性别 </div> 
+        <Select v-model:model-value="usersex">
+              <SelectTrigger class="w-8/12">
+                <SelectValue placeholder="性别" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectItem value="男">
+                    男
+                  </SelectItem>
+                  <SelectItem value="女">
+                    女
+                  </SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+      </div>
+      
+      <div class="flex justify-center mt-3">
+        <div class="mr-3 mt-1.5"> 个人评语</div>
+        <Textarea 
+          class="w-8/12 "
+          v-model="userprofile"
+          type="text"
+          placeholder="个人评语"
+          :disable="isLoading"
+        />
+      </div>
+    
+    
+    </form>
+
+  </div>
+
+</template>
+
+
 <script setup lang="ts">
 import { ArrowLeft ,Check } from 'lucide-vue-next';
 import {ref} from 'vue'
@@ -12,6 +80,9 @@ import { useMutation} from '@tanstack/vue-query'
 import {
   Select,SelectContent,SelectGroup,SelectItem,SelectTrigger,SelectValue,
 } from '@/components/ui/select'
+
+import { Textarea } from '@/components/ui/textarea'
+
 const userinfor = Userinfor()
 const router = useRouter();
 const username=ref("");
@@ -65,58 +136,3 @@ function onreturn(){
 }
 
 </script>
-
-<template>
-  <div class="static mt-2 ">
-    <ArrowLeft class="float-left ml-2 mt-1" @click="onreturn" />
-   
-    <form @submit="onSubmit"  >  
-
-      
-      <Button variant="outline" :disabled="isLoading"  class="float-right   border-transparent">
-      <Check   /> 
-      </Button>
-       
-      <div class="ml-2 mt-2">
-        <Input  
-          v-model:model-value="username"
-          type="text "
-          placeholder="{{ username }}"
-          :disable="isLoading"
-          class=" text-2xl font-bold placeholder:text-center block"
-          />
-      </div>
-       
-      <div class="ml-2 mt-4">
-        <Select v-model:model-value="usersex">
-              <SelectTrigger class="w-[400px]">
-                <SelectValue placeholder="性别" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectItem value="男">
-                    男
-                  </SelectItem>
-                  <SelectItem value="女">
-                    女
-                  </SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-      </div>
-      <div class="ml-2">
-        <span class="pr-6"> 个人评语</span>
-        <input  
-          class="mt-5 "
-          v-model="userprofile"
-          type="text"
-          placeholder="个人评语"
-          :disable="isLoading"
-        />
-      </div>   
-    
-    </form>
-
-  </div>
-
-</template>

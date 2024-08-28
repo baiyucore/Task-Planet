@@ -1,32 +1,46 @@
 <template>
-  <div class="static mt-2">
-    <ArrowLeft class="float-left ml-2 mt-1" @click="back" />
+  <div class=" mt-2">
     <form @submit="onSubmit">
-      <span  class="   text-2xl  font-bold">添加新班级</span> 
-      <Button variant="outline" type="submit" :disabled="isLoading"  class="float-right mr-5   border-transparent">
+      <div class="flex border-4 border-transparent border-b-slate-950  justify-between">
+
+        <ArrowLeft class="mt-2 ml-2 cursor-pointer" @click="back" />
+        <span  class="  cursor-default text-2xl  font-bold">添加新班级</span> 
+      <Button variant="outline" type="submit" :disabled="isLoading"  class="mr-1  hover:bg-transparent shadow-transparent border-transparent">
       <Check   /> 
       </Button>
-   
-      <div class="ml-2">
-        <span class="pr-6  "> 班级名称</span>
-        <input  
-          class="mt-5 "
+
+      </div>
+
+      
+      <div class="flex flex-col  ">
+
+       
+        <div class="flex justify-center mt-3">
+          <span class="mr-3 mt-1.5 "> 班级名称</span>
+        <Input  
+          class="  w-8/12"
           v-model="classname"
           type="text"
           placeholder="班级名称"
           :disable="isLoading"
+          required
         />
       </div>
-      <div class="ml-2">
-        <span class="pr-6"> 班级简介</span>
-        <input  
-          class="mt-5 "
+
+      <div class="flex justify-center mt-3">
+        <span class="mr-3 mt-1.5"> 班级简介</span>
+        <Input  
+          class="w-8/12 "
           v-model="classbrief"
           type="text"
           placeholder="简介"
           :disable="isLoading"
         />
       </div>
+
+      </div>
+
+     
      
     
       
@@ -47,6 +61,7 @@ import { createapi } from '@/pages/Api/CreateIndex';
 import { createaddclass } from '@/pages/Interface/CreateInterface';
 import { UseCreateStore } from '@/store/create';
 import {useMutation} from '@tanstack/vue-query'
+import { Input } from '@/components/ui/input';
 
 const createinfor = UseCreateStore()
 const userinvitecode =nanoid(8)

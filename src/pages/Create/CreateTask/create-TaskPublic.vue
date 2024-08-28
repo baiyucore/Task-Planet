@@ -6,8 +6,8 @@
     </div>
     <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
     <span v-else-if="data"  class="overflow-auto">
-
-    <Card @click="viewtask(classnameview.classname)" v-for="classnameview in data.existed" :key="classnameview._id" class="mb-3 cursor-pointer">
+      <div class="flex flex-col items-center">
+        <Card @click="viewtask(classnameview.classname)" v-for="classnameview in data.existed" :key="classnameview._id" class="mb-3 w-11/12 cursor-pointer">
       <CardHeader>
         <CardTitle>{{classnameview.classname }}</CardTitle>
         <CardDescription> 成员数:{{ classnameview.studentnumber }} </CardDescription>
@@ -15,6 +15,8 @@
      
     </Card>
 
+      </div>
+    
 
     </span>
     

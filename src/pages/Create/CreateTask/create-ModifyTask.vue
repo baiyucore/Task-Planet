@@ -18,7 +18,7 @@
           class="w-11/12  "
           v-model:model-value="taskname"
           type="text"
-          placeholder="输入任务名称"
+          placeholder="{{ taskname }}"
           :disable="isLoading"
           required
         />
@@ -30,7 +30,7 @@
         class="w-11/12  "
         v-model:model-value="taskcompletion"
         type="text"
-        placeholder="完成任务条件"
+        placeholder="{{ taskcompletion }}"
         :disable="isLoading"
         />
        
@@ -210,12 +210,16 @@ const successrewardtwo_one = ref(0);
 const successrewardtwo_two = ref(0);
 const failed = ref(0);
 
+
 const taskname = ref("");
 const taskcompletion = ref("");
 const startvalue = ref<DateValue>()
 const overvalue = ref<DateValue>()
 const route = useRoute();
 const taskid =route.query.taskid as string
+taskname.value = route.query.taskname as string
+taskcompletion.value = route.query.taskcompletion as string
+
 startvalue.value = today(getLocalTimeZone()).add({ days: Number(0) })
 overvalue.value = today(getLocalTimeZone()).add({ days: Number(1) })
 
@@ -230,7 +234,7 @@ const mutation = useMutation({
   onSuccess:(res)=>{
     isLoading.value= true;
     if( res.err_code === 0 ){
-      toast.success("添加成功");
+      toast.success("修改成功");
       router.back();
     } else{
       toast.error( res.err_msg );

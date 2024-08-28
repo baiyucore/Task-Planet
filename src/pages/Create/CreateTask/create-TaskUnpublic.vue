@@ -1,4 +1,3 @@
-
 <template>
   <div>
     <div >
@@ -18,7 +17,7 @@
             <AccordionContent>
            <div class=" flex justify-center gap-4">
             <Button class="bg-indigo-400 hover:bg-indigo-600" @click="taskpublich(item.taskid)" >发布</Button>
-              <Button class="bg-neutral-700 hover:bg-neutral-500" @click="taskmodify(item.taskid)">修改</Button>
+              <Button class="bg-neutral-700 hover:bg-neutral-500" @click="taskmodify(item.taskid,item.taskname,item.taskCompletionConditions)">修改</Button>
               <AlertDialog>
                 <AlertDialogTrigger as-child>
                   <Button variant="outline" class="bg-rose-700 hover:bg-rose-800 text-white" >
@@ -93,8 +92,8 @@ function taskpublich(taskid :string){
   router.push({path:'/createpublictask',query:{ taskid}});
 }
 
-function taskmodify(taskid : string){
-  router.push({path:'/createmodify',query:{ taskid}});
+function taskmodify(taskid : string,taskname:string,taskcompletion:string){
+  router.push({path:'/createmodify',query:{ taskid,taskname,taskcompletion}});
 }
 
 //删除

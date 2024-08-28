@@ -1,3 +1,60 @@
+<template>
+  <div class="mt-2">
+    <form @submit="onSubmit">
+      <div class="flex border-4 border-transparent border-b-slate-950  justify-between">
+        <ArrowLeft class="mt-2 ml-2 cursor-pointer" @click="onreturn" />
+        <span  class=" cursor-default text-2xl  font-bold">添加商品</span> 
+      <Button variant="outline" :disabled="isLoading"  class="mr-1  hover:bg-transparent shadow-transparent border-transparent">
+      <Check   /> 
+      </Button>
+      </div>
+
+      <div class="flex flex-col  ">
+
+        <div class="flex justify-center mt-3">
+        <span class="mr-3 mt-1.5 "> 商品名称</span>
+        <Input  
+          class="w-8/12 "
+          v-model="productname"
+          type="text"
+          placeholder="商品名称"
+          :disable="isLoading"
+          required
+        />
+      </div>
+      <div class="flex justify-center mt-3">
+        <span class="mr-3 mt-1.5"> 所需金币</span>
+        <Input  
+          class="w-8/12 "
+          v-model="productprice"
+          type="number"
+          placeholder="所需金币"
+          :disable="isLoading"
+          required
+        />
+      </div>
+
+      <div class="flex justify-center mt-3">
+        <span class="mr-3 mt-1.5"> 总兑换数</span>         
+        <Input  
+          class="w-8/12 "
+          v-model="totalnumber"
+          type="number"
+          placeholder=" 总兑换次数"
+          :disable="isLoading"
+          required
+        />
+      </div>
+
+      </div>
+
+     
+
+   
+    </form>
+
+  </div>
+</template>
 <script setup lang="ts">
 import { toast } from 'vue-sonner';
 import { useRouter } from 'vue-router';
@@ -9,6 +66,7 @@ import { CreateAddproduct } from '@/pages/Interface/CreateInterface';
 import { UseCreateStore } from '@/store/create';
 import {useMutation} from '@tanstack/vue-query'
 import { nanoid } from 'nanoid'
+import { Input } from '@/components/ui/input';
 
 const productid =nanoid(8)
 const router = useRouter();
@@ -62,51 +120,3 @@ function onreturn(){
   router.back();
 }
 </script>
-
-
-<template>
-  <div class="static mt-2">
-    <ArrowLeft class="float-left ml-2 mt-1" @click="onreturn" />
-   
-   
-    <form @submit="onSubmit">
-      <span  class="   text-2xl  font-bold">添加商品</span> 
-      <Button variant="outline" :disabled="isLoading"  class="float-right mr-5   border-transparent">
-      <Check   /> 
-      </Button>
-   
-      <div class="ml-2">
-        <span class="pr-6  "> 商品名称</span>
-        <input  
-          class="mt-5 "
-          v-model="productname"
-          type="text"
-          placeholder="商品名称"
-          :disable="isLoading"
-        />
-      </div>
-      <div class="ml-2">
-        <span class="pr-6"> 所需金币</span>
-        <input  
-          class="mt-5 "
-          v-model="productprice"
-          type="number"
-          placeholder="所需金币"
-          :disable="isLoading"
-        />
-      </div>
-      <div class="ml-2">
-        <span class="pr-1"> 总兑换次数</span>         
-        <input  
-          class="mt-5 "
-          v-model="totalnumber"
-          type="number"
-          placeholder=" 总兑换次数"
-          :disable="isLoading"
-        />
-      </div>
-   
-    </form>
-
-  </div>
-</template>

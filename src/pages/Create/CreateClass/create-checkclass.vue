@@ -1,3 +1,39 @@
+<template>
+  <div class="static mt-2 ">
+    <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
+      <span v-else-if="data">
+        <ArrowLeft class="absolute top-3 left-0 cursor-pointer" @click="onreturn" />
+        <div class="flex h-12 justify-center border-4 border-transparent border-b-slate-950   ">
+     
+          <span  class="  text-center text-2xl col-start-2 col-span-4  font-bold">{{data.classname}}</span> 
+        </div>
+      
+        <div class="flex flex-col  ">
+          <div class="flex justify-center mt-3 grid grid-cols-4 gap-2 mt-2 ml-5">
+          <div>班级简介</div>
+          <div>
+            {{data.classbrief}}</div>
+        </div>
+
+        <div class="flex justify-center mt-3 grid grid-cols-4 gap-2 mt-2 ml-5">
+          <div>邀请码</div>
+          <div>{{data.userinvitecode}}</div>
+        </div>
+        <div class="flex justify-between mt-3 ml-5">
+          <div>班级成员</div>
+          <ArrowRight class="mr-5" @click="oncheckclassmember(data.userinvitecode,data.classname)"/>
+        </div>
+
+        </div>
+        
+     
+      </span>
+      
+      
+
+
+  </div>
+</template>
 <script setup lang="ts">
 import { toast } from 'vue-sonner';
 import { ArrowLeft ,ArrowRight } from 'lucide-vue-next';
@@ -29,37 +65,3 @@ function onreturn(){
 }
 
 </script>
-
-
-
-<template>
-  <div class="static mt-2 ">
-    <ArrowLeft class="float-left ml-2 mt-1" @click="onreturn" />
-    <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
-      <span v-else-if="data">
-      <div class="grid grid-cols-6 gap-4">
-        <span  class="  text-center text-2xl col-start-2 col-span-4  font-bold">{{data.classname}}</span> 
-      </div>
-    
-        <div class="grid grid-cols-4 gap-2 mt-2 ml-5">
-          <div>班级简介</div>
-          <div>
-            {{data.classbrief}}</div>
-        </div>
-
-        <div class="grid grid-cols-4 gap-2 mt-2 ml-5">
-          <div>邀请码</div>
-          <div>{{data.userinvitecode}}</div>
-        </div>
-        <div class="grid grid-cols-4 gap-2 mt-2 ml-5 relative">
-          <div>班级成员</div>
-          <ArrowRight class="absolute right-8" @click="oncheckclassmember(data.userinvitecode,data.classname)"/>
-        </div>
-     
-      </span>
-      
-      
-
-
-  </div>
-</template>
