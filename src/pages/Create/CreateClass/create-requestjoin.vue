@@ -51,7 +51,7 @@ import { useQuery,useMutation } from '@tanstack/vue-query'
 
   const createid = UseCreateStore().createid
   const router = useRouter();
-  const { isError, data, error,} =useQuery({
+  const { isError, data, error,refetch} =useQuery({
     queryKey: ['craeteviewoneself', createid],
     queryFn : () =>  createapi.application(createid)
   })
@@ -63,13 +63,11 @@ const mutation= useMutation({
     const response = await   createapi.applycondition(params)
     return response
   },
-  onSuccess:(res)=>{
-    if( res.err_code === 0 ){
-      window.location.reload();
+  onSuccess:()=>{
+ 
+      refetch();
 
-    } else{
-      toast.error( res.err_msg );
-    }
+   
   },  
   onError: (error) => {
     toast.error(error.message)

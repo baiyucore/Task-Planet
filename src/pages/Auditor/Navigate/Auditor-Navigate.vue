@@ -18,7 +18,7 @@ import { ClipboardPenLine ,  Glasses ,Megaphone} from 'lucide-vue-next';
         </div>
     
         <div>
-          <RouterLink :to="{path:'/audit'}" active-class="active" class="static">
+          <RouterLink :to="{path:'/denounce'}" active-class="active" class="static">
           <Glasses class=" relative size-8 top-1 left-8"/>
           <div class="pl-1 text-center">审核</div>
           </RouterLink>

@@ -1,8 +1,36 @@
+<template>
+  <div class="static mt-2">
+    <ArrowLeft class="absolute top-3 left-0 cursor-pointer" @click="onreturn" />
+
+    <div class="flex h-12 justify-center   ">
+    
+      <span  class="  text-center text-2xl col-start-2 col-span-4  font-bold">申请加入班级</span> 
+    </div>
+
+    <div class="main-content">
+      <form @submit="onSearch">
+      <div class="relative">
+        <Search class="absolute left-2 top-2.5 size-4 text-muted-foreground "/>
+        <Input
+          v-model="UserInvitecode"
+          type="text"
+          placeholder="填写邀请码"
+          :disabled="isLoading"
+           @input="handleInput"
+          class="pl-8  w-full"
+          />    
+      </div>    
+    </form>
+    </div>
+   
+
+  </div>
+</template>
+
 <script setup lang="ts">
 import { Input } from '@/components/ui/input';
 import { ArrowLeft } from 'lucide-vue-next';
 import { ref } from 'vue'
-import { Button } from '@/components/ui/button'
 import { useRouter} from 'vue-router';
 import { Search } from 'lucide-vue-next';
 import { userapi } from '@/pages/Api/UserIndex';
@@ -25,16 +53,16 @@ const mutation= useMutation({
   },
   onSuccess:(res)=>{
     isLoading.value= true;
-    if( res.err_code === 0 ){
+  
       const classname = res.classinfor.classname
       const classbrief = res.classinfor.classbrief
       const createid = res.classinfor.account_id 
       const userinvitecode = res.classinfor.userinvitecode
-      setTimeout(()=> router.push({path:"/useraboutclass" , query:{classname,classbrief,createid,userinvitecode}}))
+      const createname= res.createname
+      const studentnumber =res.classinfor.studentnumber
+      router.push({path:"/useraboutclass" , query:{classname,classbrief,createid,userinvitecode,createname,studentnumber}})
      
-    } else{
-      toast.error( res.err_msg );
-    }
+   
   },  
   onError: (error) => {
     isLoading.value = false
@@ -69,33 +97,15 @@ function onreturn(){
 
 
 </script>
+<style scoped>
+ 
+  .main-content {
+      margin: 0 auto;
+      border-radius: 10px;
+      width: 90%;
+      height: calc(90vh - 70px);
+      border: 1px solid;
+      border-color: transparent;
 
-
-<template>
-  <div class="static mt-2">
-    <ArrowLeft class="float-left ml-2 mt-1" @click="onreturn" />
-    <form @submit="onSearch">
-      <div class="flex">
-        <Button type="submit" variant="outline" size="icon" class="absolute right-2 border-transparent ">
-          <Search />
-        </Button>
-        <Input
-          v-model="UserInvitecode"
-          type="text"
-          placeholder="填写邀请码"
-          :disabled="isLoading"
-           @input="handleInput"
-          />    
-      </div>    
-    </form>
-  
-    
-     
-     
-    
-      
-      
-
-
-  </div>
-</template>
+    }
+</style>

@@ -1,4 +1,3 @@
-
 <template>
   <div class="flex h-12  justify-between  bg-gray-600">
     <span  class=" ml-4 text-2xl content-center text-slate-100 font-bold">评论</span> 
@@ -18,7 +17,7 @@
     </PopoverTrigger>
     <PopoverContent class="flex w-auto flex-col gap-y-2 p-2">
       <Select
-        @update:model-value="(v) => {
+        @update:model-value="(v: any) => {
           if (!v) return;
           value = today(getLocalTimeZone()).add({ days: Number(v) });
         }"
@@ -35,35 +34,22 @@
       <Calendar v-model="value" />
     </PopoverContent>
   </Popover>
-
-
-
-    </div>
-    
+    </div> 
   </div>
 
       <div class="main-content">
 
-      
+
         <div class="flex flex-col items-center">
         <Card v-for="items in commenallinfor" @click="viewtask(items.taskname,items.taskid)" :key="items._id" class="mb-3 w-11/12  cursor-pointer">
-      <CardHeader>
-        <CardTitle>{{items.taskname}}</CardTitle>
-        <CardDescription> 班级:{{items.classname}} </CardDescription>
-      </CardHeader>    
-    </Card>
-      </div>
-    
-
-    
-        
+          <CardHeader>
+            <CardTitle>{{items.taskname}}</CardTitle>
+            <CardDescription> 班级:{{items.classname}} </CardDescription>
+          </CardHeader>    
+        </Card>
+      </div>       
       </div>
 
-
-  
-
-
-  
 </template>
 
 <script setup lang="ts">
@@ -107,6 +93,8 @@ const items = [
 
 const value = ref<DateValue>()
 const commenallinfor = ref<CreateViewComment[]>([])
+
+
   value.value =today(getLocalTimeZone()).add({ days: Number(0) })
   const parmas : CreateComment ={
     time:value.value,

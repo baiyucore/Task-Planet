@@ -16,7 +16,7 @@
             <div class="flex justify-end gap-4">
               <Dialog>
               <DialogTrigger as-child>
-                <MessageCircle class="size-6 cursor-pointer"/> 
+                <MessageCircle class=" cursor-pointer"/> 
               </DialogTrigger>
               <DialogContent class="sm:max-w-[425px]">
                 <DialogHeader>
@@ -57,9 +57,7 @@
                   </AlertDialogFooter>
                 </AlertDialogContent>
               </AlertDialog>
-          
 
-            <!-- <Trash2 class="size-6" @click="Deletesummarize()"/>  -->
             </div>
       
 
@@ -73,6 +71,7 @@
 
       <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
       <span v-else-if="data">
+        
       <div class="flex flex-col items-center">
         <Card v-for="items in data.outercomment" :key="items._id" class="mb-3 w-11/12  cursor-pointer">
           <CardHeader>
@@ -382,7 +381,7 @@ function onreturn(){
       margin: 0 auto;
       border-radius: 10px;
       width: 100%;
-      height: calc(90vh - 70px);
+      height: calc(85vh - 70px);
       border: 1px solid;
       border-color: transparent;
       overflow: auto;

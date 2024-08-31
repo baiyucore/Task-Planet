@@ -1,3 +1,36 @@
+<template>
+  <div class="static mt-2">
+    <ArrowLeft class="absolute top-3 left-0 cursor-pointer" @click=" onreturn" />
+  
+        <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
+    <span v-else-if="data">
+      <div class="flex h-12 justify-center border-4 border-transparent border-b-slate-950   ">
+     
+     <span  class="  text-center text-2xl col-start-2 col-span-4  font-bold">{{data.name}}</span> 
+  </div>
+
+  <div class="flex flex-col  ">
+    <div class="flex justify-center mt-3">
+          <div class="mr-3  ">性别</div>
+          <div>
+            {{data.sex}}</div>
+        </div>
+        <div class="flex justify-center mt-3">
+          <div class="mr-3 ">个人评语</div>
+          <div>{{data.profile}}</div>
+        </div>
+
+  
+       
+  </div>
+    </span>
+      </div>
+
+  
+
+
+  
+</template>
 <script setup lang="ts">
 import { toast } from 'vue-sonner';
 import {  useRoute} from 'vue-router';
@@ -25,51 +58,3 @@ const { isError, data, error,} =useQuery({
 
 
 </script>
-
-<template>
-  <div class="static mt-2">
-    <ArrowLeft class="float-left ml-2 mt-1" @click="onreturn" />
-    <span  class="  text-2xl col-start-2 col-span-4  font-bold">个人信息</span>
- 
-      <div class="main-content">
-
-
-        <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
-    <span v-else-if="data">
-              <h1 class="text-center text-2xl">{{data.name}}</h1>
-
-        <div class="grid grid-cols-4 gap-2 mt-2">
-          <div>性别</div>
-          <div>
-            {{data.sex}}</div>
-        </div>
-
-        <div class="grid grid-cols-4 gap-2 mt-2">
-          <div>个人评语</div>
-          <div>{{data.profile}}</div>
-        </div>
-
-
-    </span>
-      
-
-      </div>
-  </div>
-
-  
-
-
-  
-</template>
-<style scoped>
- 
-  .main-content {
-      margin: 0 auto;
-      margin-top: 6px;
-      border-radius: 10px;
-      width: 90%;
-      height: calc(90vh - 70px);
-      border: 1px solid;
-      border-color: transparent;
-    }
-</style>

@@ -22,6 +22,12 @@
           <div>{{profile}}</div>
         </div>
       </div>
+      <div class="flex justify-center mt-3 " v-if="identity !== 'create'">
+          <Button  @click="removeuserclass"  type="button" class="rounded-full mt-10 w-5/12 bg-[#374151] hover:bg-[#111827]">
+          移除班级
+        </Button>
+        </div>
+
   </div>
 
 
@@ -33,12 +39,45 @@
 import {  useRoute} from 'vue-router';
 import { ArrowLeft } from 'lucide-vue-next';
 import { useRouter} from 'vue-router';
+import {useMutation } from '@tanstack/vue-query'
+import { toast } from 'vue-sonner';
+import { Removeclassmember } from '@/pages/Interface/CreateInterface';
+import { createapi } from '@/pages/Api/CreateIndex';
+import { Button } from '@/components/ui/button'
 let tranport= useRoute()
 const name  = tranport.query.name
 const sex = tranport.query.sex
 const profile = tranport.query.profile
-
+const identity = tranport.query.identity as string
+const userinvitecode = tranport.query.userinvitecode as string
+const classname = tranport.query.classname as string
+const userid = tranport.query.userid as string
 const router = useRouter();
+
+
+
+const mutation= useMutation({
+  mutationFn: async ( params :Removeclassmember) => {
+    const response = await  createapi.Removeclassmember(params)
+    return response
+  },
+  onSuccess:(res)=>{
+    if( res.err_code === 0 ){
+      toast.success("删除成功")
+    } else{
+      toast.error( res.err_msg );
+    }
+  },  
+
+})
+
+function removeuserclass(){
+  mutation.mutate({
+    userid:userid,
+    userinvitecode : userinvitecode,
+    classname :classname
+    })
+}
 
 function onreturn(){
   router.back();

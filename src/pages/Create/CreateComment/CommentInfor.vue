@@ -8,7 +8,7 @@
     <div class="main-content">
       <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
       <span v-else-if="data">
-        <div class="flex flex-wrap justify-around ">
+        <div class="flex flex-wrap justify-around cursor-default">
           <Card v-for="item in data.commentinfor" :key="item._id"  class="relative w-[180px] m-4 " @click="othercomment(item.taskid,item.userid,item.username,item.summarize)">
           <CardHeader>
             <CardTitle class="text-center">{{ item.username}} 的总结</CardTitle>  
@@ -64,7 +64,6 @@ function othercomment(taskid:string,userid:string,username:string,summarize:stri
 <style scoped>
   .main-content {
       margin: 0 auto;
-      margin-top: 30px;
       border-radius: 10px;
       width: 100%;
       height: calc(90vh - 70px);

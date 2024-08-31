@@ -7,49 +7,52 @@
     </div>
   
   
-
-    <Accordion type="single" class="w-11/12 ml-3" collapsible >
+    <div class="main-content">
+      <Accordion type="single"  collapsible >
    
       <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
     <span v-else-if="data">
-      <AccordionItem v-for="items in data.publictask"  :value="items.task.taskid" :key="items._id">
-        <AccordionTrigger class="text-xl">
-        <div @click="taskview(items.task)"> {{ items.task.taskname}}</div>
-      </AccordionTrigger>
-      <AccordionContent>
-       
-        <div class="flex justify-end">
-          <AlertDialog>
-                <AlertDialogTrigger as-child>
-                  <Button variant="outline" class="   bg-rose-700 hover:bg-rose-800 text-white" >
-                    删除
-                  </Button>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>你确定删除?</AlertDialogTitle>
-                    <AlertDialogDescription>
-                      删除后无法复原
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>取消</AlertDialogCancel>
-                    <AlertDialogAction  @click="taskremover(items.task.taskid)">确认</AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
-        </div>
-        
-
-      </AccordionContent>
+   <AccordionItem v-for="items in data.publictask"  :value="items.task.taskid" :key="items._id">
+     <AccordionTrigger class="text-xl">
+     <div @click="taskview(items.task)"> {{ items.task.taskname}}</div>
+   </AccordionTrigger>
+   <AccordionContent>
     
+     <div class="flex justify-end">
+       <AlertDialog>
+             <AlertDialogTrigger as-child>
+               <Button variant="outline" class="   bg-rose-700 hover:bg-rose-800 text-white" >
+                 删除
+               </Button>
+             </AlertDialogTrigger>
+             <AlertDialogContent>
+               <AlertDialogHeader>
+                 <AlertDialogTitle>你确定删除?</AlertDialogTitle>
+                 <AlertDialogDescription>
+                   删除后无法复原
+                 </AlertDialogDescription>
+               </AlertDialogHeader>
+               <AlertDialogFooter>
+                 <AlertDialogCancel>取消</AlertDialogCancel>
+                 <AlertDialogAction  @click="taskremover(items.task.taskid)">确认</AlertDialogAction>
+               </AlertDialogFooter>
+             </AlertDialogContent>
+           </AlertDialog>
+     </div>
      
-    </AccordionItem>
-      
-    </span>
 
+   </AccordionContent>
+ 
+  
+ </AccordionItem>
    
-   </Accordion>
+ </span>
+
+
+</Accordion>
+
+    </div>
+   
     
 
    
@@ -145,3 +148,15 @@ function onreturn(){
 }
 
 </script>
+<style scoped>
+.main-content {
+    margin: 0 auto;
+    border-radius: 10px;
+    width: 100%;
+    height: calc(90vh - 70px);
+    border: 1px solid;
+    border-color: transparent;
+    overflow: auto;
+  }
+  
+</style>

@@ -1,17 +1,20 @@
 <template>
-  <div class="static mt-2 ">
+  <div class="static   ">
  
-    <ArrowLeft class="absolute top-3 left-0 cursor-pointer" @click="onreturn" />
+    <ArrowLeft class="absolute top-2.5 left-0 cursor-pointer" @click="onreturn" />
 
-    <div class="flex h-12 justify-center border-4 border-transparent border-b-slate-950 ">
+    <div class="flex h-11 justify-center border-4 border-transparent border-b-slate-950 ">
 
 
       <span  class=" text-center text-2xl col-start-2 col-span-4  font-bold">{{ taskname }}</span> 
     </div>
 
     <div class="flex flex-col  ">
-      <span class=" flex justify-center ">
-            完成任务条件 {{ taskCompletionConditions }}
+      <span class=" flex justify-center  ">
+        <div class="w-[225px] text-center break-words ">
+          完成条件 {{ taskCompletionConditions }}
+        </div>
+          
       </span> 
      
         <span class=" flex justify-center m-4 ">
@@ -26,7 +29,7 @@
       <div class="flex gap-2">
   
         <div class="grow h-1/2 ml-2">
-          <div class=" text-center" :class="{ selected: selectedOption === 'option1' }" @click="selectreward('option1')">
+          <div class=" text-center cursor-pointer" :class="{ selected: selectedOption === 'option1' }" @click="selectreward('option1')">
             <span :style="{ color: selectedOption === '1' ? '#FF7D05' : ' black' }" >选择1 <br> <br>
           <span >获得{{ successrewardone }}金币 </span>
             </span>
@@ -34,7 +37,7 @@
         </div>
 
         <div class="grow h-1/2"> 
-        <div class="text-center  " :class="{ selected: selectedOption === 'option2' }" @click="selectreward('option2')">
+        <div class="text-center  cursor-pointer " :class="{ selected: selectedOption === 'option2' }" @click="selectreward('option2')">
           <span :style="{ color: selectedOption === '2' ? '#FF7D05' : 'black' }">选择2 <br> <br>
             <span >获得{{ successrewardtwo_one }}~{{successrewardtwo_two}}金币</span>
           </span>

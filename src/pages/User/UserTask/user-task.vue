@@ -17,7 +17,7 @@
         </PopoverTrigger>
         <PopoverContent class="flex w-auto flex-col gap-y-2 p-2">
           <Select
-            @update:model-value="(v) => {
+            @update:model-value="(v: any) => {
               if (!v) return;
               value = today(getLocalTimeZone()).add({ days: Number(v) });
             }"

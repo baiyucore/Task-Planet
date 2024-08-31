@@ -4,10 +4,8 @@ import { ClipboardList , ShoppingCart , ClipboardPenLine , School , User} from '
 import {
   Dialog,
   DialogContent,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog'
 import Button from '@/components/ui/button/Button.vue';
 import { Userinfor } from '@/store/user';
@@ -34,13 +32,12 @@ const isDialogOpen = computed(() => {
 </script>
 <template>  
 <div class=" ">
+  
  <div class="navigate grid grid-cols-5 gap-x-0">
   <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
   <span v-else-if="data">
         <Dialog v-model:open="isDialogOpen">
-            <DialogTrigger as-child>
-
-            </DialogTrigger>
+         
             <DialogContent class="sm:max-w-[425px] overflow-y-auto">
               <DialogHeader>
                 <DialogTitle>系统通知</DialogTitle>
@@ -50,9 +47,7 @@ const isDialogOpen = computed(() => {
               </div>
 
               <Button @click="changenoticeopen"> 确定</Button>
-        
-                <DialogFooter>
-                    </DialogFooter>
+      
             </DialogContent>
           </Dialog>
   </span>

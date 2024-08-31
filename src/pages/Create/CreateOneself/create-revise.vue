@@ -105,16 +105,13 @@ const mutation= useMutation({
   onMutate:()=>{
     isLoading.value = true
   },
-  onSuccess:(res)=>{
+  onSuccess:()=>{
     isLoading.value= true;
-    if( res.err_code === 0 ){
+   
       Userinfor().transmitname(create_name.value)
       toast.success("修改成功");
       router.push({ path:"/createoneself" });
 
-    } else{
-      toast.error( res.err_msg );
-    }
   },  
   onError: (error) => {
     isLoading.value = false

@@ -23,14 +23,12 @@ const mutation = useMutation({
   onMutate: ()=>{
     isLoading.value =true
   },
-  onSuccess:(res)=>{
+  onSuccess:()=>{
     isLoading.value = false;
-    if (res.err_code === 0) {
+    
       toast.success("注册成功，即将跳转");
-      setTimeout(()=> router.push({ path:"/firstfill" , query:{account_id:account_id.value } }), 2000);
-    } else{
-      toast.error(res.err_msg);
-    }
+      setTimeout(()=> router.push({ path:"/firstfill" , query:{account_id:account_id.value } }), 1000);
+ 
   },
   onError:(error)=>{
     isLoading.value = false;

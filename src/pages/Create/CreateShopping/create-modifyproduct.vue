@@ -17,7 +17,7 @@
             class="w-8/12 "
             v-model="productname"
             type="text"
-            placeholder="商品名称"
+            placeholder="{{ produtname }}"
             :disable="isLoading"
             required
           />
@@ -65,6 +65,7 @@ import { Button } from '@/components/ui/button'
 import { createapi } from '@/pages/Api/CreateIndex';
 import { Createmodifyproduct } from '@/pages/Interface/CreateInterface';
 import {useMutation} from '@tanstack/vue-query'
+import { Input } from "@/components/ui/input";
 
 const router = useRouter();
 const tranport = useRoute();
@@ -73,6 +74,7 @@ const productname = ref("");
 const productprice = ref(0);
 const totalnumber = ref(0);
 const product_name = tranport.query.productname as string 
+productname.value = product_name
 
 const mutation= useMutation({
   mutationFn: async (params: Createmodifyproduct) => {

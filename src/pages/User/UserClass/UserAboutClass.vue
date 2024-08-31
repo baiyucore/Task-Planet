@@ -1,15 +1,53 @@
+
+<template>
+  <div class="static ">
+    <ArrowLeft class="absolute top-3 left-0 cursor-pointer" @click="onreturn" />
+
+<div class="flex h-12 justify-center border-4 border-transparent border-b-slate-950   ">
+ 
+  <span  class="  text-center text-2xl col-start-2 col-span-4  font-bold">{{classname}}</span> 
+</div>
+  </div>
+
+    <div class="flex flex-col">
+      <div class="flex justify-center my-2">
+        <span > 创建者 {{createname}}</span>
+      </div>
+      <div class="flex justify-center">
+        <span > 已加入人数 {{studentnumber}}</span>
+      </div>
+      <div class="flex justify-center my-2">
+        <span > 班级简介: {{classbrief}}</span>
+      </div>
+
+
+  
+        <form @click="applyformember" class="flex  justify-center">
+        <Button  type="submit" class="w-11/12 bg-[#374151] " >
+            申请加入
+      </Button> 
+      </form>
+      </div>
+      
+        
+
+
+  
+     
+    
+     
+
+
+</template>
 <script setup lang="ts">
 import { ArrowLeft } from 'lucide-vue-next';
 import { Button } from '@/components/ui/button'
 import { useRoute, useRouter} from 'vue-router';
 import { userapi } from '@/pages/Api/UserIndex';
-
 import { UserApplyformember } from '@/pages/Interface/UserInterface';
 import { Userinfor } from '@/store/user';
 import { toast } from 'vue-sonner';
 import {useMutation} from '@tanstack/vue-query'
-
-
 
 const router = useRouter();
 const route = useRoute();
@@ -18,6 +56,9 @@ const classbrief = route.query.classbrief
 const classname = route.query.classname as string
 const createid = route.query.createid as string
 const userinvitecode = route.query.userinvitecode as string
+const createname = route.query.createname 
+const studentnumber = route.query.studentnumber
+
 
 const mutation= useMutation({
   mutationFn: async (params: UserApplyformember) => {
@@ -25,14 +66,9 @@ const mutation= useMutation({
     return response
   },
 
-  onSuccess:(res)=>{
-    if( res.err_code === 0 ){
+  onSuccess:()=>{
       toast.success("申请成功");
-      router.push({ path:"/userclass" });
-
-    } else{
-      toast.error( res.err_msg );
-    }
+      router.push({ path:"/userclass" }); 
   },  
   onError: (error) => {
      toast.error(error.message)
@@ -66,41 +102,3 @@ function onreturn(){
 </script>
 
 
-<template>
-  <div class="static mt-2 flex">
-    <ArrowLeft class="float-left ml-2 mt-1" @click="onreturn" />
-    
-  </div>
-
-  <div class="main-content">
- 
-      <div class="ml-2">
-        <span class="pr-6  "> 班级名称</span>{{classname}}
-    
-      </div>
-      <div class="ml-2 mt-4">
-        <span class="pr-6"> 班级简介</span>{{classbrief}}
-     
-      </div>
-      <form @click="applyformember">
-        <Button  type="submit" class="w-full bg-[#083EC8] mt-64" >
-            申请加入
-      </Button> 
-      </form>
-        
-      </div>
-
-
-</template>
-
-<style scoped>
-  .main-content {
-      margin: 0 auto;
-      margin-top: 30px;
-      border-radius: 10px;
-      width: 90%;
-      height: calc(90vh - 70px);
-      border: 1px solid;
-      border-color: transparent;
-    }
-</style>

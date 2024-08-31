@@ -1,3 +1,75 @@
+<template>
+  <div class="flex h-12  justify-between  bg-gray-600">
+    <span  class=" ml-4 text-2xl content-center text-slate-100 font-bold">评论</span> 
+    <div class="content-center mr-4 ">
+      <Popover>
+        <PopoverTrigger as-child>
+          <Button
+            variant="outline"
+            :class="cn(
+              'w-[200px] justify-start text-left font-normal',
+              !value && 'text-muted-foreground',
+            )"
+          >
+            <CalendarIcon class="mr-2 h-4 w-4" />
+            {{ value ? df.format(value.toDate(getLocalTimeZone())) : "选择查看时间" }}
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent class="flex w-auto flex-col gap-y-2 p-2">
+          <Select
+            @update:model-value="(v: any) => {
+              if (!v) return;
+              value = today(getLocalTimeZone()).add({ days: Number(v) });
+            }"
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="选择" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem v-for="item in items" :key="item.value" :value="item.value.toString()">
+                {{ item.label }}
+              </SelectItem>
+            </SelectContent>
+          </Select>
+          <Calendar v-model="value" />
+        </PopoverContent>
+      </Popover>
+    </div>
+
+  </div>
+   
+
+      <div class="main-content">
+
+        <div class="flex flex-col items-center">
+        
+        
+        <Card   v-for="items in viewunfinishtask " :key="items._id" @click="viewcomment(items.unfinishtask.task.taskid,items.unfinishtask.task.taskname,items.unfinishtask.task.taskstarttime,items.unfinishtask.task.taskovertime,)"  class="mb-3 w-11/12  cursor-pointer">
+        <CardHeader>
+            <CardTitle>{{ items.unfinishtask.task.taskname }} </CardTitle>
+
+            <CardDescription class="text-[#FF0000]  "> {{ items.taskcondition }} </CardDescription>
+          </CardHeader>    
+      </Card>
+   
+     
+    <Card  v-for="items in viewfinishtask" :key="items._id" @click="viewcomment(items.taskinfor.task.taskid,items.taskinfor.task.taskname,items.taskinfor.task.taskstarttime,items.taskinfor.task.taskovertime)" class="mb-3 w-11/12  cursor-pointer">
+      <CardHeader>
+        <CardTitle> {{ items.taskinfor.task.taskname }} </CardTitle>
+        <CardDescription  >{{ items.taskinfor.taskcondition }} </CardDescription>
+      </CardHeader>    
+  </Card>
+
+    </div> 
+    </div>
+
+
+  
+
+
+  
+</template>
+
 <script setup lang="ts">
 import { ref , watch} from 'vue';
 import { Select, SelectContent,SelectItem,SelectTrigger,SelectValue,
@@ -14,6 +86,13 @@ import {  UserLoadTask, UserViewAllTask, UserViewTask, UserViewUnfinishTask,  } 
 import { Userinfor } from '@/store/user';
 import { userapi } from '@/pages/Api/UserIndex';
 import { useQuery, } from '@tanstack/vue-query'
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
+
 
 const router= useRouter();
 const df = new DateFormatter('zh-CN', {
@@ -89,80 +168,16 @@ function viewcomment(taskid : string,taskname:string,taskstarttime:number,taskov
 
 
 </script>
-
-<template>
-  <div class="static mt-2">
-    <span  class=" ml-10  text-2xl  font-bold">评论</span> 
-    <Popover>
-    <PopoverTrigger as-child>
-      <Button
-        variant="outline"
-        :class="cn(
-          'w-[280px] justify-start text-left font-normal',
-          !value && 'text-muted-foreground',
-        )"
-      >
-        <CalendarIcon class="mr-2 h-4 w-4" />
-        {{ value ? df.format(value.toDate(getLocalTimeZone())) : "选择查看时间" }}
-      </Button>
-    </PopoverTrigger>
-    <PopoverContent class="flex w-auto flex-col gap-y-2 p-2">
-      <Select
-        @update:model-value="(v) => {
-          if (!v) return;
-          value = today(getLocalTimeZone()).add({ days: Number(v) });
-        }"
-      >
-        <SelectTrigger>
-          <SelectValue placeholder="选择" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem v-for="item in items" :key="item.value" :value="item.value.toString()">
-            {{ item.label }}
-          </SelectItem>
-        </SelectContent>
-      </Select>
-      <Calendar v-model="value" />
-    </PopoverContent>
-  </Popover>
-
-      <div class="main-content">
-        <h1  v-for="items in viewunfinishtask " :key="items._id"  class=" relative" >
-          <div v-for="item in items.unfinishtask" :key="item._id" class="left-0 select-none text-2xl  mb-2" >       
-            <div  @click="viewcomment(item.taskid,item.taskname,item.taskstarttime,item.taskovertime)">
-            {{ item.taskname }} 
-          </div>
-          </div>
-        </h1>
-        <h1  v-for="items in viewfinishtask" :key="items._id"  class="relative" >
-          <div  class=" left-0 select-none text-2xl  mb-2">
-            <div @click="viewcomment(items.taskinfor.task.taskid,items.taskinfor.task.taskname,items.taskinfor.task.taskstarttime,items.taskinfor.task.taskovertime)" >
-              {{ items.taskinfor.task.taskname }}  
-            </div>        
-          </div>
-        </h1>
-
-
-
-  
-        
-      </div>
-  </div>
-
-  
-
-
-  
-</template>
 <style scoped>
   .main-content {
       margin: 0 auto;
       margin-top: 30px;
       border-radius: 10px;
-      width: 90%;
+      width: 100%;
       height: calc(90vh - 70px);
       border: 1px solid;
       border-color: transparent;
+      overflow: auto;
     }
 
 </style>

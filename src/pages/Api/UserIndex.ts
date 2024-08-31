@@ -7,6 +7,7 @@ import { UserApplyformember, UserBuyShopping,
    searchname, Searchname, classinvitecode, 
    warnsummarize
   } from "../Interface/UserInterface";
+  import  axiosInstance  from "./axiosInstance";
 
 
 
@@ -14,13 +15,13 @@ import { UserApplyformember, UserBuyShopping,
 const userapi = {
   //显示个人信息
   async  viewoneself(params : Userid){
-    const response = await axios.post(Userpath.UserViewOneslefUrl,{
+    const response = await axiosInstance.post(Userpath.UserViewOneslefUrl,{
       userid : params.userid,
     });
     return response.data;
   },//修改个人信息
   async reviseoneself(params : UserReviseOneself){
-    const response = await axios.post(Userpath.UserReviseOneslefUrl,{
+    const response = await axiosInstance.post(Userpath.UserReviseOneslefUrl,{
       userid:params.userid,
       user_name : params.username,
       user_sex: params.usersex,
@@ -30,19 +31,19 @@ const userapi = {
     return response.data;
   },//在商城中商品
   async viewshopping(params : string){
-    const response = await axios.post(Userpath.UserViewShoppingUrl,{
+    const response = await axiosInstance.post(Userpath.UserViewShoppingUrl,{
       createid : params,
     });
     return response.data;
   },//搜索班级
   async searchclass(params:classinvitecode){
-    const response = await axios.post(Userpath.UserSearchClassUrl,{
+    const response = await axiosInstance.post(Userpath.UserSearchClassUrl,{
       userinvitecode : params.userinvitecode,
     });
     return response.data;
   },//申请加入
   async applyformember(params : UserApplyformember){
-    const response = await axios.post(Userpath.UserApplyForMember,{
+    const response = await axiosInstance.post(Userpath.UserApplyForMember,{
       userid : params.userid,
       createid : params.createid,
       userinvitecode : params.userinvitecode,
@@ -52,19 +53,19 @@ const userapi = {
     return response.data;
   },//班级显示
   async viewclass(userid : string){
-    const response = await axios.post(Userpath.UserViewClassUrl,{
+    const response = await axiosInstance.post(Userpath.UserViewClassUrl,{
       userid: userid,
     });
     return response.data;
   },//查找班级成员
   async checkclassmember(userinvitecode: string){
-    const response = await axios.post(Userpath.UserCheckClassMemberUrl,{
+    const response = await axiosInstance.post(Userpath.UserCheckClassMemberUrl,{
       userinvitecode:userinvitecode,
     });
     return response.data;
   },//查询成员信息
   async searchname(params:searchname){
-    const response = await axios.post(Userpath.UsersearchnameUrl,{
+    const response = await axiosInstance.post(Userpath.UsersearchnameUrl,{
       searchnameid : params.searchnameid,
       identity : params.identity,
       
@@ -72,7 +73,7 @@ const userapi = {
     return response.data;
   },//搜索栏搜索
   async searchnametwo(params:Searchname){
-    const response = await axios.post(Userpath.UsersearchnametwoUrl,{
+    const response = await axiosInstance.post(Userpath.UsersearchnametwoUrl,{
       userinvitecode :params.userinvitecode,
       searchname : params.searchname,
     })

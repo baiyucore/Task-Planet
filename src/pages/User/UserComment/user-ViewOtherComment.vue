@@ -1,3 +1,173 @@
+<template>
+  <div class="static ">
+    <ArrowLeft class="absolute top-3 left-0 cursor-pointer" color="#f1f5f9" @click="onreturn" />
+    <div class="flex h-12 justify-center bg-gray-600  ">
+      <span  class="ml-4 cursor-default text-2xl content-center text-slate-100 font-bold">{{ username }}的总结</span> 
+    </div>
+
+    <div class="border-2 border-transparent border-b-slate-950">
+      <Card   class="border-transparent shadow-transparent " >
+          <CardHeader>
+            <CardTitle class="text-wrap"> {{ summarize }} </CardTitle>  
+          </CardHeader> 
+          <CardContent >
+           
+            <div class="flex justify-end gap-4">
+              <Dialog>
+              <DialogTrigger as-child>
+                <MessageCircle class="size-6 cursor-pointer"/> 
+              </DialogTrigger>
+              <DialogContent class="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>评论</DialogTitle>
+                </DialogHeader>
+                <form @submit="onoutersubmit">
+                  <div class="grid gap-4 py-4">
+                      <div class="grid grid-cols-4 items-center gap-4">
+                        <Label  class="text-right">
+                          写下你的评论
+                        </Label>
+                        <Input  v-model:model-value="comment"  type="text"  :disabled="isLoading" class="col-span-3" />
+                      </div>
+                    </div>
+                    <DialogFooter>
+                      <Button :disabled="isLoading">
+                        发布
+                      </Button>
+                    </DialogFooter>
+                </form>
+              </DialogContent>
+            </Dialog>
+            
+            <AlertDialog >
+                <AlertDialogTrigger as-child>
+                  <Info class="cursor-pointer"/> 
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>你确定举报该总结?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                     举报后无法撤回
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>取消</AlertDialogCancel>
+                    <AlertDialogAction  @click="warnssummarize">确认</AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+          
+            </div>
+    
+        </CardContent>    
+        </Card>
+    </div>
+      
+    
+ 
+      
+    </div>
+    <div class="text-xl ml-5"> 评论</div>
+
+    <div class="comment-content">
+      <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
+      <span v-else-if="data">
+        <div class="flex flex-col items-center">
+        <Card v-for="items in data.outercomment" :key="items._id" class="mb-3 w-11/12  ">
+          <CardHeader>
+            <CardTitle> {{ items.name}}: {{ items.comment }}</CardTitle>
+         
+          </CardHeader>  
+          <CardContent class="flex  justify-between ">
+            <div class="flex content-center">
+              <span class="mt-1">有{{ items.commentnumber }}评论</span>
+                     
+              <Dialog>
+                <DialogTrigger as-child>
+                  <Button @click="viewinnerComment(items.commentid,items.comment)" variant="outline" class="outline-transparent border-transparent shadow-transparent">
+                  点击查看
+                  </Button>
+                </DialogTrigger>
+                <DialogContent class="sm:max-w-[425px] overflow-y-auto h-1/2">
+                  <DialogHeader>
+                    <DialogTitle>评论</DialogTitle>
+                  </DialogHeader>
+                  <div v-for="items in innercomment" :key="items._id" >
+                    {{ items.other_commentname }} 的评论 {{ items.other_comment }}
+                  </div>
+                    
+                        <DialogFooter>
+                        </DialogFooter>
+                  
+                </DialogContent>
+              </Dialog>
+
+            </div>
+
+            <div class="flex gap-4">
+              <Dialog >
+                <DialogTrigger as-child>
+                  
+                  <MessageCircle class="cursor-pointer"/> 
+                
+                </DialogTrigger>
+                <DialogContent class="sm:max-w-[425px]">
+                  <DialogHeader>
+                    <DialogTitle>评论</DialogTitle>
+                  </DialogHeader>
+                    <form @submit="oninntersubmit(items.name,items.commentid,items.comment)">
+                      <div class="grid gap-4 py-4">
+                          <div class="grid grid-cols-4 items-center gap-4">
+                            <Label  class="text-right">
+                              写下你的评论
+                            </Label>
+                            <Input  v-model:model-value="comment"  type="text"  :disabled="isLoading" class="col-span-3" />
+                          </div>
+                        </div>
+                        <DialogFooter>
+                          <Button :disabled="isLoading" class=" border-transparent">
+                            发布
+                          </Button>
+                        </DialogFooter>
+                    </form>
+                </DialogContent>
+              </Dialog>
+
+              <AlertDialog >
+                <AlertDialogTrigger as-child>
+                  <Info  class="cursor-pointer"/> 
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>你确定举报该评论?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      举报后无法撤回
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>取消</AlertDialogCancel>
+                    <AlertDialogAction    @click="warns(items.commentid,items.comment)">确认</AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+
+          </div>
+
+          </CardContent>
+
+        </Card>
+      </div>
+        
+     
+        </span>
+  
+
+
+
+
+
+  </div>
+</template>
 <script setup lang="ts">
 import { toast } from 'vue-sonner';
 import { useRouter,useRoute } from 'vue-router';
@@ -14,7 +184,6 @@ import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
-
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -24,6 +193,24 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Userinfor } from '@/store/user';
 import { useMutation,useQuery } from '@tanstack/vue-query'
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+} from '@/components/ui/card'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog'
+
 
 
 const router = useRouter();
@@ -205,162 +392,15 @@ async function warnssummarize() {
 }
 
 </script>
-
-<template>
-  <div class="static mt-2">
-    <ArrowLeft class="float-left ml-2 mt-1" @click="onreturn" />
-    <span  class="  ml-2 text-2xl  font-bold">{{ username }}的总结</span> 
-    <div class="main-content">
-     <div class="text-xl mb-2">
-      总结
-     </div>
-      <div class="text-xl">
-        {{ summarize }}
-      </div>
-      <div class="grid grid-cols-6 ">
-    
-          <div  class="grid grid-cols-subgrid  col-span-6">
-            <div class="col-start-5" > 
-              
-          <Dialog>
-            <DialogTrigger as-child>
-              <Button variant="outline">
-              <MessageCircle class="size-6"/> 
-              评论
-              </Button>
-            </DialogTrigger>
-            <DialogContent class="sm:max-w-[425px]">
-              <DialogHeader>
-                <DialogTitle>评论</DialogTitle>
-              </DialogHeader>
-              <form @submit="onoutersubmit">
-                <div class="grid gap-4 py-4">
-                    <div class="grid grid-cols-4 items-center gap-4">
-                      <Label  class="text-right">
-                        写下你的评论
-                      </Label>
-                      <Input  v-model:model-value="comment"  type="text"  :disabled="isLoading" class="col-span-3" />
-                    </div>
-                  </div>
-                  <DialogFooter>
-                    <Button :disabled="isLoading">
-                      发布
-                    </Button>
-                  </DialogFooter>
-              </form>
-            </DialogContent>
-          </Dialog>
-         </div>
-         <div class="col-start-6"> 
-        <Button @click="warnssummarize"> 
-          <Info class="size-6"/>  举报
-        </Button>  
-         </div>
-        </div> 
-      </div>
-    
-    
-      
-    </div>
-    <div class="text-xl ml-5"> 评论</div>
-
-    <div class="comment-content">
-      <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
-      <span v-else-if="data">
-      <div v-for="items in data.outercomment" class="mt-5" :key="items._id">
-        
-          {{ items.name}}的评论： {{ items.comment }}
-        <div class="grid grid-cols-6 ">
-      <div  class="grid grid-cols-subgrid  col-span-6">
-        <div class="text-xs col-span-2 " :hidden="items.commentnumber === 0">
-          有{{ items.commentnumber }}评论  
-           
-           <Dialog>
-            <DialogTrigger as-child>
-              <Button @click="viewinnerComment(items.commentid,items.comment)" variant="outline" class="outline-transparent">
-              点击查看
-              </Button>
-            </DialogTrigger>
-            <DialogContent class="sm:max-w-[425px] overflow-y-auto h-1/2">
-              <DialogHeader>
-                <DialogTitle>评论</DialogTitle>
-              </DialogHeader>
-              <div v-for="items in innercomment" :key="items._id">
-                {{ items.other_commentname }} 的评论 {{ items.other_comment }}
-              </div>
-                
-                    <DialogFooter>
-                    </DialogFooter>
-              
-            </DialogContent>
-          </Dialog>
-        </div>
-    
-        <div class="col-start-5" > 
-          <Dialog>
-            <DialogTrigger as-child>
-              <Button variant="outline">
-              <MessageCircle class="size-6"/> 
-              </Button>
-            </DialogTrigger>
-            <DialogContent class="sm:max-w-[425px]">
-              <DialogHeader>
-                <DialogTitle>评论</DialogTitle>
-              </DialogHeader>
-                <form @submit="oninntersubmit(items.name,items.commentid,items.comment)">
-                  <div class="grid gap-4 py-4">
-                      <div class="grid grid-cols-4 items-center gap-4">
-                        <Label  class="text-right">
-                          写下你的评论
-                        </Label>
-                        <Input  v-model:model-value="comment"  type="text"  :disabled="isLoading" class="col-span-3" />
-                      </div>
-                    </div>
-                    <DialogFooter>
-                      <Button :disabled="isLoading" class=" border-transparent">
-                        发布
-                      </Button>
-                    </DialogFooter>
-                </form>
-            </DialogContent>
-          </Dialog>
-              </div>
-              <div class="col-start-6"> 
-                <Button @click="warns(items.commentid,items.comment)">
-                  <Info  class="size-6"/> 
-                </Button>
-           
-              </div>
-              </div> 
-            </div>
-        </div>
-        </span>
-    </div>
-
-
-
-
-
-  </div>
-</template>
-
-
 <style scoped>
-  .main-content {
-      margin: 0 auto;
-      margin-top: 30px;
-      border-radius: 10px;
-      width: 90%;
-      height: 30%;
-      border: 1px solid;
-      border-color: transparent;
-    }
+
     .comment-content {
       margin: 0 auto;
       border-radius: 10px;
-      width: 90%;
-      height: 30%;
+      width: 100%;
+      height: calc(90vh - 70px);
       border: 1px solid;
       border-color: transparent;
+      overflow: auto;
     }
 </style>

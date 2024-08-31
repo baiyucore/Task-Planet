@@ -31,9 +31,8 @@ const mutation = useMutation({
   onMutate: () => {
     isLoading.value = true
   },
-  onSuccess:(res)=>{
+  onSuccess:()=>{
     isLoading.value=false
-    if(res.err_code === 0 ){
         if(account_identites.value === "CREATE"){
           const createinfor = UseCreateStore()
           createinfor.$clear()
@@ -50,9 +49,7 @@ const mutation = useMutation({
         else {
           toast.error("身份出现问题");
         }
-    }else{
-      toast.error(res.err_msg);
-    }
+    
   },
   onError: (error) => {
     isLoading.value = false

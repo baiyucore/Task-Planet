@@ -1,17 +1,16 @@
 <template>
-  <div class="flex h-12  justify-center static bg-gray-600">
+  <div class="flex h-12  justify-center relatice bg-gray-600">
     <span  class=" text-2xl content-center text-slate-100 font-bold ">商城</span> 
-
-
-   
-      <div  class="flex absolute top-3 right-[5%] ">
-        <DollarSign  class=" "/>{{coin}}
-    
+      <div  class="flex absolute top-3 right-6 items-center ">
+        <DollarSign  class=" static"/>
+        <div  class="">
           
+          {{coin}}
+        </div>
+       
     </div>
-
-  </div>
    
+  </div>
 
       <div class="main-content">
 
@@ -19,71 +18,50 @@
       <span v-else-if="data">
 
         <div class="flex flex-wrap justify-around">
-          <Card v-for="item in data.shopping"  :value="item._id" :key="item._id"  class="relative w-[180px] m-4 ">
-        
-      <CardHeader>
-        <CardTitle >
-                <div class="flex justify-center ">
-                  <Gift  color="#FF7710"/>
-                  <div class="mt-1.5">
-                    {{ item.productname }} 
+    <AlertDialog v-for="item in data.shopping"  :value="item._id" :key="item._id">
+        <AlertDialogTrigger as-child>
+          <Button variant="outline"  >
+            <Card   class="relative w-[180px] m-4 ">  
+              <CardHeader>
+                <CardTitle >
+                        <div class="flex justify-center ">
+                          <Gift  color="#FF7710"/>
+                          <div class="mt-1.5">
+                            {{ item.productname }} 
+                          </div>
+                        </div>
+                  </CardTitle>  
+              
+              </CardHeader> 
+              <CardContent >
+                  <div class="flex flex-col">
+                    <div>
+                      价格:{{ item.productprice }} 
+                    </div>
+                    <div>
+                      总兑换数:{{item.totalnumber}} 
+                    </div>
                   </div>
-                </div>
-                
-          </CardTitle>  
-       
-      </CardHeader> 
-      <CardContent >
-          <div class="flex flex-col">
-            <div>
-              价格:{{ item.productprice }} 
-            </div>
-            <div>
-              总兑换数:{{item.totalnumber}} 
-            </div>
-          </div>
-      
-    </CardContent>    
-    </Card>
-
+              
+            </CardContent>    
+            </Card>
+        
+          </Button>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>你确定购买{{item.productname}}商品?</AlertDialogTitle>
+            <AlertDialogDescription>
+              金币不足时无法购买
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter >
+            <AlertDialogCancel >取消</AlertDialogCancel>
+            <AlertDialogAction  :disabled="item.totalnumber === 0" @click="debouncebuyshopping(item.productprice,item.productid,)">确定</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+    </AlertDialog>
         </div>
-
-        <Accordion type="single" class="w-full " collapsible >
-          <AccordionItem v-for="item in data.shopping"  :value="item.productname" :key="item._id">
-
-            <div class="text-xl flex" >
-              <div class="flex-none w-14 text-[#FF7710] text-center  ">
-                <Gift class="size-14 " color="#FF7710"/>{{ item.productname }} 
-              </div>  
-              <div class="flex-auto w-64 text-center mt-6">
-                价格:{{ item.productprice }} 总兑换次数:{{item.totalnumber}}
-              </div>
-              <div class="flex-none w-14 text-center " >
-             
-                <AlertDialog>
-                  <AlertDialogTrigger as-child>
-                    <Button variant="outline"  >
-                      <ShoppingBag  class="size-14 " /> 购买
-                    </Button>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>你确定购买?</AlertDialogTitle>
-                      <AlertDialogDescription>
-                        金币不足时无法购买
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>取消</AlertDialogCancel>
-                      <AlertDialogAction :disabled="item.totalnumber === 0" @click="debouncebuyshopping(item.productprice,item.productid,)">确定</AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-              </AlertDialog>
-               
-              </div>          
-            </div>                  
-          </AccordionItem>
-        </Accordion>
       </span>
         
     </div>
@@ -100,7 +78,6 @@
 
 <script setup lang="ts">
 import { Gift } from 'lucide-vue-next';
-import { Accordion, AccordionItem} from '@/components/ui/accordion'
 import { toast } from 'vue-sonner';
 import {
   AlertDialog,
@@ -113,7 +90,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
-import { ShoppingBag } from 'lucide-vue-next';
 import { DollarSign } from 'lucide-vue-next';
 import { userapi } from '@/pages/Api/UserIndex';
 import { Userinfor } from '@/store/user';

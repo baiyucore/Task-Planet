@@ -1,3 +1,48 @@
+<template>
+
+<div class="flex h-12  justify-between  bg-gray-600">
+    <span  class="  ml-4 cursor-default text-2xl content-center text-slate-100 font-bold">班级</span> 
+    <div class=" content-center mr-4 cursor-pointer " @click="addclass">
+      <BadgePlus class="size-8 " color="#f1f5f9"/>
+    </div>
+  </div>
+
+
+    
+
+
+      <!-- 显示 -->
+      <div class="main-content">
+        <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
+        <span v-else-if="data">
+
+          <span class="hidden">
+            {{ Userinfor().transmitclassname(data.classname)}} {{ Userinfor().transmitclasscreateid(data.createid)  }}
+          </span>
+   
+          <div class="flex flex-col items-center">
+              <Card  @click="searchclass(data.userinvitecode,data.classname)"  class="mb-3 w-11/12  cursor-pointer">
+            <CardHeader>
+              <CardTitle> {{ data.classname }}</CardTitle>
+              <CardDescription>已加入人数：{{ data.studentnumber }} </CardDescription>
+            </CardHeader>    
+          </Card>
+      </div>
+
+      
+        </span>
+
+
+        
+   
+      </div>
+
+
+  
+
+
+  
+</template>
 <script setup lang="ts">
 import {  useRouter} from 'vue-router';
 import { BadgePlus } from 'lucide-vue-next';
@@ -5,6 +50,12 @@ import { Userinfor } from '@/store/user';
 import { userapi } from '@/pages/Api/UserIndex';
 import { toast } from 'vue-sonner';
 import { useQuery } from '@tanstack/vue-query'
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 
 const router= useRouter();
 
@@ -24,62 +75,16 @@ const addclass = ()=>{
   router.push({path:'/useraddclass'})
 }
 </script>
-
-<template>
-  <div class="static mt-2">
-
-
-    <div class="flex gap-10">
-      <div class="flex-none w-14 ml-5">
-        <span  class="   text-2xl  font-bold">班级</span> 
-      </div>
-      <div class="flex-inital w-1/2">
-
-      </div>
-      <div class="flex-initial w-30 right">
-        <div @click=" addclass">
-      <BadgePlus class="w-[100px]  top-2 right-0 size-8 " />
-      <div class=" text-center  select-none "   >加入班级</div>
-    </div>
-      </div>
-    </div>
-    
-
-
-      <!-- 显示 -->
-      <div class="main-content">
-        <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
-        <span v-else-if="data">
-          <span class="hidden">
-            {{ Userinfor().transmitclassname(data.classname)}} {{ Userinfor().transmitclasscreateid(data.createid)  }}
-          </span>
-   
-          <h1 @click="searchclass(data.userinvitecode,data.classname)"   class="text-center select-none text-2xl mb-2">
-          {{ data.classname }}
-        </h1>
-
-        </span>
-
-
-        
-   
-      </div>
-  </div>
-
-  
-
-
-  
-</template>
 <style scoped>
   .main-content {
       margin: 0 auto;
       margin-top: 30px;
       border-radius: 10px;
-      width: 90%;
+      width: 100%;
       height: calc(90vh - 70px);
       border: 1px solid;
       border-color: transparent;
+      overflow: auto;
     }
     
 </style>

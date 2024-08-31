@@ -7,10 +7,11 @@
   </div>
 
  
-  <div class="main-content overflow-auto">
+  <div class="main-content ">
    
     <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
     <span v-else-if="data"  class="overflow-auto">
+      
       <div class="flex flex-col items-center">
         <Card @click="CheckClass(classnameview.userinvitecode)" v-for="classnameview in data.existed" :key="classnameview._id" class="mb-3 w-11/12  cursor-pointer">
       <CardHeader>

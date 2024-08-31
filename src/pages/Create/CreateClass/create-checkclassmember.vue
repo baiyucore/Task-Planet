@@ -6,6 +6,7 @@
      
       <span  class="  text-center text-2xl col-start-2 col-span-4  font-bold">{{classname}}</span> 
    </div>
+   
     <div class=" p-4 backdrop-blur ">
       <form @submit="onSearch">        
         <div class="relative  ">
@@ -111,15 +112,15 @@ const { isError, data, error,} =useQuery({
   },
   onSuccess:(res)=>{
     isLoading.value= true;
-    if( res.err_code === 0 ){
+   
       const name =res.name
       const sex = res.sex
       const profile =res.profile
-      router.push({path:"/createsearchname" , query:{name,sex,profile}})
+      const identity = res.identity
+      const userid = res.userid
+      router.push({path:"/createsearchname" , query:{name,sex,profile,identity,classname,userinvitecode,userid}})
 
-    } else{
-      toast.error( res.err_msg );
-    }
+   
   },  
   onError: (error) => {
     isLoading.value = false

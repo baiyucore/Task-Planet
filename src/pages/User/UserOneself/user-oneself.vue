@@ -8,7 +8,6 @@
     </div>
 
       <div class="main-content">
-        
         <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
         <span v-else-if="data">
 
@@ -36,7 +35,7 @@
             </DialogTrigger>
             <DialogContent class="sm:max-w-[425px] overflow-y-auto">
               <DialogHeader>
-                <DialogTitle>记录</DialogTitle>
+                <DialogTitle>消费记录</DialogTitle>
               </DialogHeader>
             
                 <div v-for="items in viewcoinrecord" :key="items._id">
@@ -51,43 +50,6 @@
 
           </div>
 
-<!-- 
-        <h1 class="text-center text-2xl">{{ data.username}}</h1>
-
-        <div class="grid grid-cols-4 gap-2 mt-2">
-          <div>性别 </div>
-          <div>
-            {{data.usersex}}</div>
-        </div>
-
-        <div class="grid grid-cols-4 gap-2 mt-2">
-          <div>个人评语</div>
-          <div>{{data.userprofile}}</div>
-        </div>
-        <div class="grid grid-cols-4 gap-2 mt-2">
-          <div>所获得的金币</div>
-          <div>{{data.coin}}</div>
-        <Dialog >
-            <DialogTrigger as-child>
-              <Button @click="viewCoinRecord" variant="outline">
-              
-                点击查看
-              </Button>
-            </DialogTrigger>
-            <DialogContent class="sm:max-w-[425px] overflow-y-auto">
-              <DialogHeader>
-                <DialogTitle>记录</DialogTitle>
-              </DialogHeader>
-            
-                <div v-for="items in viewcoinrecord" :key="items._id">
-                  {{ items.time }} 花费 {{ items.productprice }} 金币,购买了{{ items.productname }}
-                </div>
-                
-                <DialogFooter>
-                    </DialogFooter>
-            </DialogContent>
-          </Dialog>
-        </div> -->
         </span>
       
           
@@ -136,9 +98,9 @@ const mutation = useMutation({
     return response
   },
   onSuccess:(res)=>{
-    if( res.err_code === 0 ){
+  
       viewcoinrecord.value = res.coinrecord
-    } 
+ 
   },  
   onError: (error) => {
     toast.error(error.message)

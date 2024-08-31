@@ -7,40 +7,44 @@
 
         <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
       <span v-else-if="data">
-        <div class="flex flex-wrap justify-around">
-         
-
-      <Card v-for="item in data.shopping"  :value="item._id" :key="item._id"  class="relative w-[180px] m-4 ">
-        <Menubar    class="absolute right-2 top-2 bg-transparent border-transparent shadow-transparent">
+        <div class="flex flex-wrap gap-2 justify-around">
+        
+        <Menubar  v-for="item in data.shopping"  :value="item._id" :key="item._id" class=" h-[155px]" >
           <MenubarMenu>
             <MenubarTrigger class="cursor-pointer text-xl">
-              ...
+
+
+              <Card class="w-[150px] border-transparent shadow-transparent">
+                <CardHeader>
+                  <CardTitle>  {{ item.productname }}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div class="flex flex-col">
+                  <div>
+                    价格:{{ item.productprice }} 
+                  </div>
+                  <div>
+                    兑换数:{{item.totalnumber}} 
+                  </div>
+                  </div>
+                </CardContent>
+
+              </Card>
+
+         
             </MenubarTrigger>
             <MenubarContent>
               <MenubarItem  @click="ModifyProduct(item.productname)">
-                修改 <MenubarShortcut>⌘T</MenubarShortcut>
+                修改
               </MenubarItem>
               <MenubarSeparator />
               <MenubarItem  @click="Remove(item.productname) ">下架</MenubarItem>
             </MenubarContent>
           </MenubarMenu>
       </Menubar>
-      <CardHeader>
-        <CardTitle class="text-center">{{ item.productname }} </CardTitle>  
-       
-      </CardHeader> 
-      <CardContent >
-          <div class="flex flex-col">
-            <div>
-              价格:{{ item.productprice }} 
-            </div>
-            <div>
-              总兑换数:{{item.totalnumber}} 
-            </div>
-          </div>
-      
-    </CardContent>    
-    </Card>
+    
+
+
       </div> 
       </span>
   </div>
@@ -62,7 +66,7 @@ import {
   MenubarItem,
   MenubarMenu,
   MenubarSeparator,
-  MenubarShortcut,
+
   MenubarTrigger,
 } from '@/components/ui/menubar'
 import {
@@ -79,7 +83,7 @@ const router= useRouter();
   const params : Createid={
     account_id: createinfor.createid
   }
-const { isError, data, error,} =useQuery({
+const { isError, data, error,refetch} =useQuery({
     queryKey: ['createcheckclass', params],
     queryFn : () =>  createapi.viewproduct(params)
   })
@@ -92,7 +96,7 @@ const mutation= useMutation({
   onSuccess:(res)=>{
     if( res.err_code === 0 ){
       toast.success("删除成功")
-      window.location.reload();
+     refetch()
     } else{
       toast.error( res.err_msg );
     }

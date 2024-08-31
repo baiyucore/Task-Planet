@@ -29,7 +29,7 @@ const mutation = useMutation({
   },
   onSuccess: (res) => {
     isLoading.value = false
-    if (res.err_code === 0) {
+   
       switch (res.account_identites) {
         case 'CREATE':
           // eslint-disable-next-line no-case-declarations
@@ -53,9 +53,7 @@ const mutation = useMutation({
         default:
           break
       }
-    } else {
-      toast.error(res.err_msg)
-    }
+  
   },
   onError: (error) => {
     isLoading.value = false

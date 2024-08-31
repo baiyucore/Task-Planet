@@ -22,7 +22,7 @@ import {
   ViewOuterComment,
   Removeclassmember,
 } from "../Interface/CreateInterface";
-
+import  axiosInstance  from "./axiosInstance";
 
 
 
@@ -35,13 +35,13 @@ const createapi= {
     return response.data;
   },//展示个人数据
   async viewoneself(params : Createid){
-    const response = await axios.post( Createpath.createviewoneselfUrl,{
+    const response = await axiosInstance.post( Createpath.createviewoneselfUrl,{
       account_id : params.account_id,
     });
     return response.data;
   },//添加班级
   async addclass(params : createaddclass){
-    const response = await axios.post(Createpath.createaddclassUrl , {
+    const response = await axiosInstance.post(Createpath.createaddclassUrl , {
       account_id : params.account_id,
       classname: params.classname,
       classbrief : params.classbrief,
@@ -50,7 +50,7 @@ const createapi= {
     return response.data;
   },//添加产品
   async addproduct(params : CreateAddproduct ){
-    const response = await axios.post( Createpath.createaddproductUrl,{ 
+    const response = await axiosInstance.post( Createpath.createaddproductUrl,{ 
       productname : params.productname,
       productprice : params.productprice,
       totalnumber : params.totalnumber,
@@ -60,7 +60,7 @@ const createapi= {
     return response.data;
   },//修改个人信息
   async reviseoneself(params : Createreviseoneself){
-    const response = await axios.post( Createpath.createreviseoneselfUrl,{
+    const response = await axiosInstance.post( Createpath.createreviseoneselfUrl,{
       account_id : params.account_id,
       create_name : params.create_name,
       create_sex : params.create_sex,
@@ -78,13 +78,13 @@ const createapi= {
     return response.data;
   },//查找班级成员
   async checkclassmember(params : checkprerequisite ){
-    const response = await axios.post(Createpath.createcheckclassmemberUrl,{
+    const response = await axiosInstance.post(Createpath.createcheckclassmemberUrl,{
       user : params.user,
     });
     return response.data;
   },//在寻找指定成员
   async searchname(params: searchname){
-    const response = await axios.post(Createpath.createsearchnameUrl,{
+    const response = await axiosInstance.post(Createpath.createsearchnameUrl,{
       searchnameid : params.searchnameid,
       identity : params.identity,
       
@@ -99,13 +99,13 @@ const createapi= {
     return response.data;
   },//显示商品
   async viewproduct(params : Createid){
-    const response = await axios.post(Createpath.createviewproductUrl,{
+    const response = await axiosInstance.post(Createpath.createviewproductUrl,{
       createid : params.account_id
     });
     return response.data;
   },//修改商品
   async modifyproduct(params :Createmodifyproduct ){
-    const response = await axios.post(Createpath.createmodifyproductUrl,{
+    const response = await axiosInstance.post(Createpath.createmodifyproductUrl,{
       product_name :params.product_name,
       productname : params.productname,
       productprice : params.productprice,
@@ -114,7 +114,7 @@ const createapi= {
     return response.data;
   },//下架商品
   async removeproduct(params: CreateRemove ){
-    const response = await axios.post(Createpath.createremovieproductUrl,{
+    const response = await axiosInstance.post(Createpath.createremovieproductUrl,{
       productname : params.proddcutname,
     });
     return response.data;
@@ -168,13 +168,13 @@ const createapi= {
     return response.data;
   },//显示申请
   async application(createid:string){
-    const response = await axios.post(Createpath.createapplicationUrl,{
+    const response = await axiosInstance.post(Createpath.createapplicationUrl,{
       createid:createid,
     });
     return response.data;
   },//申请同意或拒绝
   async applycondition(params :applycondition){
-    const response = await axios.post(Createpath.createapplyconditionUrl,{
+    const response = await axiosInstance.post(Createpath.createapplyconditionUrl,{
       userinvitecode : params.userinvitecode,
       userid: params.userid,
       classname: params.classname,

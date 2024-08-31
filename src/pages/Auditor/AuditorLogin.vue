@@ -31,7 +31,7 @@ const mutation = useMutation({
       // eslint-disable-next-line no-case-declarations
      const auditorinfor = Auditorinfor()
       auditorinfor.transmit(account_id.value)
-      router.push({ path: '/audit' })
+      router.push({ path: '/denounce' })
 
     } else {
       toast.error(res.err_msg)

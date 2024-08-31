@@ -1,11 +1,7 @@
 <template>
   <div class="static mt-2">
     <ArrowLeft class="absolute top-3 left-0 cursor-pointer" @click=" onreturn" />
-    
- 
-   
-     
-
+  
         <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
     <span v-else-if="data">
       <div class="flex h-12 justify-center border-4 border-transparent border-b-slate-950   ">
@@ -24,19 +20,13 @@
           <div>{{data.profile}}</div>
         </div>
 
-        <div class="flex justify-center mt-3">
-          <Button  @click="removeuserclass" type="button" class="rounded-full mt-10 w-5/12 bg-[#374151] hover:bg-[#111827]">
+        <div class="flex justify-center mt-3 " v-if="identity !== 'create'">
+          <Button  @click="removeuserclass"  type="button" class="rounded-full mt-10 w-5/12 bg-[#374151] hover:bg-[#111827]">
           移除班级
         </Button>
         </div>
        
   </div>
-
-        
-
-        
-        
-
     </span>
       </div>
 
@@ -52,7 +42,7 @@ import { ArrowLeft } from 'lucide-vue-next';
 import { createapi } from '@/pages/Api/CreateIndex';
 import { Removeclassmember, searchname } from '@/pages/Interface/CreateInterface';
 import { useQuery,useMutation } from '@tanstack/vue-query'
-import Button from '@/components/ui/button/Button.vue';
+import { Button } from '@/components/ui/button'
 
 
 const router = useRouter();
@@ -61,6 +51,7 @@ const searchid=tranport.query.searchid as string
 const identity = tranport.query.identity as string
 const userinvitecode = tranport.query.userinvitecode as string
 const classname = tranport.query.classname as string
+
 const params : searchname ={
     searchnameid: searchid,
     identity :identity,

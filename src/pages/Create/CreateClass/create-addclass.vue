@@ -79,15 +79,13 @@ const mutation= useMutation({
   onMutate:()=>{
     isLoading.value = true
   },
-  onSuccess:(res)=>{
+  onSuccess:()=>{
     isLoading.value= true;
-    if( res.err_code === 0 ){
+
       toast.success("添加成功");
     router.push({ path:"/createclass" });
 
-    } else{
-      toast.error( res.err_msg );
-    }
+  
   },  
   onError: (error) => {
     isLoading.value = false

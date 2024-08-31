@@ -1,3 +1,51 @@
+<template>
+  <div class="static ">
+    <ArrowLeft class="absolute top-3 left-0 cursor-pointer" @click="onreturn" />
+
+    <div class="flex h-12 justify-center border-4 border-transparent border-b-slate-950 ">
+
+
+      <span  class=" text-center text-2xl col-start-2 col-span-4  font-bold">发布新通知</span> 
+    </div>
+   
+    
+    <form @submit="onSubmit" class="flex flex-col">
+      
+      <div class="flex justify-center mt-3 ">
+        <span class="mr-3 mt-1.5 "> 通知名称</span>
+        <Input  
+        class="w-8/12"
+        v-model:model-value="noticename"
+        type="text"
+        placeholder="通知名"
+        :disable="isLoading"
+      />
+
+      </div>
+      <h1 class="m-3 text-center">总结</h1>
+     <div class="flex justify-center ">
+      
+      <Textarea  class=" w-11/12 text-wrap "
+        v-model:model-value="noticecompletion"
+        type="textarea"
+        placeholder="具体内容"
+        :disable="isLoading"
+
+      />
+      
+     </div>
+     <div class="flex justify-center ">
+      <Button :disabled="isLoading" class="w-11/12  mt-2 ">
+           添加通知
+       </Button>
+     </div>
+     
+
+    </form>
+
+  </div>
+</template>
+
 <script setup lang="ts">
 import { Input } from '@/components/ui/input';
 import { toast } from 'vue-sonner';
@@ -59,36 +107,3 @@ function onreturn(){
 
 
 </script>
-
-<template>
-  <div class="static mt-2">
-    
-   
-    <form @submit="onSubmit">
-
-      <ArrowLeft class="float-left ml-2 mt-1" @click="onreturn" />
-    <span  class="   text-2xl  font-bold">发布新通知</span> 
-     
-      <Input  
-        class="mt-5"
-        v-model:model-value="noticename"
-        type="text"
-        placeholder="通知名"
-        :disable="isLoading"
-      />
-      <h1 class="mt-2 ml-2 text-center">内容</h1>
-      <Textarea  class="mt-2 h-[100px]  "
-        v-model:model-value="noticecompletion"
-        type="textarea"
-        placeholder="具体内容"
-        :disable="isLoading"
-      />
-      <br>
-      <Button :disabled="isLoading" class="w-3/4 mt-10 mx-16 bg-[#083EC8] ">
-           添加通知
-       </Button>
-
-    </form>
-
-  </div>
-</template>
