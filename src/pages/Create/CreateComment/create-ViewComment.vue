@@ -25,8 +25,8 @@
                 <form @submit="onoutersubmit">
                   <div class="grid gap-4 py-4">
                       <div class="grid grid-cols-4 items-center gap-4">
-                        <Label  class="text-right">
-                          写下你的评论
+                        <Label  class="text-right text-sm">
+                          你的评论
                         </Label>
                         <Input  v-model:model-value="comment"  type="text"  :disabled="isLoading" class="col-span-3" />
                       </div>
@@ -119,7 +119,7 @@
                       <div class="grid gap-4 py-4">
                           <div class="grid grid-cols-4 items-center gap-4">
                             <Label  class="text-right">
-                              写下你的评论
+                              你的评论
                             </Label>
                             <Input  v-model:model-value="comment"  type="text"  :disabled="isLoading" class="col-span-3" />
                           </div>

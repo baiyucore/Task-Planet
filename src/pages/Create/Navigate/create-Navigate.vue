@@ -32,40 +32,40 @@
 
   <div class="navigate duration-700 " >
 
-        <div class=" text-center ">
-          <RouterLink :to="{path:'/createtaskfinsh' }" active-class="active" >
-          <ClipboardList class="  size-8 ml-8 "/>
-          <div class=" pl-1 text-center">任务</div>
+        <div class=" text-center flex-col ">
+          <RouterLink :to="{path:'/createtask' }" active-class="active" >
+          <ClipboardList class=" ml-2 size-8 "/>
+          <div class=" pl-1 ">任务</div> 
          </RouterLink>
 
         </div >
         
         <div class=" text-center">
           <RouterLink :to="{path:'/createshopping'}" active-class="active" class="static">
-          <ShoppingCart class="relative size-8 top-1 left-8"/>
+          <ShoppingCart class="ml-2 size-8"/>
           
-          <div class=" pl-1 text-center">商城</div>
+          <div class=" pl-1 ">商城</div>
         </RouterLink>
 
         </div>
         <div class="text-center">
           <RouterLink :to="{path:'/createcomment'}" active-class="active" class="static">
-          <ClipboardPenLine  class=" relative size-8 top-1 left-8 " />
+          <ClipboardPenLine  class="ml-2 size-8" />
           
-          <div class=" pl-1 text-center">评论</div>
+          <div class=" pl-1 ">评论</div>
         </RouterLink>
         </div>
     
         <div class=" text-center">
           <RouterLink :to="{path:'/createclass'}" active-class="active" class="static">
-          <School class=" relative size-8 top-1 left-8"/>
-          <div class="pl-1 text-center">班级</div>
+          <School class=" ml-2 size-8 "/>
+          <div class="pl-1 ">班级</div>
           </RouterLink>
         </div>
         <div class="text-center">
           <RouterLink :to="{path:'/createoneself'}" active-class="active">
-          <User class="relative size-8 top-1 left-8"/>
-          <div class=" text-center">我的</div>
+          <User class=" ml-2 size-8"/>
+          <div class="  pl-1 ">我的</div>
           </RouterLink>
         </div>
         
@@ -118,11 +118,10 @@ const isDialogOpen = computed(() => {
       flex-grow: 1;
       justify-content: space-around;
       position: absolute;
-      bottom: 30px;
-      width: 100%;
+      bottom: 0px;
+      width: 100dvw;
     }
     .navigate a {
-      display: block;
       text-align: center;
       width: 100px;
       height: 60px;

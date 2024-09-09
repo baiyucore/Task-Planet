@@ -77,17 +77,12 @@ import AuditorAudit from "./pages/Auditor/Auditor-Audit/auditor-Audit.vue";
 import AuditorAuditRecoreds from "./pages/Auditor/Auditor-Audit/auditor-AuditRecords.vue";
 import AuditorDenounce from "./pages/Auditor/Auditor-Audit/auditor-Denounce.vue";
 
-//测试
-import test from "./pages/Test/test.vue";
 
-
-import test2 from "./pages/Login/Login.vue"
 
 
 
 const routes = [
-  { path:"/test",component:test},
-  { path:"/test2",component:test2},
+
 
   { path: "/", component: Login },
   // {path:"/",component:test},
@@ -159,6 +154,7 @@ const routes = [
      
        path:"/createtask",
        component: CreateTask,
+       redirect:"/createtaskfinsh",
        children:[
          {
            path:"/createtaskfinsh",
@@ -212,8 +208,14 @@ const routes = [
      
       {
         path:"/audit",
+       
         component: AuditorAudit,
         children:[
+          {
+            path:"/audit",
+            redirect:"/denounce",
+          }
+          ,
           {
             path:"/auditrecords",
             component: AuditorAuditRecoreds,

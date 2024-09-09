@@ -129,7 +129,7 @@ value.value =today(getLocalTimeZone()).add({ days: Number(0) })
     classname : Userinfor().useraddclass,
   }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { isSuccess  } = useQuery({
+   useQuery({
   queryKey: ['loadTasks'],
   queryFn: () => userapi.LoadTask(param)
  

@@ -132,7 +132,7 @@ const parmas : UserViewAllTask= {
     classname : Userinfor().useraddclass,
   }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { isSuccess  } = useQuery({
+  useQuery({
   queryKey: ['loadTasks'],
   queryFn: () => userapi.LoadTask(param)
  

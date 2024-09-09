@@ -57,10 +57,11 @@ async function onSubmit(event: Event) {
 </script>
 
 <template>
-  <div class="flex relative">
-    <div class="justify-center top-60 mx-auto flex-col space-y-6 w-[400px] absolute md:left-1/3 duration-700 sm:left-1/3 left-14">
+  <div class="h-dvh">
+    <div class="flex relative h-dvh">
+    <div class=" mx-auto flex-col space-y-6 w-[400px] content-center">
       <div>
-        <form @submit="onSubmit">
+        <form @submit="onSubmit"  class="flex  flex-col">
           <div class="logintext ml-20 cursor-default text-cyan-500">Auditor login</div>
           <Input 
             v-model:model-value="account_id"
@@ -90,6 +91,9 @@ async function onSubmit(event: Event) {
       </div>
     </div>
   </div>
+
+  </div>
+ 
 </template>
 
 <style scoped>

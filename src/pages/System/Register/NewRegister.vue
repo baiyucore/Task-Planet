@@ -49,8 +49,9 @@ async function onSubmit(event:Event) {
 </script>
 
 <template>
-  <div class="flex relative">
-      <div class="justify-center  top-60 w-[400px] absolute duration-700 md:left-1/3 sm:left-1/3 left-14" >
+  <div class="h-dvh"> 
+    <div class="flex relative h-dvh">
+      <div class="mx-auto flex-col space-y-6 w-[400px] content-center" >
         
         <form @submit="onSubmit" class="flex  flex-col">
           <div class="justify-center m-auto cursor-default font-bold text-xl text-cyan-500" >注册</div>
@@ -97,5 +98,7 @@ async function onSubmit(event:Event) {
       </div>
 
   </div>
+  </div>
+ 
   
 </template>

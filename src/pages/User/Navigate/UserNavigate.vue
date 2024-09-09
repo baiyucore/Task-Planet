@@ -31,10 +31,7 @@ const isDialogOpen = computed(() => {
 });
 </script>
 <template>  
-<div class=" ">
-  
- <div class="navigate grid grid-cols-5 gap-x-0">
-  <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
+   <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
   <span v-else-if="data">
         <Dialog v-model:open="isDialogOpen">
          
@@ -51,40 +48,42 @@ const isDialogOpen = computed(() => {
             </DialogContent>
           </Dialog>
   </span>
+ <div class="navigate duration-700">
+ 
         <div>
           <RouterLink :to="{path:'/usertask'}" active-class="active" class="static">
-          <ClipboardList class="  relative size-8 top-1 left-8 "/>
-          <div class="  text-center">任务</div>
+          <ClipboardList class="  ml-2 size-8 "/>
+          <div class="  pl-1">任务</div>
          </RouterLink>
 
         </div >
         
         <div>
           <RouterLink :to="{path:'/usershopping'}" active-class="active" class="static">
-          <ShoppingCart class="relative size-8 top-1 left-8"/>
+          <ShoppingCart class="ml-2 size-8"/>
           
-          <div class=" pl-1 text-center">商城</div>
+          <div class=" pl-1 ">商城</div>
         </RouterLink>
 
         </div>
         <div>
           <RouterLink :to="{path:'/usercomment'}" active-class="active" class="static">
-          <ClipboardPenLine  class=" relative size-8 top-1 left-8 " />
+          <ClipboardPenLine  class=" ml-2 size-8 " />
           
-          <div class=" pl-1 text-center">评论</div>
+          <div class=" pl-1">评论</div>
         </RouterLink>
         </div>
     
         <div>
           <RouterLink :to="{path:'/userclass'}" active-class="active" class="static">
-          <School class=" relative size-8 top-1 left-8"/>
-          <div class="pl-1 text-center">班级</div>
+          <School class=" ml-2 size-8"/>
+          <div class="pl-1 ">班级</div>
           </RouterLink>
         </div>
         <div>
           <RouterLink :to="{path:'/useroneself'}" active-class="active">
-          <User class="relative size-8 top-1 left-8"/>
-          <div class=" text-center">我的</div>
+          <User class="ml-2 size-8"/>
+          <div class=" pl-1">我的</div>
           </RouterLink>
         </div>
         
@@ -94,7 +93,7 @@ const isDialogOpen = computed(() => {
   </div>
 
 
-</div>
+
 
 
 </template>
@@ -104,12 +103,11 @@ const isDialogOpen = computed(() => {
       display: flex;
       justify-content: space-around; 
       position: absolute;
-      bottom: 30px;
-      width: 100%;
+      bottom: 0px;
+      width: 100dvw;
       flex-grow: 1;
     }
     .navigate a {
-      display: block;
       text-align: center;
       width: 100px;
       height: 60px;

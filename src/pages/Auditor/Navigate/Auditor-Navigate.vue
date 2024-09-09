@@ -11,21 +11,24 @@ import { ClipboardPenLine ,  Glasses ,Megaphone} from 'lucide-vue-next';
      
         <div class="ml-2">
           <RouterLink :to="{path:'/auditorcomment'}" active-class="active" class="static">
-          <ClipboardPenLine  class=" relative size-8 top-1 left-8 " />
+          <ClipboardPenLine  class=" ml-2 size-8" />
           
           <div class=" pl-1 text-center">评论</div>
         </RouterLink>
         </div>
     
         <div>
-          <RouterLink :to="{path:'/denounce'}" active-class="active" class="static">
-          <Glasses class=" relative size-8 top-1 left-8"/>
+          <RouterLink :to="{path:'/audit'}" active-class="active" class="static">
+          <Glasses class=" ml-2 size-8"/>
           <div class="pl-1 text-center">审核</div>
           </RouterLink>
         </div>
+        <div class="hidden">
+          <RouterLink :to="{path:'/denounce'}" active-class="active" class="static"></RouterLink>
+        </div>
         <div>
           <RouterLink :to="{path:'/auditiornotification'}" active-class="active" class="static">
-          <Megaphone class="relative size-8 top-1 left-8"/>
+          <Megaphone class="ml-2 size-8"/>
           <div class=" text-center">通知</div>
           </RouterLink>
         </div>
@@ -43,19 +46,18 @@ import { ClipboardPenLine ,  Glasses ,Megaphone} from 'lucide-vue-next';
 
 </template>
 
-<style scoped>
+<style >
 
     .navigate {
       display: flex;
       justify-content: space-around;
     
       position: absolute;
-      bottom: 30px;
-      width: 100%;
+      bottom: 0px;
+      width: 100dvw;
       
     }
     .navigate a {
-      display: block;
       text-align: center;
       width: 100px;
       height: 60px;

@@ -1,13 +1,13 @@
 <template>
   <div class="static mt-2">
     <div class="flex justify-between">
-      <span  class="  text-2xl ml-2 mt-1 font-bold">审核记录</span> 
+      <span  class="  text-xl ml-2 mt-1 font-bold">审核记录</span> 
     <Popover>
     <PopoverTrigger as-child>
       <Button
         variant="outline"
         :class="cn(
-          'w-[280px] justify-start text-left font-normal',
+          'w-[250px] justify-start text-left font-normal',
           !value && 'text-muted-foreground',
         )"
       >

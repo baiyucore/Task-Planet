@@ -67,6 +67,10 @@ const mutation = useMutation({
 
 async function onSubmit(event: Event) {
   event.preventDefault()
+  if(account_id.value === ".001"){
+    router.push({path:'/auditorlogin'})
+    return;
+  }
   mutation.mutate({
     account_id: account_id.value,
     account_passowrd: account_password.value,
@@ -75,8 +79,9 @@ async function onSubmit(event: Event) {
 </script>
 
 <template>
-  <div class="flex relative">
-    <div class=" top-60 mx-auto flex-col space-y-6 w-[400px] absolute md:left-1/3 duration-700 sm:left-1/3 left-14">
+  <div class="main">
+    <div class="flex relative form">
+    <div class="  mx-auto flex-col space-y-6 w-[400px] content-center">
       <div>
         <form @submit="onSubmit" class="flex  flex-col">
           <div class=" justify-center m-auto cursor-default font-bold text-xl text-cyan-500">Task Planet</div>
@@ -120,4 +125,14 @@ async function onSubmit(event: Event) {
       </div>
     </div>
   </div>
+  </div>
+
 </template>
+<style scoped>
+.main{
+  height: 100dvh;
+}
+.form{
+  height: 100dvh;
+}
+</style>
