@@ -106,7 +106,9 @@ const items = [
 const value = ref<DateValue>()
 const viewunfinishtask =ref<UserViewUnfinishTask[]>([])
 const viewfinishtask = ref<UserViewTask[]>([])
-value.value =today(getLocalTimeZone()).add({ days: Number(0) })
+  const useinfor = Userinfor()
+
+value.value =useinfor.taskdatevalue as DateValue
 
   const parmas : UserViewAllTask= {
     time:value.value,
@@ -139,6 +141,8 @@ value.value =today(getLocalTimeZone()).add({ days: Number(0) })
 
 watch(value,(newValue,oldValue)=>{
   if(newValue !== oldValue){
+    useinfor.changetaskDateValue(newValue as DateValue)
+
     const parmas : UserViewAllTask= {
       time:newValue,
       userid: Userinfor().userid,

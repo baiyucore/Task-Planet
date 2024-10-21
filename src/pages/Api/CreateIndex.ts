@@ -84,7 +84,7 @@ const createapi= {
     return response.data;
   },//在寻找指定成员
   async searchname(params: searchname){
-    const response = await axiosInstance.post(Createpath.createsearchnameUrl,{
+    const response = await axios.post(Createpath.createsearchnameUrl,{
       searchnameid : params.searchnameid,
       identity : params.identity,
       
@@ -92,7 +92,7 @@ const createapi= {
     return response.data;
   },//搜索栏搜索
   async searchnametwo(params:Searchname){
-    const response = await axios.post(Createpath.createsearchnametwoUrl,{
+    const response = await axiosInstance.post(Createpath.createsearchnametwoUrl,{
       userinvitecode :params.userinvitecode,
       searchname : params.searchname,
     })

@@ -11,8 +11,8 @@ export const UseCreateStore = defineStore('createstore',()=>{
   const createid = ref("")
   const createname = ref("")
   const noticeopen = ref(true);
-  const datevalue = ref<DateValue>() 
-  datevalue.value =today(getLocalTimeZone()).add({ days: Number(0) })
+  const commentdatevalue = ref<DateValue>() 
+  commentdatevalue.value = today(getLocalTimeZone()).add({ days: Number(0) })
   function transmit(create_id : string){
     createid.value =create_id
   };
@@ -23,15 +23,15 @@ export const UseCreateStore = defineStore('createstore',()=>{
     createid.value = ""
     createname.value = ""
     noticeopen.value =true;
-    datevalue.value = today(getLocalTimeZone()).add({ days: Number(0) })
+    commentdatevalue.value = today(getLocalTimeZone()).add({ days: Number(0) })
   }
   function changenoticeopen(){
     noticeopen.value=false;
   }
   function changeDateValue(changeVaule: DateValue){
-    datevalue.value=changeVaule
+    commentdatevalue.value=changeVaule
   }
-  return {datevalue,changeDateValue, noticeopen,changenoticeopen,createid ,$clear, transmit,transmitname,createname}
+  return {commentdatevalue,changeDateValue, noticeopen,changenoticeopen,createid ,$clear, transmit,transmitname,createname}
 },  { persist: {
   storage: sessionStorage
 }  })

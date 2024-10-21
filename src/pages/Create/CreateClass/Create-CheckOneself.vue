@@ -19,8 +19,11 @@
           <div class="mr-3 ">个人评语</div>
           <div>{{data.profile}}</div>
         </div>
-
-        <div class="flex justify-center mt-3 " v-if="identity !== 'create'">
+        <div v-show="warnnumber" class="flex justify-center mt-3">
+          <div class="mr-3 ">违规次数</div>
+          <div>{{warnnumber}}</div>
+        </div>
+        <div class="flex justify-center mt-3 " v-show="identity !== 'create'">
           <Button  @click="removeuserclass"  type="button" class="rounded-full mt-10 w-5/12 bg-[#374151] hover:bg-[#111827]">
           移除班级
         </Button>
@@ -51,6 +54,7 @@ const searchid=tranport.query.searchid as string
 const identity = tranport.query.identity as string
 const userinvitecode = tranport.query.userinvitecode as string
 const classname = tranport.query.classname as string
+const warnnumber = tranport.query.warnnumber 
 
 const params : searchname ={
     searchnameid: searchid,

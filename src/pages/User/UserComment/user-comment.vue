@@ -93,7 +93,7 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 
-
+const useinfor = Userinfor()
 const router= useRouter();
 const df = new DateFormatter('zh-CN', {
   dateStyle: 'long',
@@ -103,12 +103,12 @@ const items = [
   { value: -1, label: '昨天' },
   { value: -2, label: '前天' },
 ]
-const value = ref<DateValue>(  )
+const value = ref<DateValue>()
 
   const viewunfinishtask =ref<UserViewUnfinishTask[]>([])
     const viewfinishtask = ref<UserViewTask[]>([])
     
-value.value =today(getLocalTimeZone()).add({ days: Number(0) })
+value.value =useinfor.commentdatevalue as DateValue
 
 const parmas : UserViewAllTask= {
     time:value.value,
@@ -145,6 +145,9 @@ const parmas : UserViewAllTask= {
 
 watch(value,(newValue,oldValue)=>{
   if(newValue !== oldValue){
+
+    useinfor.changecommentDateValue(newValue as DateValue)
+
     const parmas : UserViewAllTask= {
       time:newValue,
       userid: Userinfor().userid,

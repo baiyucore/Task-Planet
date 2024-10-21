@@ -20,10 +20,33 @@
           <div class="grid grid-cols-4 gap-2 mt-2">
             <div>个人评语</div>
             <div>{{data.createprofile}}</div>
+
         </div> 
-        </div>
+
+        <div class="mt-16 flex justify-center">
+          <AlertDialog  >
+        <AlertDialogTrigger as-child>
+          <Button  class="w-11/12 bg-red-700 hover:bg-red-800 mr-2"  >
+            退出登入
+          </Button>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>你确定退出登入?</AlertDialogTitle>
           
+          </AlertDialogHeader>
+          <AlertDialogFooter >
+            <AlertDialogCancel >取消</AlertDialogCancel>
+            <AlertDialogAction @click="Logout()" >确定</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+    </AlertDialog>
         
+
+        </div> 
+
+        </div>
+       
         
       </span>
       </div>
@@ -39,9 +62,24 @@ import { createapi } from '@/pages/Api/CreateIndex';
 import { UseCreateStore } from '@/store/create';
 import { Createid } from '@/pages/Interface/CreateInterface';
 import { useQuery } from '@tanstack/vue-query'
-
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog'
+import { Button } from '@/components/ui/button';
 const createinfor = UseCreateStore()
 const router = useRouter()
+
+function Logout(){
+  router.push({ path:'/login'})
+}
+
 
 const params : Createid= {account_id: createinfor.createid}
  const { isError, data, error,} =useQuery({

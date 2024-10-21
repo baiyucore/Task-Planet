@@ -9,8 +9,10 @@
 
     <div class="main-content">
       <form @submit="onSearch">
-      <div class="relative">
-        <Search class="absolute left-2 top-2.5 size-4 text-muted-foreground "/>
+      <div class="relative flex justify-around items-center">
+        <div class="w-11/12 relative">
+
+          <Search class="absolute left-2 top-2.5 size-4 text-muted-foreground "/>
         <Input
           v-model="UserInvitecode"
           type="text"
@@ -18,7 +20,11 @@
           :disabled="isLoading"
            @input="handleInput"
           class="pl-8  w-full"
-          />    
+          /> 
+        </div>
+
+         
+          <Button class="ml-1 bg-transparent border-transparent shadow-transparent text-black hover:bg-slate-200" >搜索</Button>
       </div>    
     </form>
     </div>
@@ -37,7 +43,7 @@ import { userapi } from '@/pages/Api/UserIndex';
 import { toast } from 'vue-sonner';
 import {useMutation} from '@tanstack/vue-query'
 import { classinvitecode } from '@/pages/Interface/UserInterface';
-
+import { Button } from '@/components/ui/button';
 const router = useRouter();
 const isLoading = ref(false);
 

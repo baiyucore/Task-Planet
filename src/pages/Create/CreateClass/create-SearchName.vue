@@ -54,6 +54,7 @@ const classname = tranport.query.classname as string
 const userid = tranport.query.userid as string
 const router = useRouter();
 
+console.log(identity)
 
 
 const mutation= useMutation({

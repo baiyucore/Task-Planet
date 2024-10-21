@@ -84,8 +84,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
+import { Auditorinfor } from '@/store/auditor';
 
-
+const auditorinfor = Auditorinfor()
 const df = new DateFormatter('zh-CN', {
   dateStyle: 'long',
 })
@@ -96,8 +97,8 @@ const items = [
 ]
 const value = ref<DateValue>()
 const viewrecord =ref<viewauditorrecord[]>([])
-value.value =today(getLocalTimeZone()).add({ days: Number(0) })
 
+value.value =auditorinfor.recordsdatevalue as DateValue
 onMounted(()=>{
   auditorapi.ViewAuditRecord(value.value).then((res)=>{
       if(res.err_code === 0){
@@ -112,6 +113,7 @@ onMounted(()=>{
 
 watch(value,(newValue,oldValue)=>{
   if(newValue !== oldValue){
+    auditorinfor.changerecordsDateValue(newValue as DateValue)
     auditorapi.ViewAuditRecord(newValue).then((res)=>{
       if(res.err_code === 0){
          // eslint-disable-next-line @typescript-eslint/no-unused-expressions

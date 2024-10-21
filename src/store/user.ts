@@ -1,5 +1,11 @@
 import { ref } from "vue"
 import { defineStore } from "pinia" 
+import {
+  type DateValue,
+  getLocalTimeZone,
+  today,
+} from '@internationalized/date'
+
 export const Userinfor = defineStore('userid',()=>{
   const userid = ref("")
   const username = ref("")
@@ -7,6 +13,10 @@ export const Userinfor = defineStore('userid',()=>{
   const coin = ref(0)
   const classcreateid = ref("")
   const noticeopen = ref(true);
+  const commentdatevalue = ref<DateValue>() 
+  commentdatevalue.value = today(getLocalTimeZone()).add({ days: Number(0) })
+  const taskdatevalue = ref<DateValue>() 
+  taskdatevalue.value = today(getLocalTimeZone()).add({ days: Number(0) })
   function clear(){
      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
      coin.value = 0, 
@@ -15,6 +25,8 @@ export const Userinfor = defineStore('userid',()=>{
      useraddclass.value = "" ,
      username.value = ""
      noticeopen.value =true;
+     commentdatevalue.value = today(getLocalTimeZone()).add({ days: Number(0) });
+     taskdatevalue.value = today(getLocalTimeZone()).add({ days: Number(0) });
     };
   function transmitid(user_id : string){
     userid.value =user_id
@@ -34,7 +46,13 @@ export const Userinfor = defineStore('userid',()=>{
   function changenoticeopen(){
     noticeopen.value=false;
   }
-  return {noticeopen,changenoticeopen,userid , clear,transmitid, transmitname, username,useraddclass , transmitclassname,coin,coinchange,classcreateid,transmitclasscreateid}
+  function changecommentDateValue(changeVaule: DateValue){
+    commentdatevalue.value=changeVaule
+  }
+  function changetaskDateValue(changeVaule: DateValue){
+    taskdatevalue.value=changeVaule
+  }
+  return {taskdatevalue,changetaskDateValue,commentdatevalue,changecommentDateValue,noticeopen,changenoticeopen,userid , clear,transmitid, transmitname, username,useraddclass , transmitclassname,coin,coinchange,classcreateid,transmitclasscreateid}
 },  { persist: {
   storage: sessionStorage
 }  })

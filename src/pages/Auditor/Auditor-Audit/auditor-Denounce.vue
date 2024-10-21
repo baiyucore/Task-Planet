@@ -62,15 +62,9 @@
           </Dialog>
           
       </div> 
-
-
       </div>
   </div>
-
-  
-
-
-  
+ 
 </template>
 
 
@@ -88,22 +82,19 @@ import { cn } from '@/lib/utils'
 import { toast } from 'vue-sonner';
 import { auditorapi } from '@/pages/Api/AuditorIndex';
 import { warnarray } from '@/pages/Interface/AuditorInterface';
-
 import { startOfDay } from 'date-fns';
-
-
 
 import {
   Dialog,
   DialogContent,
-
   DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
+import { Auditorinfor } from '@/store/auditor';
 
-
+const auditorinfor = Auditorinfor()
 const df = new DateFormatter('zh-CN', {
   dateStyle: 'long',
 })
@@ -114,7 +105,9 @@ const items = [
   { value: -2, label: '前天' },
 ]
 const value = ref<DateValue>()
-value.value =today(getLocalTimeZone()).add({ days: Number(0) })
+
+value.value =auditorinfor.denouncedatevalue as DateValue
+
 const warninfor =ref<warnarray[]>([])
 
 onMounted(()=>{
@@ -132,8 +125,10 @@ const Time = startOfDay(now);
 const time = Time.getTime();
 
 watch(value,(newValue,oldValue)=>{
-  if(newValue !== oldValue){
 
+
+  if(newValue !== oldValue){
+    auditorinfor.changecommentDateValue(newValue as DateValue)
     auditorapi.checkTimeWarn(newValue).then((res)=>{
     if(res.err_code === 0){
       warninfor.value = res.warnexisted

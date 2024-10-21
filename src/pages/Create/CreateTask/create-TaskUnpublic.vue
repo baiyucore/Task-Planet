@@ -7,7 +7,7 @@
 
     <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
     <span v-else-if="data">
-      <Accordion type="single" class="w-full " collapsible >
+      <Accordion type="single" class="w-full " collapsible overflow-y-hidden overflow-hidden>
           <AccordionItem v-for="item in data.unpublictask"  :value="item.taskid" :key="item._id">
             
             <AccordionTrigger class="text-xl">
@@ -72,7 +72,6 @@ import { CreateViewtask, Createremovetask, viewTask } from '@/pages/Interface/Cr
 import { toast } from 'vue-sonner';
 import {useQuery,useMutation} from '@tanstack/vue-query'
 import { format } from 'date-fns';
-//不知道还有没有用
 
 const router= useRouter();
 const createinfor = UseCreateStore()

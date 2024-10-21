@@ -2,12 +2,13 @@
   <div class=" h-lvh ">
 
  
-    <div class="flex h-12 justify-center  bg-teal-500  text-white static">
+    <div class="flex h-12 justify-between items-center bg-teal-500  text-white static">
      
-        <ArrowLeft class="absolute top-3 left-0 cursor-pointer" @click="onreturn" />
+        <ArrowLeft class=" cursor-pointer" @click="onreturn" />
      
       
-      <span  class=" content-center  text-2xl cursor-default  font-bold">选择班级</span> 
+      <span  class="  text-2xl cursor-default  font-bold">选择班级</span>
+      <div></div> 
     </div>
  
   
@@ -17,7 +18,7 @@
      
      <div v-for="item in data.existed"  :key="item._id" >
    
-      <div class="flex mt-2 text-xl  ml-2 ">
+      <div class="flex mt-2 text-xl  ml-2 justify-center items-center">
       
       <Checkbox
             :checked="checkclass.includes(item.classname)"

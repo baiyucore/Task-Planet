@@ -46,6 +46,31 @@
                     </DialogFooter>
             </DialogContent>
           </Dialog>
+
+         
+        
+
+        </div> 
+        <div class="mt-16 flex justify-center">
+          <AlertDialog  >
+        <AlertDialogTrigger as-child>
+          <Button  class="w-11/12 bg-red-700 hover:bg-red-800 mr-2"  >
+            退出登入
+          </Button>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>你确定退出登入?</AlertDialogTitle>
+          
+          </AlertDialogHeader>
+          <AlertDialogFooter >
+            <AlertDialogCancel >取消</AlertDialogCancel>
+            <AlertDialogAction @click="Logout()" >确定</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+    </AlertDialog>
+
+
         </div>
 
           </div>
@@ -77,6 +102,16 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
 import { ref } from 'vue';
 const router= useRouter();
@@ -90,6 +125,9 @@ const { isError, data, error,} =useQuery({
 
 function revise(){
   router.push({ path:'/userrevise'})
+}
+function Logout(){
+  router.push({ path:'/login'})
 }
 
 const mutation = useMutation({

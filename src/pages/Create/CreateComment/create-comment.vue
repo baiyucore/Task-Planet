@@ -95,7 +95,8 @@ const value = ref<DateValue>()
 const commenallinfor = ref<CreateViewComment[]>([])
 
 
-  value.value =today(getLocalTimeZone()).add({ days: Number(0) })
+  value.value =createinfor.commentdatevalue as DateValue
+
   const parmas : CreateComment ={
     time:value.value,
     createid : createinfor.createid,
@@ -114,6 +115,7 @@ const commenallinfor = ref<CreateViewComment[]>([])
 watch(value,(newValue,oldValue)=>{
   if(newValue !== oldValue){
 
+    createinfor.changeDateValue(newValue as DateValue)
  
    const parmas : CreateComment ={
     time : newValue,

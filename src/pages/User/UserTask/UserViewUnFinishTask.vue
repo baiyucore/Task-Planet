@@ -191,7 +191,7 @@ const debouncedOnSubmit = debounce(function(this: any) {
     username: Userinfor().username,
   };
   submitTask(params);
-}, 200); 
+}, 150); 
 
 function onreturn(){
   router.back();
