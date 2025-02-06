@@ -22,6 +22,8 @@ import UserAboutClass from "./pages/User/UserClass/UserAboutClass.vue";
 import UserCheckClassMember from "./pages/User/UserClass/user-CheckClassMember.vue";
 import UserCheckOneSelf from "./pages/User/UserClass/user-CheckOneSelf.vue";
 import UserSearchname from "./pages/User/UserClass/user-searchname.vue";
+import UserCheckClass from "./pages/User/UserClass/user-checkclass.vue";
+import UserProfile from "./pages/User/UserClass/user-profile.vue";
 
 import UserOneself from "./pages/User/UserOneself/user-oneself.vue";
 import UserRevieOneself from "./pages/User/UserOneself/userRevieOneself.vue";
@@ -58,7 +60,7 @@ import CreateSearchName from "./pages/Create/CreateClass/create-SearchName.vue";
 import CreateOneself from "./pages/Create/CreateOneself/create-oneself.vue";
 import CreateRevise from "./pages/Create/CreateOneself/create-revise.vue";
 
-
+import Profile from "./pages/Create/CreateClass/create-profile.vue";
 
 //管理者
 import AuditorLogin from "./pages/Auditor/AuditorLogin.vue";
@@ -82,15 +84,11 @@ import AuditorDenounce from "./pages/Auditor/Auditor-Audit/auditor-Denounce.vue"
 
 
 const routes = [
-
-
   { path: "/", component: Login },
   // {path:"/",component:test},
   { path: "/login", component: Login },
   { path: "/register", component: Register },
   { path:"/firstfill",component: FirstFill},
-
-
 
 //用户端
   { path:"/userrevise", component : UserRevieOneself},
@@ -103,6 +101,8 @@ const routes = [
   { path:"/usercheckclassmember", component:UserCheckClassMember},
   { path:"/usercheckoneself",component:UserCheckOneSelf},
   { path:"/usersearchname",component:UserSearchname},
+  { path:"/usercheckclass",component:UserCheckClass},
+  { path:"/userprofile",component:UserProfile},
   { path: "/usernavigate", component: UserNavigate,
     children:[
       {
@@ -132,6 +132,7 @@ const routes = [
    },
 
    //创建者
+   { path:"/profile",component:Profile},
    {path:"/addproduct",component: AddProduct },
    { path:"/createaddtask",component: CreateAddtask},
    { path:"/createrevise" , component: CreateRevise},

@@ -64,7 +64,7 @@ import { useQuery } from '@tanstack/vue-query'
 
 const router = useRouter();
 let tranport= useRoute();
-const id = tranport.query.id as string;
+const id = tranport.query.user as string;
 
 const params : CreateClassnameId ={
     id :id
@@ -76,11 +76,11 @@ const { isError, data, error,} =useQuery({
   
   })
 
-function oncheckclassmember( userinvitecode:string,class_name :string){
-  router.push({path:'/createcheckclassmember', query:{ userinvitecode,class_name}});
+function oncheckclassmember( user:string,classname :string){
+  router.push({path:'/usercheckclassmember', query:{ user,classname}});
 }
 function profile(class_name:string,userinvitecode:string){
-  router.push({path:'/profile',query:{class_name,userinvitecode}});
+  router.push({path:'/userprofile',query:{class_name,userinvitecode}});
 }
 
 function onreturn(){

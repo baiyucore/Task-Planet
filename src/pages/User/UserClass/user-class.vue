@@ -69,8 +69,11 @@ const { isError, data, error,} =useQuery({
 
 
 function searchclass(user : string,classname:string){
-  router.push({path:'/usercheckclassmember',query :{ user:user,classname} })
+  router.push({path:'/usercheckclass',query :{ user,classname} })
 }
+// function searchclass(user : string,classname:string){
+//   router.push({path:'/usercheckclassmember',query :{ user,classname} })
+// }
 const addclass = ()=>{
   router.push({path:'/useraddclass'})
 }

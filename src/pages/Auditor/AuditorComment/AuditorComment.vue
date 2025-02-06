@@ -82,7 +82,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-
+import { Auditorinfor } from '@/store/auditor';
 const router = useRouter()
 
 const df = new DateFormatter('zh-CN', {
@@ -94,14 +94,16 @@ const items = [
   { value: -2, label: '前天' },
  
 ]
-
+const auditorinfor = Auditorinfor()
 const value = ref<DateValue>()
 const commenallinfor = ref<AuditorViewComment[]>([])
-value.value =today(getLocalTimeZone()).add({ days: Number(0) })
+
+value.value =auditorinfor.commentdatevalue as DateValue
 
 
 watch(value,(newValue,oldValue)=>{
   if(newValue !== oldValue){
+    auditorinfor.changecommentDateValue(newValue as DateValue)
   auditorapi.ViewComment(newValue).then((res)=>{
     
     if(res.err_code === 0){

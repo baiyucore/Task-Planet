@@ -43,9 +43,17 @@
     <span class="flex justify-center m-2 ">
       失败 {{ failed }}
       </span>
+
+
+   
       <span class="flex justify-center m-2 text-wrap">
         总结: {{ summarize }}
-      </span>         
+      </span>   
+      <span class="flex justify-center m-2 ">
+ 
+ <img v-if="data.imageUrl" :src="data.imageUrl" alt="Image Preview" class="w-[400px]" />
+
+ </span>      
     </div>
       
 
@@ -56,11 +64,14 @@
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router';
 import { ArrowLeft } from 'lucide-vue-next';
-
+import { useQuery } from '@tanstack/vue-query'
+import { userapi } from '@/pages/Api/UserIndex';
+import { Userinfor } from '@/store/user';
+import { getImage } from '@/pages/Interface/UserInterface';
 const router = useRouter();
 
 const route = useRoute();
-
+const taskid = route.query.taskid as string
 const taskname = route.query.taskname;
 const taskCompletionConditions = route.query.taskCompletionConditions  as string
 const taskstarttime = route.query.taskstarttime
@@ -75,6 +86,15 @@ const summarize = route.query.summarize
 const rewardselect = route.query.rewardselect
 
 const selectedOption = rewardselect
+
+
+const userinfor = Userinfor()
+const params : getImage={ userid :userinfor.userid,taskid:taskid }
+const {  data,} =useQuery({
+    queryKey: ['taskimage',params],
+    queryFn : () =>  userapi.getImage(params)
+  })
+
 
 function onreturn(){
   router.back();

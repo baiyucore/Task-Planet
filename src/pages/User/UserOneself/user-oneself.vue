@@ -55,12 +55,12 @@
           <AlertDialog  >
         <AlertDialogTrigger as-child>
           <Button  class="w-11/12 bg-red-700 hover:bg-red-800 mr-2"  >
-            退出登入
+            退出登录
           </Button>
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>你确定退出登入?</AlertDialogTitle>
+            <AlertDialogTitle>你确定退出登录?</AlertDialogTitle>
           
           </AlertDialogHeader>
           <AlertDialogFooter >
@@ -76,10 +76,9 @@
           </div>
 
         </span>
-      
+    
           
       </div>
-  
 
 
 </template>
@@ -114,10 +113,13 @@ import {
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
 import { ref } from 'vue';
+
 const router= useRouter();
 const userinfor = Userinfor()
 const viewcoinrecord = ref<coinrecord[]>([])
 const params : Userid={ userid :userinfor.userid }
+
+
 const { isError, data, error,} =useQuery({
     queryKey: ['craetepublictask', params],
     queryFn : () => userapi.viewoneself(params)

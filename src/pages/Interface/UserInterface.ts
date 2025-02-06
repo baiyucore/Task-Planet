@@ -37,6 +37,7 @@ export interface UserSumitTask{
   rewardselect:string,
   userid : string,
   username : string,
+  selectpictures:string | null,
 }
 //显示任务
 export interface UserViewAllTask{
@@ -233,4 +234,10 @@ export interface coinrecord{
   productname : string,
   productprice:number,
 
+}
+
+//在完成任务界面显示图片
+export interface getImage{
+  taskid:string,
+  userid:string,
 }

@@ -91,7 +91,7 @@ const df = new DateFormatter('zh-CN', {
   dateStyle: 'long',
 })
 const items = [
-  { value: 0, label: '今天1' },
+  { value: 0, label: '今天' },
   { value: -1, label: '昨天' },
   { value: -2, label: '前天' },
 ]

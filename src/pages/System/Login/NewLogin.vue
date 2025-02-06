@@ -119,8 +119,9 @@ async function onSubmit(event: Event) {
           </div>
          
           <Button :disabled="isLoading" type="submit" class=" w-full bg-cyan-500 hover:bg-cyan-600">
-            登入
+            登录
           </Button>
+        
         </form>
       </div>
     </div>

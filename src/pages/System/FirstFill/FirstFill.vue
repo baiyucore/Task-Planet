@@ -89,9 +89,10 @@ async function onSubmit(event:Event) {
           type="text"
           placeholder="用户名"
           :disabled="isLoading"
+          required
           />  
           <br>
-          <Select v-model="account_sex">
+          <Select v-model="account_sex" required>
               <SelectTrigger class="w-[400px]">
                 <SelectValue placeholder="性别" />
               </SelectTrigger>
@@ -107,24 +108,24 @@ async function onSubmit(event:Event) {
               </SelectContent>
             </Select>
             <br>
-          <Select v-model="account_identites">
+          <Select v-model="account_identites" required>
               <SelectTrigger class="w-[400px]">
                 <SelectValue placeholder="选择身份" />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
                   <SelectItem value="CREATE">
-                    创建者
+                    教师
                   </SelectItem>
                   <SelectItem value="USER">
-                    普通用户
+                    学生
                   </SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>
             <br>
           <Button :disabled="isLoading" type="submit" class="w-full bg-cyan-500 hover:bg-cyan-600 ">
-            登入
+            登录
           </Button>                    
         </form>
       </div>

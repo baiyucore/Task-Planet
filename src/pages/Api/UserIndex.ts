@@ -5,7 +5,8 @@ import { UserApplyformember, UserBuyShopping,
    UserSumitTask, UserViewAllTask, Userid, UsersumitComment, 
    ViewOuterComment, UsersubmitInnterComment, searchinnerComment, 
    searchname, Searchname, classinvitecode, 
-   warnsummarize
+   warnsummarize,
+   getImage
   } from "../Interface/UserInterface";
   import  axiosInstance  from "./axiosInstance";
 
@@ -82,12 +83,13 @@ const userapi = {
   //提交任务
   async SubmitTask(params : UserSumitTask){
     const response = await axios.post(Userpath.UserSubmitTaskUrl,{
-      taskid : params.taskid,
-      coin : params.coin,
-      summarize : params.summarize,
+      taskid:params.taskid,
+      coin:params.coin,
+      summarize:params.summarize,
       rewardselect:params.rewardselect,
-      userid : params.userid,
-      username : params.username,
+      userid:params.userid,
+      username:params.username,
+      selectpictures:params.selectpictures,
     });
     return response.data;
   },//显示所有任务
@@ -217,7 +219,15 @@ const userapi = {
   async viewnotice(){
     const response = await axios.post(Userpath.UserViewNoticeUrl)
     return response.data;
+  },//任务完成显示图片
+  async getImage(params:getImage){
+    const response= await axios.post(Userpath.UsergetImageUrl,{
+      taskid:params.taskid,
+      userid:params.userid,
+    })
+    return response.data;
   }
+
 
 
 }

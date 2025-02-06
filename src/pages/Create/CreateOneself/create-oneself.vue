@@ -27,12 +27,12 @@
           <AlertDialog  >
         <AlertDialogTrigger as-child>
           <Button  class="w-11/12 bg-red-700 hover:bg-red-800 mr-2"  >
-            退出登入
+            退出登录
           </Button>
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>你确定退出登入?</AlertDialogTitle>
+            <AlertDialogTitle>你确定退出登录?</AlertDialogTitle>
           
           </AlertDialogHeader>
           <AlertDialogFooter >

@@ -81,7 +81,7 @@ const mutation= useMutation({
 
 async function applyformember(event:Event){
   event.preventDefault();
-  if(Userinfor().useraddclass === ""){
+  if(!Userinfor().useraddclass ){
     mutation.mutate({
     userid : Userinfor().userid,
     createid : createid,
@@ -90,6 +90,7 @@ async function applyformember(event:Event){
     username :  Userinfor().username,
     })
   }else{
+   
     toast.error("您已经加入一个班级，等待完成该班级的课程时长之后再申请加入别的班级")
   }
   

@@ -31,14 +31,17 @@ const Createpath = {
   createaddproductUrl :    "https://falpwq5knm.bja.sealos.run/Create-AddProduct",
   createremovieproductUrl : "https://falpwq5knm.bja.sealos.run/Create-RemoveProduct",
   
-  createViewNoticeUrl : "https://falpwq5knm.bja.sealos.run/viewNotice"
- 
+  createViewNoticeUrl : "https://falpwq5knm.bja.sealos.run/viewNotice",
+  createviewWordUrl:"https://falpwq5knm.bja.sealos.run/Create-ViewWord",
+  createviewDownloadUrl:"https://falpwq5knm.bja.sealos.run/Create-Download",
+  createdelectWordUrl:"https://falpwq5knm.bja.sealos.run/Create-DeleteWord",
 }
 
 const Userpath={
   UserViewOneslefUrl: "https://falpwq5knm.bja.sealos.run/User-ViewOneself",
   UserReviseOneslefUrl:"https://falpwq5knm.bja.sealos.run/User-ReviseOneself",
   UserviewCoinRecordUrl:"https://falpwq5knm.bja.sealos.run/User-viewCoinRecord",
+  UsergetImageUrl:"https://falpwq5knm.bja.sealos.run/User-GetImage",
 
   UserViewShoppingUrl:"https://falpwq5knm.bja.sealos.run/User-ViewShopping",
   UserBuyShoppingUrl:"https://falpwq5knm.bja.sealos.run/User-BuyShopping",
@@ -66,6 +69,9 @@ const Userpath={
 
   UserCoinChangeUrl:"https://falpwq5knm.bja.sealos.run/User-CoinChange",
   UserViewNoticeUrl:"https://falpwq5knm.bja.sealos.run/viewNotice",
+
+
+
 }
 
 const Auditorpath={

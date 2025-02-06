@@ -128,7 +128,7 @@ watch(value,(newValue,oldValue)=>{
 
 
   if(newValue !== oldValue){
-    auditorinfor.changecommentDateValue(newValue as DateValue)
+    auditorinfor.changedenounceDateValue(newValue as DateValue)
     auditorapi.checkTimeWarn(newValue).then((res)=>{
     if(res.err_code === 0){
       warninfor.value = res.warnexisted

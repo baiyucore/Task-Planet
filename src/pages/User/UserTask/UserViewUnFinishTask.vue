@@ -49,17 +49,22 @@
       </span>
 
 
-      <form @submit="debouncedOnSubmit" class="flex flex-col items-center">
+      <form @submit="submit" class="flex flex-col items-center">
         <h1 class="m-2 text-center">总结</h1>
         <Textarea  
-            class="mt-2 w-11/12 bg-[#CBD5E1] text-wrap "
+            class="mt-2 w-9/12 bg-[#CBD5E1] text-wrap "
             type="text"
             placeholder="总结"
             :disable="isLoading"
             v-model:model-value="summarize"
+            required
           />
-
-          <Button :disabled="!selectedOption" class="w-11/12 mt-2">
+          <!-- 修改图片大小 -->
+        <Input type="file" @change="onFileChange" required accept="image/*" class="w-[400px] mt-2"/>
+        <img v-if="imageUrl" :src="imageUrl" alt="Image Preview" class="mt-2 mb-2 w-[400px]"/>
+        
+    
+          <Button :disabled="!selectedOption" class="w-[400px] mt-2">
             提交
           </Button>
       </form>
@@ -86,6 +91,8 @@ import { userapi } from '@/pages/Api/UserIndex';
 import { toast } from 'vue-sonner';
 import { Userinfor } from '@/store/user';
 import {useMutation} from '@tanstack/vue-query'
+import { Input } from '@/components/ui/input';
+
 
 const router = useRouter();
 const isLoading = ref(false);
@@ -108,6 +115,8 @@ const summarize = ref("")
 
 
 
+
+
 function selectreward(option : string){
   if(option === 'option1'){
     selectedOption.value = "1"
@@ -124,9 +133,24 @@ function rewardrandon(){
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
+const imageUrl = ref<string | null>(null); // 明确声明类型为 string | null
+
+const onFileChange = (event: Event) => {
+  const target = event.target as HTMLInputElement;
+  const file = target.files?.[0];
+
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      imageUrl.value = e.target?.result as string; // 确保 result 为 string
+    };
+    reader.readAsDataURL(file);
+  }
+};
+
 
 // 提交任务的 mutation
-const { mutate: submitTask} = useMutation({
+const  mutation = useMutation({
   mutationFn: async (params: UserSumitTask) => {
     const coinchange = Userinfor().coin + params.coin;
     Userinfor().coinchange(coinchange);
@@ -139,6 +163,7 @@ const { mutate: submitTask} = useMutation({
      userapi.CoinChange(coinChangeParams);
 
     const response = userapi.SubmitTask(params);
+
     return response
   },
   onMutate:()=>{
@@ -162,26 +187,48 @@ const { mutate: submitTask} = useMutation({
   },
 
 });
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function debounce<T extends (...args: any[]) => void>(func: T, delay: number): (...args: Parameters<T>) => void {
-  let timer: ReturnType<typeof setTimeout>;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return function(this: any, ...args: Parameters<T>) {
-    clearTimeout(timer);
-    timer = setTimeout(() => func.apply(this, args), delay);
-  };
-}
+// // eslint-disable-next-line @typescript-eslint/no-explicit-any
+// function debounce<T extends (...args: any[]) => void>(func: T, delay: number): (...args: Parameters<T>) => void {
+//   let timer: ReturnType<typeof setTimeout>;
+//   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+//   return function(this: any, ...args: Parameters<T>) {
+//     clearTimeout(timer);
+//     timer = setTimeout(() => func.apply(this, args), delay);
+//   };
+// }
 
 
-// 提交表单
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const debouncedOnSubmit = debounce(function(this: any) {
+// // 提交表单
+// // eslint-disable-next-line @typescript-eslint/no-explicit-any
+// const debouncedOnSubmit = debounce(function(this: any) {
   
 
-  if (selectedOption.value === "null") {
-    toast.error("必须选择奖励才能提交");
-    return;
-  }
+//   if (selectedOption.value === "null") {
+//     toast.error("必须选择奖励才能提交");
+//     return;
+//   }
+//   // 有待商讨
+//   if (!selectpictures.value ) {
+//     toast.error("必须上传对应图片才能提交");
+//     return;
+//   }
+ 
+  
+  
+//   const params: UserSumitTask = {
+//     taskid,
+//     coin: coin.value,
+//     summarize: summarize.value,
+//     rewardselect: selectedOption.value,
+//     userid: Userinfor().userid,
+//     username: Userinfor().username,
+//     selectpictures:selectpictures.value,
+//   };
+//    mutation.mutate(params);
+// }, 150); 
+
+const submit = (event:Event)=>{
+  event.preventDefault()
   const params: UserSumitTask = {
     taskid,
     coin: coin.value,
@@ -189,9 +236,11 @@ const debouncedOnSubmit = debounce(function(this: any) {
     rewardselect: selectedOption.value,
     userid: Userinfor().userid,
     username: Userinfor().username,
+    selectpictures:imageUrl.value,
   };
-  submitTask(params);
-}, 150); 
+   mutation.mutate(params);
+}
+
 
 function onreturn(){
   router.back();

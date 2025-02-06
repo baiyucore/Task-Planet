@@ -200,3 +200,13 @@ export interface Removeclassmember{
   userinvitecode : string,
   classname : string,
 }
+
+//获得文件列表
+export interface viewWord{
+  userinvitecode : string,
+}
+
+//下载
+export interface download{
+  path:string,
+}

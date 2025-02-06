@@ -7,7 +7,15 @@
     <div class="border-2 border-transparent border-b-slate-950">
       <Card   class="border-transparent shadow-transparent " >
           <CardHeader>
-            <CardTitle class="text-wrap"> {{ summarize }} </CardTitle>  
+            <CardTitle class="text-wrap">
+              <div class="flex flex-col">
+                {{ summarize }} 
+              <div class="flex justify-center">
+                <img v-if="data.imageUrl" :src="data.imageUrl" alt="Image Preview" class="w-[400px] " />
+
+              </div> 
+            </div>
+              </CardTitle>  
           </CardHeader> 
           <CardContent >
            

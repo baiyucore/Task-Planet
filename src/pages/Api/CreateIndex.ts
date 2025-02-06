@@ -21,6 +21,9 @@ import {
   Searchname ,
   ViewOuterComment,
   Removeclassmember,
+  viewWord,
+  download,
+  
 } from "../Interface/CreateInterface";
 import  axiosInstance  from "./axiosInstance";
 
@@ -224,6 +227,24 @@ const createapi= {
   },//获得全部通知
   async viewnotice(){
     const response = await axios.post(Createpath.createViewNoticeUrl)
+    return response.data;
+  },//显示上传文件
+  async viewWord(params:viewWord){
+    const response = await axios.post(Createpath.createviewWordUrl,{
+      name:params.userinvitecode,
+    })
+    return response.data;
+  },//提供下载
+  async download(params:download){
+    const response = await axios.post(Createpath.createviewDownloadUrl,{
+      path:params.path,
+    })
+    return response.data;
+  },//删除文件
+  async delectword(params:download){
+    const response = await axios.post(Createpath.createdelectWordUrl,{
+      path:params.path
+    })
     return response.data;
   }
 
