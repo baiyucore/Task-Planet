@@ -1,5 +1,6 @@
 import axios from "axios";
 
+import { toast } from "vue-sonner";
 
 const axiosInstance = axios.create({
   baseURL:'',
@@ -24,5 +25,24 @@ axiosInstance.interceptors.response.use(
   }
 
 )
+
+axiosInstance.interceptors.request.use(
+  async (config) => {
+    try {
+      // 先请求 `/auth/validate` 检查 Token
+      await axios.get("http://localhost:3000/auth/validate", { withCredentials: true });
+
+      return config; // Token 有效，继续请求
+    } catch (error) {
+      toast.error("请重新登入")
+      window.location.href = "/login"; // ✅ 强制跳转，页面会刷新
+      return Promise.reject(error); // 拦截请求
+    }
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 
 export default axiosInstance;

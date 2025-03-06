@@ -32,7 +32,7 @@ import  axiosInstance  from "./axiosInstance";
 const createapi= {
 
   async viewoverclass(params : Createid){
-    const response= await axios.post(Createpath.createclassUrl,{
+    const response= await axiosInstance.post(Createpath.createclassUrl,{
       account_id : params.account_id
     });
     return response.data;
@@ -71,7 +71,7 @@ const createapi= {
       createstartname :params.createstartname,
     });
     return response.data;
-  },//寻找班级
+  },//寻找班级  有问题
   async checkclass(params : CreateClassnameId ){
     const response = await axios.post( Createpath.createcheckclassUrl,{
       // classname_id : params.classname_id,
@@ -123,7 +123,7 @@ const createapi= {
     return response.data;
   },//添加or 修改任务
   async addormodifytask(params : CreateAddTask){
-    const response = await axios.post(Createpath.createaddormodifytaskUrl,{
+    const response = await axiosInstance.post(Createpath.createaddormodifytaskUrl,{
       condition: params.condition,
       account_id : params.account_id,
       taskname : params.taskname,
@@ -139,7 +139,7 @@ const createapi= {
     return response.data;
   },//显示所有任务
   async viewtask(params : CreateViewtask , classname: string =""){
-    const response = await axios.post(Createpath.createviewrtaskUrl,{
+    const response = await axiosInstance.post(Createpath.createviewrtaskUrl,{
       account_id : params.account_id,
       condition: params.condition,
       classname :classname,
@@ -147,7 +147,7 @@ const createapi= {
     return response.data;
   },//删除任务
   async removetask(params: Createremovetask , classname : string = ""){
-    const response = await axios.post(Createpath.createremovetaskUrl,{
+    const response = await axiosInstance.post(Createpath.createremovetaskUrl,{
       taskid:params.taskid,
       createid : params.createid,
       condition:params.condition,
@@ -156,7 +156,7 @@ const createapi= {
     return response.data;
   },//发布任务
   async taskpublictask(params : Createpublictask){
-    const response = await axios.post(Createpath.createpublictaskUrl,{
+    const response = await axiosInstance.post(Createpath.createpublictaskUrl,{
       createid : params.creatateid,
       taskid : params.taskid,
       checkclass : params.checkclass,
@@ -164,7 +164,7 @@ const createapi= {
     return response.data;
   },//显示评论
   async viewcomment( params: CreateComment){
-    const response = await axios.post(Createpath.createsearcommentUrl,{
+    const response = await axiosInstance.post(Createpath.createsearcommentUrl,{
       searchtime:params.time,
       createid: params.createid,
     });
@@ -188,13 +188,13 @@ const createapi= {
     return response.data;
   },//显示所有个人总结
   async ViewComment_task(taskid : string){
-    const response = await axios.post(Createpath.createViewComment_taskUrl,{
+    const response = await axiosInstance.post(Createpath.createViewComment_taskUrl,{
       taskid : taskid,
     });
     return response.data;
   },//删除总结里的评论
   async DeleteComment(params:deletecomment){
-    const response = await axios.post(Createpath.createDeleteCommentUrl,{
+    const response = await axiosInstance.post(Createpath.createDeleteCommentUrl,{
       taskid:params.taskid,
       commentid:params.commentid,
       comment : params.comment,

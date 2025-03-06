@@ -25,6 +25,7 @@ export const UseCreateStore = defineStore('createstore',()=>{
     noticeopen.value =true;
     commentdatevalue.value = today(getLocalTimeZone()).add({ days: Number(0) })
   }
+
   function changenoticeopen(){
     noticeopen.value=false;
   }
@@ -32,8 +33,9 @@ export const UseCreateStore = defineStore('createstore',()=>{
     commentdatevalue.value=changeVaule
   }
   return {commentdatevalue,changeDateValue, noticeopen,changenoticeopen,createid ,$clear, transmit,transmitname,createname}
-},  { persist: {
-  storage: sessionStorage
-}  })
+},  {  persist: {
+  storage: localStorage, 
+}, 
+ })
 
 

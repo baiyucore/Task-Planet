@@ -113,6 +113,7 @@ import {
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
 import { ref } from 'vue';
+import axios from 'axios';
 
 const router= useRouter();
 const userinfor = Userinfor()
@@ -128,9 +129,15 @@ const { isError, data, error,} =useQuery({
 function revise(){
   router.push({ path:'/userrevise'})
 }
-function Logout(){
+const  Logout= async()=>{
+  userinfor.clear();
+
+  const res= await axios.get("http://localhost:3000/logout",{ withCredentials: true })
+  toast.success(res.data.message)
   router.push({ path:'/login'})
 }
+
+
 
 const mutation = useMutation({
   mutationFn: async ( params:{userid:string}) => {

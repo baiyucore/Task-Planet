@@ -6,6 +6,7 @@ import {
   today,
 } from '@internationalized/date'
 export const Auditorinfor = defineStore('auditorid',()=>{
+
   const auditorid = ref("")
   const denouncedatevalue = ref<DateValue>() 
   denouncedatevalue.value = today(getLocalTimeZone()).add({ days: Number(0) })
@@ -30,7 +31,7 @@ export const Auditorinfor = defineStore('auditorid',()=>{
   return {auditorid , transmit,recordsdatevalue,changerecordsDateValue,denouncedatevalue,changecommentDateValue,changedenounceDateValue,commentdatevalue}
 },  {
   //  persist: true   
-   persist: {
-    storage: sessionStorage
-  }
+  persist: {
+        storage: localStorage, 
+  },
   })

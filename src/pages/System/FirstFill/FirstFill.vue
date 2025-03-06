@@ -9,7 +9,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from "@/components/ui/input";
 import { systemapi } from '@/pages/Api/SystemIndex';
-import { firstfill } from '@/pages/Interface/SystemInterfact';
+import { firstfill, gettoken } from '@/pages/Interface/SystemInterfact';
 import { UseCreateStore } from '@/store/create';
 import { Userinfor } from '@/store/user';
 import { useMutation } from '@tanstack/vue-query'
@@ -22,7 +22,19 @@ const account_identites= ref("")
 const account_name= ref("")
 const account_sex= ref("")
 const router=useRouter();
- 
+
+
+const getToken  = useMutation({
+  mutationFn:async (params:gettoken)=>{
+     const response = await systemapi.getToken(params);
+     return response;
+  },
+  onSuccess:(res)=>{
+    console.log("成功")
+    console.log(res)
+  }
+
+})
 const mutation = useMutation({
   mutationFn: async (params:firstfill)=>{
     const response= await systemapi.firstfill(params)
@@ -33,6 +45,8 @@ const mutation = useMutation({
   },
   onSuccess:()=>{
     isLoading.value=false
+    getToken.mutate({account_id:account_id , role: account_identites.value})
+
         if(account_identites.value === "CREATE"){
           const createinfor = UseCreateStore()
           createinfor.$clear()

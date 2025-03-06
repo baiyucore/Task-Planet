@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { toast } from 'vue-sonner'
 import { Input } from '@/components/ui/input'
@@ -7,10 +7,28 @@ import { Button } from '@/components/ui/button'
 import { UseCreateStore } from '@/store/create'
 import { Userinfor } from '@/store/user'
 import { systemapi } from '@/pages/Api/SystemIndex'
-import { accountinfor } from '@/pages/Interface/SystemInterfact'
+import { accountinfor, gettoken } from '@/pages/Interface/SystemInterfact'
 import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { useMutation } from '@tanstack/vue-query'
+import {  useMutation,  } from '@tanstack/vue-query'
+import axios from 'axios'
+
+onMounted(async () => { 
+    const res = await axios.get("http://localhost:3000/auth/validate", { withCredentials: true });
+    const { role } = res.data; 
+    switch (role) {
+      case "CREATE": {
+        router.push({ path: "/createtaskfinsh" });
+        break;
+      }
+      case "USER": {
+        router.push({ path: "/usertask" });
+        break;
+      }
+      default:
+        break;
+    }
+});
 
 
 const account_id = ref('')
@@ -19,8 +37,22 @@ const router = useRouter()
 const isLoading = ref(false)
 
 
+
+const getToken  = useMutation({
+  mutationFn:async (params:gettoken)=>{
+     const response = await systemapi.getToken(params);
+     return response;
+  },
+  onSuccess:(res)=>{
+    console.log("成功")
+    console.log(res)
+  }
+
+})
+
 const mutation = useMutation({
   mutationFn: async (params: accountinfor) => {
+
     const response = await systemapi.login(params)
     return response
   },
@@ -29,7 +61,7 @@ const mutation = useMutation({
   },
   onSuccess: (res) => {
     isLoading.value = false
-   
+    getToken.mutate({account_id:account_id.value , role: res.account_identites})
       switch (res.account_identites) {
         case 'CREATE':
           // eslint-disable-next-line no-case-declarations
@@ -37,6 +69,7 @@ const mutation = useMutation({
           createinfor.$clear()
           createinfor.transmit(account_id.value)
           createinfor.transmitname(res.name)
+
           router.push({ path:"/createtaskfinsh"  })
           break
         case 'USER':
@@ -71,10 +104,12 @@ async function onSubmit(event: Event) {
     router.push({path:'/auditorlogin'})
     return;
   }
+
   mutation.mutate({
     account_id: account_id.value,
     account_passowrd: account_password.value,
   })
+
 }
 </script>
 

@@ -92,5 +92,6 @@ const Systempath={
   loginUrl:    "https://falpwq5knm.bja.sealos.run/login",
   registerUrl :"https://falpwq5knm.bja.sealos.run/register",
   firstfillUrl:"https://falpwq5knm.bja.sealos.run/FirstFill",
+  gettokenUrl:"http://localhost:3000/login",
 }
 export {Createpath,Userpath,Auditorpath,Systempath};

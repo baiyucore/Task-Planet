@@ -18,3 +18,8 @@ interface Notification {
   noticename:string,
   noticecompletion:string,
 }
+
+export interface gettoken{
+  account_id:string,
+  role :string,
+}

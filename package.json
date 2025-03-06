@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@radix-icons/vue": "^1.0.0",
-    "@tanstack/vue-query": "^5.51.15",
+    "@tanstack/vue-query": "^5.67.1",
     "@vee-validate/zod": "^4.13.2",
     "@vueuse/core": "^10.11.0",
     "axios": "^1.6.8",
@@ -20,7 +20,7 @@
     "lucide-vue-next": "^0.379.0",
     "path": "^0.12.7",
     "pinia": "^2.1.7",
-    "pinia-plugin-persistedstate": "^3.2.1",
+    "pinia-plugin-persistedstate": "^3.2.3",
     "querystring": "^0.2.1",
     "radix-vue": "^1.7.1",
     "tailwind-merge": "^2.3.0",

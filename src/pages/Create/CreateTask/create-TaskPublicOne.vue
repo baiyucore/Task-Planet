@@ -50,7 +50,11 @@
 
 
 </Accordion>
-
+<div>1</div>
+<div>1</div>
+<div>1</div>
+<div>1</div>
+<div>1</div>
     </div>
    
     
@@ -150,13 +154,11 @@ function onreturn(){
 </script>
 <style scoped>
 .main-content {
-    margin: 0 auto;
+    margin: 0 auto ;
     border-radius: 10px;
-    width: 100%;
-    height: calc(90vh - 70px);
     border: 1px solid;
     border-color: transparent;
-    overflow: auto;
+    width:99%
   }
   
 </style>

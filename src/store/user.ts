@@ -28,6 +28,7 @@ export const Userinfor = defineStore('userid',()=>{
      commentdatevalue.value = today(getLocalTimeZone()).add({ days: Number(0) });
      taskdatevalue.value = today(getLocalTimeZone()).add({ days: Number(0) });
     };
+
   function transmitid(user_id : string){
     userid.value =user_id
   };
@@ -53,6 +54,7 @@ export const Userinfor = defineStore('userid',()=>{
     taskdatevalue.value=changeVaule
   }
   return {taskdatevalue,changetaskDateValue,commentdatevalue,changecommentDateValue,noticeopen,changenoticeopen,userid , clear,transmitid, transmitname, username,useraddclass , transmitclassname,coin,coinchange,classcreateid,transmitclasscreateid}
-},  { persist: {
-  storage: sessionStorage
-}  })
+},  {   persist: {
+  storage: localStorage, 
+}, 
+})

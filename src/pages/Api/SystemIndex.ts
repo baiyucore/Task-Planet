@@ -1,24 +1,25 @@
 import {Systempath} from "./path";
-import { accountinfor, firstfill } from "../Interface/SystemInterfact";
-import  axiosInstance  from "./axiosInstance";
+import { accountinfor, firstfill, gettoken } from "../Interface/SystemInterfact";
+
+import axios from "axios";
 
 const systemapi = {
   async login(params : accountinfor){
-    const response = await axiosInstance.post(Systempath.loginUrl,{
+    const response = await axios.post(Systempath.loginUrl,{
       account_id : params.account_id,
       account_password : params.account_passowrd,
     });
     return response.data;
   },
   async register(params : accountinfor){
-    const response = await axiosInstance.post(Systempath.registerUrl,{
+    const response = await axios.post(Systempath.registerUrl,{
       account_id : params.account_id,
       account_password : params.account_passowrd,
     });
     return response.data;
   },
   async firstfill(params : firstfill){
-    const response = await axiosInstance.post(Systempath.firstfillUrl,{
+    const response = await axios.post(Systempath.firstfillUrl,{
       account_id : params.account_id,
       account_identites:params.account_identites,
       account_name:params.account_name,
@@ -26,6 +27,16 @@ const systemapi = {
     });
     return response.data;
   },
+  async getToken(params: gettoken) {
+    const response = await axios.post(Systempath.gettokenUrl, {
+      account_id: params.account_id,
+      role: params.role,
+    }, {
+      withCredentials: true,  
+    });
+  
+    return response.data;
+  }
 }
 
 

@@ -3,6 +3,7 @@ import { deltenotice, login, Postnotice, warnarray, publishnotice } from "../Int
 import { Auditorpath } from "./path"
 import {  type DateValue} from '@internationalized/date'
 
+//这个只是类似工厂模式，工厂模式是通过动态创建多个不同的对象，并不是像这样在一个对象中封装多个方法
 const auditorapi={
 //发布新通知
 async PostNotice(params: Postnotice){

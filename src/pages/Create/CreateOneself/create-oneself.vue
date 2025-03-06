@@ -73,10 +73,17 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button';
+import axios from 'axios';
+
 const createinfor = UseCreateStore()
 const router = useRouter()
 
-function Logout(){
+
+const  Logout= async()=>{
+  createinfor.$clear();
+
+  const res= await axios.get("http://localhost:3000/logout",{ withCredentials: true })
+  toast.success(res.data.message)
   router.push({ path:'/login'})
 }
 
