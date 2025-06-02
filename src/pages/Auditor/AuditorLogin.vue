@@ -4,10 +4,10 @@ import { useRouter } from 'vue-router'
 import { toast } from 'vue-sonner'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { systemapi } from '@/pages/Api/SystemIndex'
-import { accountinfor } from '@/pages/Interface/SystemInterfact'
 import { Auditorinfor } from '@/store/auditor'
 import { useMutation } from '@tanstack/vue-query'
+import { auditorapi } from '../Api/AuditorIndex'
+import { login } from '../Interface/AuditorInterface'
 
 
 const account_id = ref('')
@@ -17,8 +17,8 @@ const isLoading = ref(false)
 
 
 const mutation = useMutation({
-  mutationFn: async (params: accountinfor) => {
-    const response = await systemapi.login(params)
+  mutationFn: async (params: login) => {
+    const response = await auditorapi.login(params)
     return response
   },
   onMutate: () => {
@@ -51,7 +51,7 @@ async function onSubmit(event: Event) {
   event.preventDefault()
   mutation.mutate({
     account_id: account_id.value,
-    account_passowrd: account_password.value,
+    account_password: account_password.value,
   })
 }
 </script>

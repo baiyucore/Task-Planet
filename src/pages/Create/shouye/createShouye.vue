@@ -1,6 +1,6 @@
 <template>
   <div class="flex h-12 cursor-default justify-between  bg-gray-600">
-    <span  class=" ml-4 text-2xl content-center text-slate-100 font-bold">个人信息</span> 
+    <span  class=" ml-4 text-2xl content-center text-slate-100 font-bold">首页</span> 
     <div  class="content-center mr-4 cursor-pointer " @click="reivseoneself">
     <Wrench class="size-8"  color="#f1f5f9"/>
   </div>

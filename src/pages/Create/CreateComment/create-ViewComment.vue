@@ -237,7 +237,8 @@ const params : ViewOuterComment = {
   }
 const { isError, data, error,} =useQuery({
     queryKey: ['craeteviewcomment', params],
-    queryFn : () => createapi.ViewOuterComment(params)
+    queryFn : () => createapi.ViewOuterComment(params),
+    staleTime: 1000 * 60 * 1,
   })
 
 //删除总结

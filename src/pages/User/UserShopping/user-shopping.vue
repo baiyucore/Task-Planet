@@ -113,7 +113,8 @@ const time = format(now,'yyyy-MM-dd HH:mm:ss')
 
 const { isError, data, error,refetch} =useQuery({
     queryKey: ['usershopping', createid],
-    queryFn : () => userapi.viewshopping(createid)
+    queryFn : () => userapi.viewshopping(createid),
+    staleTime: 1000 * 60 * 1,
   })
 
   //改变数据库中用户的金币
@@ -138,6 +139,7 @@ const shoppingstoremutation = useMutation({
   onSuccess:(res)=>{
     if( res.err_code === 0 ){
       toast.success("购买成功")
+      window.location.reload();
       refetch()
     } else{
         toast.error(res.err_msg)

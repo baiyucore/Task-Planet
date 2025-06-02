@@ -87,7 +87,8 @@ const classname = tranport.query.classname as string
 
 const { isError, data, error,} =useQuery({
     queryKey: ['createcheckclassmember', user],
-    queryFn : () =>  userapi.checkclassmember(user)
+    queryFn : () =>  userapi.checkclassmember(user),
+    staleTime: 1000 * 60 * 1,
 
   
   })

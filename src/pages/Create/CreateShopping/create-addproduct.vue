@@ -88,7 +88,7 @@ const mutation= useMutation({
     isLoading.value= true;
     if( res.err_code === 0 ){
       toast.success("添加成功");
-      router.back();
+      router.push({ path:'/createshopping' });
 
     } else{
       toast.error( res.err_msg );

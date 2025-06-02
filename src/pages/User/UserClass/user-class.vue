@@ -63,7 +63,8 @@ const router= useRouter();
 const userid = Userinfor().userid
 const { isError, data, error,} =useQuery({
     queryKey: ['userclass', userid],
-    queryFn : () => userapi.viewclass(userid)
+    queryFn : () => userapi.viewclass(userid),
+    staleTime: 1000 * 60 * 1,
   })
 
 

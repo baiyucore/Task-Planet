@@ -123,7 +123,8 @@ const params : Userid={ userid :userinfor.userid }
 
 const { isError, data, error,} =useQuery({
     queryKey: ['craetepublictask', params],
-    queryFn : () => userapi.viewoneself(params)
+    queryFn : () => userapi.viewoneself(params),
+    staleTime: 1000 * 60 * 1,
   })
 
 function revise(){
@@ -132,7 +133,7 @@ function revise(){
 const  Logout= async()=>{
   userinfor.clear();
 
-  const res= await axios.get("http://localhost:3000/logout",{ withCredentials: true })
+  const res= await axios.post("http://localhost:3000/logout", {}, { withCredentials: true })
   toast.success(res.data.message)
   router.push({ path:'/login'})
 }

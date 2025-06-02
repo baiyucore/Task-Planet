@@ -144,14 +144,19 @@ const uploadFile = async () => {
   formData.append('file', fileToUpload.value);
   formData.append('name',userinvitecode);
  
+  try {
     // 调用云函数，上传文件内容
     await axios.post('https://falpwq5knm.bja.sealos.run/Create-profile', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
     });
-    
-
+    toast.success('上传成功');
+    // 上传成功后刷新页面
+    window.location.reload();
+  } catch {
+    toast.error('上传失败');
+  }
 };
 function onreturn(){
   router.back();
@@ -164,7 +169,8 @@ const params : viewWord ={
 const {  data} =useQuery({
     queryKey: ['createviewWord', params],
     // eslint-disable-next-line no-undef
-    queryFn : () =>  createapi.viewWord(params) 
+    queryFn : () =>  createapi.viewWord(params),
+    staleTime: 1000 * 60 * 1,
   })
 
   function formatDate(dateString:string) {

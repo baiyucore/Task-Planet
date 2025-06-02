@@ -54,7 +54,8 @@ const taskovertime = route.query.taskovertime
 
 const { isError, data, error,} =useQuery({
     queryKey: ['userviewcomment', taskid],
-    queryFn : () =>   userapi.ViewComment_task(taskid)
+    queryFn : () =>   userapi.ViewComment_task(taskid),
+    staleTime: 1000 * 60 * 1,
   })
 
 function onreturn(){

@@ -85,7 +85,9 @@ const router= useRouter();
   }
 const { isError, data, error,refetch} =useQuery({
     queryKey: ['createcheckclass', params],
-    queryFn : () =>  createapi.viewproduct(params)
+    queryFn : () =>  createapi.viewproduct(params),
+    staleTime: 1000 * 60 * 1,
+     
   })
 
 const mutation= useMutation({

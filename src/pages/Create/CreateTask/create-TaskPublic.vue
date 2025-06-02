@@ -45,7 +45,8 @@ const createinfor = UseCreateStore()
 const params: Createid= {account_id: createinfor.createid}
 const {  isError, data, error,} =useQuery({
     queryKey: ['create-viewcreateclass', params],
-    queryFn : () =>  createapi.viewoverclass(params)
+    queryFn : () =>  createapi.viewoverclass(params),
+    staleTime: 1000 * 60 * 1,
   })
 
 function CreateAddtask(){

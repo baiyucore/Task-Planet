@@ -60,6 +60,8 @@ import CreateSearchName from "./pages/Create/CreateClass/create-SearchName.vue";
 import CreateOneself from "./pages/Create/CreateOneself/create-oneself.vue";
 import CreateRevise from "./pages/Create/CreateOneself/create-revise.vue";
 
+import CreateShouye from "./pages/Create/shouye/createShouye.vue";
+
 import Profile from "./pages/Create/CreateClass/create-profile.vue";
 
 //管理者
@@ -151,6 +153,16 @@ const routes = [
    { path:"/createsearchname",component:CreateSearchName},
    {   path: "/createnavigate", component: CreateNavigate,
    children:[
+    {
+    
+      path:"/createshouye",
+      component: CreateShouye,
+      redirect:"/createtaskfinsh",
+      children:[
+
+        
+      ]
+    },
      {
      
        path:"/createtask",

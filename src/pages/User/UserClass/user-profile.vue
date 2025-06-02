@@ -91,7 +91,8 @@ const params : viewWord ={
 const {  data} =useQuery({
   queryKey: ['createviewWord', params],
   // eslint-disable-next-line no-undef
-  queryFn : () =>  createapi.viewWord(params) 
+  queryFn : () =>  createapi.viewWord(params) ,
+  staleTime: 1000 * 60 * 1,
 })
 
 function formatDate(dateString:string) {

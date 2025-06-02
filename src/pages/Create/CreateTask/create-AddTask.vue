@@ -24,7 +24,7 @@
         />
        
         </div>
-        <span class="m-4">完成任务条件</span>
+        <div class="ml-4 mt-2 mb-2"> 任务描述</div>
         <div class="flex justify-center">
         <Textarea 
         class="w-11/12  "

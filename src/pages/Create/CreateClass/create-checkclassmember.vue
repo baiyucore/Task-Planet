@@ -101,7 +101,8 @@ const params : checkprerequisite = {
      
 const { isError, data, error,} =useQuery({
     queryKey: ['createcheckclassmember', params],
-    queryFn : () => createapi.checkclassmember(params)
+    queryFn : () => createapi.checkclassmember(params),
+    staleTime: 1000 * 60 * 1,
 
   
   })

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { toast } from "vue-sonner";
+ import { toast } from "vue-sonner";
 
 const axiosInstance = axios.create({
   baseURL:'',

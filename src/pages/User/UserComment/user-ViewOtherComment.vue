@@ -246,7 +246,8 @@ const params : ViewOuterComment = {
   }
 const { isError, data, error,} =useQuery({
     queryKey: ['userviewcomment', params],
-    queryFn : () => userapi.ViewOuterComment(params)
+    queryFn : () => userapi.ViewOuterComment(params),
+    staleTime: 1000 * 60 * 1,
   })
 
 

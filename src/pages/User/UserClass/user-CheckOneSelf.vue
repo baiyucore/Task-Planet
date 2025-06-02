@@ -50,7 +50,8 @@ const params : searchname ={
   }
 const { isError, data, error,} =useQuery({
     queryKey: ['craeteviewoneself', params],
-    queryFn : () =>  createapi.searchname(params)
+    queryFn : () =>  createapi.searchname(params),
+    staleTime: 1000 * 60 * 1,
   })
   function onreturn(){
   router.back();

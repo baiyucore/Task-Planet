@@ -92,7 +92,8 @@ const userinfor = Userinfor()
 const params : getImage={ userid :userinfor.userid,taskid:taskid }
 const {  data,} =useQuery({
     queryKey: ['taskimage',params],
-    queryFn : () =>  userapi.getImage(params)
+    queryFn : () =>  userapi.getImage(params),
+    staleTime: 1000 * 60 * 1,
   })
 
 

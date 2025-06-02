@@ -72,7 +72,7 @@ const params : CreateClassnameId ={
 const { isError, data, error,} =useQuery({
     queryKey: ['createcheckclass', params],
     queryFn : () => createapi.checkclass(params)
-
+    
   
   })
 

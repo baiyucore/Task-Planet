@@ -12,28 +12,30 @@ import { Userinfor } from '@/store/user';
 import { useQuery } from '@tanstack/vue-query'
 import { toast } from 'vue-sonner';
 import { userapi } from '@/pages/Api/UserIndex';
-import { computed } from 'vue';
+import { ref, watch } from 'vue';
 import { notice } from '@/pages/Interface/SystemInterfact';
-
 
 const { isError, data, error} =useQuery<notice>({
     queryKey: ['usernotification'],
     queryFn : () =>  userapi.viewnotice()
-  })
+})
 
+const dialogOpen = ref(false);
+
+watch(() => Userinfor().noticeopen, (newValue) => {
+  if (newValue && data.value?.existednumber !== undefined && data.value.existednumber !== 0) {
+    dialogOpen.value = true;
+  }
+});
 
 function changenoticeopen(){
   Userinfor().changenoticeopen();
 }
-const isDialogOpen = computed(() => {
-  const userData = data.value;  
-  return Userinfor().noticeopen && userData?.existednumber !== undefined && userData.existednumber !== 0;
-});
 </script>
 <template>  
    <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
   <span v-else-if="data">
-        <Dialog v-model:open="isDialogOpen">
+        <Dialog v-model:open="dialogOpen">
          
             <DialogContent class="sm:max-w-[425px] overflow-y-auto">
               <DialogHeader>
@@ -104,7 +106,7 @@ const isDialogOpen = computed(() => {
       justify-content: space-around; 
       position: absolute;
       bottom: 0px;
-      width: 100dvw;
+      width: 100%;
       flex-grow: 1;
     }
     .navigate a {

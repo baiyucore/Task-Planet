@@ -69,10 +69,8 @@ onBeforeMount(()=>{
       margin: 0 auto;
       margin-top: 30px;
       border-radius: 10px;
-      width: 100%;
-      height: calc(90vh - 70px);
+      width: 98%;
       border: 1px solid;
       border-color: transparent;
-      overflow: auto;
     }
 </style>

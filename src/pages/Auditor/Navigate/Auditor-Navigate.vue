@@ -54,7 +54,7 @@ import { ClipboardPenLine ,  Glasses ,Megaphone} from 'lucide-vue-next';
     
       position: absolute;
       bottom: 0px;
-      width: 100dvw;
+      width: 100%;
       
     }
     .navigate a {

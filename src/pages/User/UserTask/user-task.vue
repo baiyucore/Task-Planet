@@ -133,7 +133,8 @@ value.value =useinfor.taskdatevalue as DateValue
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
    useQuery({
   queryKey: ['loadTasks'],
-  queryFn: () => userapi.LoadTask(param)
+  queryFn: () => userapi.LoadTask(param),
+  staleTime: 1000 * 60 * 1,
  
 });
 

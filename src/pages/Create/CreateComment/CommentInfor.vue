@@ -47,7 +47,8 @@ const taskname  = route.query.taskname as string
 
 const { isError, data, error,} =useQuery({
     queryKey: ['craetecommentinfor', taskid],
-    queryFn : () => createapi.ViewComment_task(taskid)
+    queryFn : () => createapi.ViewComment_task(taskid),
+    staleTime: 1000 * 60 * 1,
   })
 
 function onreturn(){
