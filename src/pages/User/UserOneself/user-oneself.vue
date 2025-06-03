@@ -133,8 +133,7 @@ function revise(){
 const  Logout= async()=>{
   userinfor.clear();
 
-  const res= await axios.post("http://localhost:3000/logout", {}, { withCredentials: true })
-  toast.success(res.data.message)
+s
   router.push({ path:'/login'})
 }
 

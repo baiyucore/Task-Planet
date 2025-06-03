@@ -94,8 +94,8 @@ const router = useRouter()
 const  Logout= async()=>{
   createinfor.$clear();
 
-  const res= await axios.post("http://localhost:3000/logout",{},{ withCredentials: true })
-  toast.success(res.data.message)
+  // const res= await axios.post("http://localhost:3000/logout",{},{ withCredentials: true })
+  // toast.success(res.data.message)
   router.push({ path:'/login'})
 }
 

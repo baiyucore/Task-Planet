@@ -14,22 +14,22 @@ import {  useMutation,  } from '@tanstack/vue-query'
 import {  onMounted, ref } from 'vue'
 import axios from 'axios'
 
-onMounted(async () => { 
-    const res = await axios.get("http://localhost:3000/auth/validate", { withCredentials: true });
-    const { role } = res.data; 
-    switch (role) {
-      case "CREATE": {
-        router.push({ path: "/createtaskfinsh" });
-        break;
-      }
-      case "USER": {
-        router.push({ path: "/usertask" });
-        break;
-      }
-      default:
-        break;
-    }
-});
+// onMounted(async () => { 
+//     const res = await axios.get("http://localhost:3000/auth/validate", { withCredentials: true });
+//     const { role } = res.data; 
+//     switch (role) {
+//       case "CREATE": {
+//         router.push({ path: "/createtaskfinsh" });
+//         break;
+//       }
+//       case "USER": {
+//         router.push({ path: "/usertask" });
+//         break;
+//       }
+//       default:
+//         break;
+//     }
+// });
 
 
 const account_id = ref('')
