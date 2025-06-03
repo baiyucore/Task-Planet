@@ -62,6 +62,11 @@ import CreateRevise from "./pages/Create/CreateOneself/create-revise.vue";
 
 import CreateShouye from "./pages/Create/shouye/createShouye.vue";
 
+import CreatePan from "./pages/Create/CreateOneself/yunpan.vue";
+
+import CreateSpace from "./pages/Create/CreateSpace/space.vue";
+import CreateChat from "./pages/Create/CreateSpace/chat.vue";
+
 import Profile from "./pages/Create/CreateClass/create-profile.vue";
 
 //管理者
@@ -151,6 +156,11 @@ const routes = [
    { path:"/commentinfor" , component:CommentInfor},
    { path:"/createviewcomment",component:createViewComment},
    { path:"/createsearchname",component:CreateSearchName},
+   { path:"/createchat",component:CreateChat},
+   {
+    path:"/createpan",
+    component: CreatePan
+   },
    {   path: "/createnavigate", component: CreateNavigate,
    children:[
     {
@@ -196,8 +206,12 @@ const routes = [
      {
        path:"/createoneself",
        component: CreateOneself,
+     },
+ 
+     {
+      path:"/createspace",
+      component: CreateSpace,
      }
-   
    ],
   },
 

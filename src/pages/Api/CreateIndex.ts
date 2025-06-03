@@ -23,7 +23,7 @@ import {
   Removeclassmember,
   viewWord,
   download,
-  
+  chatlist,
 } from "../Interface/CreateInterface";
 import  axiosInstance  from "./axiosInstance";
 
@@ -244,6 +244,12 @@ const createapi= {
   async delectword(params:download){
     const response = await axios.post(Createpath.createdelectWordUrl,{
       path:params.path
+    })
+    return response.data;
+  },//聊天列表
+  async chatlist(params:chatlist){
+    const response = await axios.post(Createpath.createchatlistUrl,{
+      createid:params.createid,
     })
     return response.data;
   }

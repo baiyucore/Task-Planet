@@ -1,50 +1,62 @@
 <template>
   <div class="flex h-12 cursor-default justify-between  bg-gray-600">
     <span  class=" ml-4 text-2xl content-center text-slate-100 font-bold">个人信息</span> 
-    <div  class="content-center mr-4 cursor-pointer " @click="reivseoneself">
-    <Wrench class="size-8"  color="#f1f5f9"/>
   </div>
-</div>
       <div class="main-content">
      
       <span v-if="isError">Error: {{toast.error(error?.message as string) }}</span>
       <span v-else-if="data">
-        <div class="flex flex-col">
-          <div class="text-center text-2xl">{{data.createname }}</div>
+        <div class="flex flex-col items-center">
+          <div class="text-center text-2xl mb-4">{{data.createname }}</div>
 
-          <div class="grid grid-cols-4 gap-2 mt-2">
-            <div>性别 </div>
-            <div>
-              {{data.createsex}}</div>
+          <div class="grid grid-cols-2 gap-2 mt-2">
+            <div>性别</div>
+            <div>{{ data.createsex }}</div>
           </div>
-          <div class="grid grid-cols-4 gap-2 mt-2">
+          <div class="grid grid-cols-2 gap-2 mt-2">
             <div>个人评语</div>
-            <div>{{data.createprofile}}</div>
+            <div>{{ data.createprofile }}</div>
+          </div> 
 
-        </div> 
+        <div class="w-full max-w-md mt-8 rounded-lg overflow-hidden shadow border">
+          <button
+            class="w-full flex items-center px-4 py-3 border-b last:border-b-0 hover:bg-gray-100 transition"
+            @click="reivseoneself"
+          >
+            <Wrench class="mr-2" /> 修改个人信息
+          </button>
+          <button
+            class="w-full flex items-center px-4 py-3 border-b last:border-b-0 hover:bg-gray-100 transition"
+            @click="reivseoneself"
+          >
+            <Wrench class="mr-2" /> 笔记
+          </button>         
+           <button
+            class="w-full flex items-center px-4 py-3 border-b last:border-b-0 hover:bg-gray-100 transition"
+            @click="cloud"
+          >
+            <Wrench class="mr-2" /> 云盘
+          </button>
 
-        <div class="mt-16 flex justify-center">
-          <AlertDialog  >
-        <AlertDialogTrigger as-child>
-          <Button  class="w-11/12 bg-red-700 hover:bg-red-800 mr-2"  >
-            退出登录
-          </Button>
-        </AlertDialogTrigger>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>你确定退出登录?</AlertDialogTitle>
-          
-          </AlertDialogHeader>
-          <AlertDialogFooter >
-            <AlertDialogCancel >取消</AlertDialogCancel>
-            <AlertDialogAction @click="Logout()" >确定</AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-    </AlertDialog>
-        
-
-        </div> 
-
+          <AlertDialog>
+            <AlertDialogTrigger as-child>
+              <button
+                class="w-full flex items-center px-4 py-3 hover:bg-red-50 text-red-600 transition"
+              >
+                退出登录
+              </button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>你确定退出登录?</AlertDialogTitle>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>取消</AlertDialogCancel>
+                <AlertDialogAction @click="Logout()">确定</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        </div>
         </div>
        
         
@@ -98,6 +110,12 @@ const params : Createid= {account_id: createinfor.createid}
     router.push({ path:'/createrevise'})
   }
 
+  function note(){
+    router.push({ path:'/createrevise'})
+  }
+  function cloud(){
+    router.push({ path:'/createpan'})
+  }
 </script>
 
 
@@ -108,7 +126,7 @@ const params : Createid= {account_id: createinfor.createid}
       margin-top: 6px;
       border-radius: 10px;
       width: 90%;
-      height: calc(90vh - 70px);
+      height: calc(90% - 70px);
       border: 1px solid;
       border-color: transparent;
     }

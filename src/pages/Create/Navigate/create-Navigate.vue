@@ -32,12 +32,7 @@
 
   <div class="navigate duration-700 " >
 
-        <div class=" text-center flex-col ">
-          <RouterLink :to="{path:'/createshouye' }" active-class="active" >
-          <ClipboardList class=" ml-2 size-8 "/>
-          <div class=" pl-1 ">首页</div> 
-          </RouterLink>
-        </div >
+ 
 
         <div class=" text-center flex-col ">
           <RouterLink :to="{path:'/createtask' }" active-class="active" >
@@ -69,6 +64,12 @@
           <div class="pl-1 ">班级</div>
           </RouterLink>
         </div>
+        <div class=" text-center flex-col ">
+          <RouterLink :to="{path:'/createspace' }" active-class="active" >
+          <MessageCircle class=" ml-2 size-8 "/>
+          <div class=" pl-1 ">聊天</div> 
+          </RouterLink>
+        </div >
         <div class="text-center">
           <RouterLink :to="{path:'/createoneself'}" active-class="active">
           <User class=" ml-2 size-8"/>
@@ -86,7 +87,7 @@
 </template>
 <script setup lang="ts" name="App">
 import { RouterLink,RouterView } from 'vue-router';
-import { ClipboardList , ShoppingCart , ClipboardPenLine , School , User} from 'lucide-vue-next';
+import { ClipboardList , ShoppingCart , ClipboardPenLine , School , User,MessageCircle,Cloud} from 'lucide-vue-next';
 import { ref, watch } from 'vue';
 import { notice } from '@/pages/Interface/SystemInterfact';
 import { useQuery } from '@tanstack/vue-query'

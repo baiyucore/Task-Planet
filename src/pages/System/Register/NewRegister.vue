@@ -108,3 +108,20 @@ async function onSubmit(event:Event) {
  
   
 </template>
+
+<style scoped>
+.h-dvh {
+  height: 100dvh;
+  background-image: url('@/assets/system.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.flex.relative.h-dvh {
+  height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+</style>

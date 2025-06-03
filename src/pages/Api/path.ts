@@ -31,6 +31,8 @@ const Createpath = {
   createaddproductUrl :    "https://falpwq5knm.bja.sealos.run/Create-AddProduct",
   createremovieproductUrl : "https://falpwq5knm.bja.sealos.run/Create-RemoveProduct",
   
+
+  createchatlistUrl:"https://falpwq5knm.bja.sealos.run/chatlist",
   createViewNoticeUrl : "https://falpwq5knm.bja.sealos.run/viewNotice",
   createviewWordUrl:"https://falpwq5knm.bja.sealos.run/Create-ViewWord",
   createviewDownloadUrl:"https://falpwq5knm.bja.sealos.run/Create-Download",
@@ -70,7 +72,7 @@ const Userpath={
   UserCoinChangeUrl:"https://falpwq5knm.bja.sealos.run/User-CoinChange",
   UserViewNoticeUrl:"https://falpwq5knm.bja.sealos.run/viewNotice",
 
-
+  UserChatListUrl:"https://falpwq5knm.bja.sealos.run/User-ChatList",
 
 }
 

@@ -210,3 +210,7 @@ export interface viewWord{
 export interface download{
   path:string,
 }
+//聊天列表
+export interface chatlist{
+  createid:string,
+}

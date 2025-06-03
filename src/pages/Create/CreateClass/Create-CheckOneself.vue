@@ -6,10 +6,15 @@
     <span v-else-if="data">
       <div class="flex h-12 justify-center border-4 border-transparent border-b-slate-950   ">
      
-     <span  class="  text-center text-2xl col-start-2 col-span-4  font-bold">{{data.name}}</span> 
+     <span  class="  text-center text-2xl col-start-2 col-span-4  font-bold">班级成员</span> 
   </div>
 
   <div class="flex flex-col  ">
+    <div class="flex justify-center mt-3">
+          <div class="mr-3  ">姓名</div>
+          <div>
+            {{data.name}}</div>
+        </div>
     <div class="flex justify-center mt-3">
           <div class="mr-3  ">性别</div>
           <div>
@@ -19,9 +24,20 @@
           <div class="mr-3 ">个人评语</div>
           <div>{{data.profile}}</div>
         </div>
-        <div v-show="warnnumber" class="flex justify-center mt-3">
+        
+  
+
+        <div v-show="warnnumber" class="flex justify-center mt-3" >
           <div class="mr-3 ">违规次数</div>
           <div>{{warnnumber}}</div>
+        </div>
+        <div class="flex justify-center mt-3" v-show="searchid !== createid">
+          <button
+            class="mr-3 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+            @click="goChat"
+          >
+            与它聊天
+          </button>
         </div>
         <div class="flex justify-center mt-3 " v-show="identity !== 'create'">
           <Button  @click="removeuserclass"  type="button" class="rounded-full mt-10 w-5/12 bg-[#374151] hover:bg-[#111827]">
@@ -46,8 +62,9 @@ import { createapi } from '@/pages/Api/CreateIndex';
 import { Removeclassmember, searchname } from '@/pages/Interface/CreateInterface';
 import { useQuery,useMutation } from '@tanstack/vue-query'
 import { Button } from '@/components/ui/button'
-
-
+import { UseCreateStore } from '@/store/create';
+import { nanoid } from 'nanoid'
+const createid = UseCreateStore().createid
 const router = useRouter();
 let tranport= useRoute()
 const searchid=tranport.query.searchid as string
@@ -92,6 +109,11 @@ function removeuserclass(){
     userinvitecode : userinvitecode,
     classname :classname
     })
+}
+const chatroomid =nanoid(8)
+function goChat() {
+  // 跳转到聊天页面，带上对方id等参数
+  router.push({ path: '/createchat', query: { charid: searchid,chatroomid:chatroomid } })
 }
 </script>
 

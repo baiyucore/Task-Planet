@@ -120,7 +120,7 @@ async function onSubmit(event: Event) {
     <div class="  mx-auto flex-col space-y-6 w-[400px] content-center">
       <div>
         <form @submit="onSubmit" class="flex  flex-col">
-          <div class=" justify-center m-auto cursor-default font-bold text-xl text-cyan-500">Task Planet</div>
+          <div class=" justify-center m-auto cursor-default font-bold text-xl text-cyan-500">基于Vue + Node.js 的任务奖学平台</div>
           <Input 
             v-model="account_id"
             type="text"
@@ -166,10 +166,19 @@ async function onSubmit(event: Event) {
 
 </template>
 <style scoped>
+
 .main{
-  height: 100dvh;
+  height: 100vh;
+  background-image: url('@/assets/system.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 .form{
-  height: 100dvh;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.8);
 }
 </style>
