@@ -28,6 +28,8 @@ import UserProfile from "./pages/User/UserClass/user-profile.vue";
 import UserOneself from "./pages/User/UserOneself/user-oneself.vue";
 import UserRevieOneself from "./pages/User/UserOneself/userRevieOneself.vue";
 
+import UserSpace from "./pages/User/UseSpace/space.vue";
+import UserChat from "./pages/User/UseSpace/chat.vue";
 
 //创建者
 import CreateNavigate from "./pages/Create/Navigate/create-Navigate.vue";
@@ -110,6 +112,7 @@ const routes = [
   { path:"/usersearchname",component:UserSearchname},
   { path:"/usercheckclass",component:UserCheckClass},
   { path:"/userprofile",component:UserProfile},
+  { path:"/userchat",component:UserChat},
   { path: "/usernavigate", component: UserNavigate,
     children:[
       {
@@ -133,6 +136,10 @@ const routes = [
       {
         path:"/useroneself",
         component: UserOneself,
+      },
+      {
+        path:"/userspace",
+        component: UserSpace,
       }
     
     ],

@@ -36,15 +36,14 @@
 
 <script setup lang="ts">
 import router from '@/router'
-import { ref, nextTick, onMounted, onUnmounted } from 'vue'
+import { ref, nextTick, onMounted, watch, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { ArrowLeft  } from 'lucide-vue-next';
 import { createapi } from '@/pages/Api/CreateIndex';
 
+import { Userinfor } from '@/store/user';
 
-import { UseCreateStore } from '@/store/create';
-const createinfor = UseCreateStore()
-
+const userinfor = Userinfor()
 const input = ref('')
 const messages = ref([
 
@@ -63,7 +62,7 @@ const messagesRef = ref<HTMLElement | null>(null)
       messages.value = rest.res.map(msg => ({
         id: msg._id || msg.chatroomid + '_' + msg.content, // 保证唯一
         content: msg.content,
-        isSelf: msg.chatid === createinfor.createid
+        isSelf: msg.chatid === userinfor.userid
       }))
     }
   }
@@ -95,8 +94,8 @@ async function send() {
   })
   const rest = await createapi.sendchatcontent({
     chatroomid:chatroomid,
-    content:input.value,  
-    chatid:createinfor.createid
+    content:input.value,
+    chatid:userinfor.userid
   })
   input.value = ''
   nextTick(() => {
@@ -106,7 +105,7 @@ async function send() {
   })
 }
 function onreturn(){
-  router.push({path:'/createspace'})
+  router.push({path:'/userspace'})
 }
 </script>
 

@@ -1,6 +1,6 @@
 <script setup lang="ts" name="App">
 import { RouterLink,RouterView } from 'vue-router';
-import { ClipboardList , ShoppingCart , ClipboardPenLine , School , User} from 'lucide-vue-next';
+import { ClipboardList , ShoppingCart , ClipboardPenLine ,MessageCircle, School , User} from 'lucide-vue-next';
 import {
   Dialog,
   DialogContent,
@@ -82,6 +82,12 @@ function changenoticeopen(){
           <div class="pl-1 ">班级</div>
           </RouterLink>
         </div>
+        <div class=" text-center flex-col ">
+          <RouterLink :to="{path:'/userspace' }" active-class="active" >
+          <MessageCircle class=" ml-2 size-8 "/>
+          <div class=" pl-1 ">聊天</div> 
+          </RouterLink>
+        </div >
         <div>
           <RouterLink :to="{path:'/useroneself'}" active-class="active">
           <User class="ml-2 size-8"/>

@@ -5,9 +5,16 @@
   </div>
 
       <div class="main-content">
+        <div class="flex justify-center mb-2">
+          <input
+            v-model="search"
+            type="text"
+            placeholder="搜索聊天对象"
+            class="w-full max-w-md px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+          />
+        </div>
 
-
-        <div class="flex flex-col items-center">
+        <div class="flex flex-col items-center mt-2">
         <Card v-for="items in commenallinfor" @click="viewtask(items.chatroomid,items.chatedname)" :key="items.chatroomid" class="mb-3 w-11/12  cursor-pointer">
           <CardHeader>
             <CardTitle>与{{items.chatedname}}的聊天</CardTitle>
@@ -20,12 +27,9 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import {
-  type DateValue,
-} from '@internationalized/date'
 import { toast } from 'vue-sonner';
 import { createapi } from '@/pages/Api/CreateIndex';
-import { UseCreateStore } from '@/store/create';
+
 import { chatlist,} from '@/pages/Interface/CreateInterface';
 import { useRouter } from 'vue-router';
 import {
@@ -33,28 +37,28 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-
+import { Userinfor } from '@/store/user';
 const router = useRouter()
-const createinfor  = UseCreateStore()
+
+const userinfor = Userinfor()
 
 
-const value = ref<DateValue>()
 const commenallinfor = ref([])
 
+// TODO: 搜索功能
 
-  value.value =createinfor.commentdatevalue as DateValue
 
 
   onMounted(async ()=>{
     const parmas : chatlist ={
-    chatedid : createinfor.createid,
+    chatedid : userinfor.userid,
   }
     const rest = await createapi.chatlist(parmas)
     
     if(rest.err_code === 0){
       for(let i in rest.res){
     
-        if(rest.res[i].chatid === createinfor.createid){
+        if(rest.res[i].chatid === userinfor.userid){
    
           commenallinfor.value.push({
             charedid:rest.res[i].chatedid,
@@ -84,7 +88,7 @@ const commenallinfor = ref([])
 
 
 function viewtask(chatroomid : string,chatedname:string){
-  router.push({path:'/createchat',query :{chatroomid,chatedname}});
+  router.push({path:'/userchat',query :{chatroomid,chatedname}});
 
 }
 
@@ -94,7 +98,7 @@ function viewtask(chatroomid : string,chatedname:string){
 <style scoped>
   .main-content {
       margin: 0 auto;
-      margin-top: 30px;
+      margin-top: 24px;
       border-radius: 10px;
       width: 100%;
       height: calc(90vh - 70px);

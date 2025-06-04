@@ -33,6 +33,11 @@ const Createpath = {
   
 
   createchatlistUrl:"https://falpwq5knm.bja.sealos.run/chatlist",
+
+  creategetchatgetcontentUrl:"https://falpwq5knm.bja.sealos.run/chatgetcontent",
+  creategetchatsentcontentUrl:"https://falpwq5knm.bja.sealos.run/chatsentcontent",
+  createcreatechatroomUrl:"https://falpwq5knm.bja.sealos.run/chatCreate",
+
   createViewNoticeUrl : "https://falpwq5knm.bja.sealos.run/viewNotice",
   createviewWordUrl:"https://falpwq5knm.bja.sealos.run/Create-ViewWord",
   createviewDownloadUrl:"https://falpwq5knm.bja.sealos.run/Create-Download",

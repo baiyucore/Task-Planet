@@ -24,6 +24,9 @@ import {
   viewWord,
   download,
   chatlist,
+  getchatcontent,
+  sendchatcontent,
+  createchatroom,
 } from "../Interface/CreateInterface";
 import  axiosInstance  from "./axiosInstance";
 
@@ -249,7 +252,31 @@ const createapi= {
   },//聊天列表
   async chatlist(params:chatlist){
     const response = await axios.post(Createpath.createchatlistUrl,{
-      createid:params.createid,
+      chatedid:params.chatedid,
+    })
+    return response.data;
+  },//获取聊天内容
+  async getchatcontent(params:getchatcontent){
+    const response = await axios.post(Createpath.creategetchatgetcontentUrl,{
+      chatroomid:params.chatroomid,
+    })
+    return response.data;
+  },//发送聊天内容
+  async sendchatcontent(params:sendchatcontent){
+    const response = await axios.post(Createpath.creategetchatsentcontentUrl,{
+      chatroomid:params.chatroomid,
+      content:params.content,
+      chatid:params.chatid,
+    })
+    return response.data;
+  },//创建聊天室
+  async createchatroom(params:createchatroom){
+    const response = await axios.post(Createpath.createcreatechatroomUrl,{
+      chatid:params.chatid,
+      chatedid:params.chatedid,
+      chatroomid:params.chatroomid,
+      chatname:params.chatname,
+      chatedname:params.chatedname,
     })
     return response.data;
   }

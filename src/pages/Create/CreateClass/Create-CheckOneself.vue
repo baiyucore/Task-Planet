@@ -34,9 +34,9 @@
         <div class="flex justify-center mt-3" v-show="searchid !== createid">
           <button
             class="mr-3 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
-            @click="goChat"
+            @click="goChat(data.name)"
           >
-            与它聊天
+            与{{data.name}}聊天
           </button>
         </div>
         <div class="flex justify-center mt-3 " v-show="identity !== 'create'">
@@ -65,6 +65,7 @@ import { Button } from '@/components/ui/button'
 import { UseCreateStore } from '@/store/create';
 import { nanoid } from 'nanoid'
 const createid = UseCreateStore().createid
+const createname = UseCreateStore().createname
 const router = useRouter();
 let tranport= useRoute()
 const searchid=tranport.query.searchid as string
@@ -111,9 +112,16 @@ function removeuserclass(){
     })
 }
 const chatroomid =nanoid(8)
-function goChat() {
+async function goChat(name:string) {
   // 跳转到聊天页面，带上对方id等参数
-  router.push({ path: '/createchat', query: { charid: searchid,chatroomid:chatroomid } })
+  const rest = await createapi.createchatroom({
+    chatroomid:chatroomid,
+    chatid:createid,
+    chatedid:searchid,
+    chatedname:name,
+    chatname:createname,
+  })
+  router.push({ path: '/createchat', query: { chatroomid:rest.res.chatroomid } })
 }
 </script>
 

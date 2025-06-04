@@ -212,5 +212,24 @@ export interface download{
 }
 //聊天列表
 export interface chatlist{
-  createid:string,
+  chatedid:string,
 }
+//获取聊天内容
+export interface getchatcontent{
+  chatroomid:string,
+}
+//发送聊天内容
+export interface sendchatcontent{
+  chatroomid:string,
+  content:string,
+  chatid:string,
+}
+//创建聊天室 
+export interface createchatroom{
+  chatid:string,
+  chatedid:string,
+  chatroomid:string,
+  chatname:string,
+  chatedname:string,
+}
+
